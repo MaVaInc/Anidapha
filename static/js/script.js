@@ -52,3 +52,40 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
     document.getElementById('back-button').style.display = 'none';
 });
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    if (!window.Telegram.WebApp) {
+        alert("This application can only be opened through Telegram.");
+        window.location.href = "https://yourdomain.com/error";
+    } else {
+        window.Telegram.WebApp.expand();
+
+        const initData = window.Telegram.WebApp.initData;
+        fetch('https://yourdomain.com/auth', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({initData: initData})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === "success") {
+                const user = data.user_data;
+                console.log("User ID:", user.id);
+                console.log("First Name:", user.first_name);
+                console.log("Last Name:", user.last_name);
+                console.log("Username:", user.username);
+            } else {
+                alert("Unauthorized access");
+                window.location.href = "https://yourdomain.com/error";
+            }
+        });
+    }
+
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.style.display = 'none';
+    });
+    document.getElementById('back-button').style.display = 'none';
+});
+
