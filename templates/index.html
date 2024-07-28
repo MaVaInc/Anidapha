@@ -37,5 +37,35 @@
     <button id="back-button" onclick="goBack()">Back</button>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        // Проверяем наличие Telegram Web App и расширяем его
+        if (window.Telegram.WebApp) {
+            window.Telegram.WebApp.expand();
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.style.display = 'none';
+            });
+            document.getElementById(screenId).style.display = 'block';
+            document.getElementById('back-button').style.display = 'block';
+        }
+
+        function goBack() {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.style.display = 'none';
+            });
+            document.getElementById('main-screen').style.display = 'flex';
+            document.getElementById('back-button').style.display = 'none';
+        }
+
+        // Скрываем все экраны и кнопку "Back" при загрузке
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.style.display = 'none';
+            });
+            document.getElementById('back-button').style.display = 'none';
+        });
+    </script>
 </body>
 </html>
