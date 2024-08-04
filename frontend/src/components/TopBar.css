@@ -1,0 +1,25 @@
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.44);
+    color: #fff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    z-index: 1000;
+}
+
+.top-bar .coin {
+    font-size: 4vmin;
+    display: flex;
+    align-items: center;
+}
+
+.top-bar .coin .coin-img {
+    width: 6vmin;
+    height: 6vmin;
+    margin-right: 5px;
+}

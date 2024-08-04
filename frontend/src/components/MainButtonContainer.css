@@ -1,0 +1,107 @@
+.main-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 50vmin;
+    height: 50vmin;
+}
+
+.main-button {
+    position: absolute;
+    appearance: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(#ff6347, #1e90ff);
+    cursor: pointer;
+    outline: none;
+    transition: transform 1.0s ease-in-out;
+}
+
+.main-button::before {
+    content: "";
+    position: absolute;
+    width: 93%;
+    height: 93%;
+    background-color: #000;
+    border-radius: 50%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.main-button:checked {
+    transform: rotate(360deg) scale(0.35);
+    background: conic-gradient(#32a852, #0072ff);
+}
+
+.menu-button {
+    width: 25vmin;
+    height: 25vmin;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4vmin;
+    color: white;
+    text-shadow: 1px 1px 2px #000;
+}
+
+.menu-button.farm {
+    background-image: url('images/DALLE_FARM.webp');
+    position: absolute;
+    top: -100vmin;
+    left: 50%;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    transform: translate(0, -50%) scale(0);
+}
+.main-button:checked ~ .menu-button.farm {
+    transform: translate(-50%, 70vmin) scale(1);
+}
+
+.menu-button.market {
+    background-image: url('images/DALLE_market.webp');
+    position: absolute;
+    right: -70vmin;
+    top: 50%;
+    transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+    transform: translate(0, -50%) scale(0);
+}
+.main-button:checked ~ .menu-button.market {
+    transform: translate(-50vmin, -50%) scale(1);
+}
+
+.menu-button.wiki {
+    background-image: url('images/DALLE_PAPER.webp');
+    position: absolute;
+    left: -70vmin;
+    top: 50%;
+    transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+    transform: translate(0, -50%) scale(0);
+}
+.main-button:checked ~ .menu-button.wiki {
+    transform: translate(50vmin, -50%) scale(1);
+}
+.main-button:checked ~ .menu-button {
+    opacity: 1;
+    transform: scale(1);
+}
+.main-button:checked ~ .top-bar {
+    opacity: 1;
+    transform: scale(1);
+}
+.menu-button.ruins {
+    background-image: url('images/fon_ruins.webp');
+    position: absolute;
+    top: 100vmin;
+    left: 50%;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    transform: translate(0, -50%) scale(0);
+}
+.main-button:checked ~ .menu-button.ruins {
+    transform: translate(-50%, -50vmin) scale(1);
+    opacity: 1;
+}

@@ -9,5 +9,6 @@
     </content>
     <orderEntry type="jdk" jdkName="Python 3.10 (Anidapha)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="telegram-web-app" level="application" />
   </component>
 </module>
