@@ -5,10 +5,13 @@ const Ruins = ({ goBack }) => {
     const [isClosing, setClosing] = useState(false);
 
     useEffect(() => {
-        if (isClosing) {
-            document.querySelector('.screen.ruins')?.classList.add('closing');
-        } else {
-            document.querySelector('.screen.ruins')?.classList.remove('closing');
+        const ruinsElement = document.querySelector('.screen.ruins');
+        if (ruinsElement) {
+            if (isClosing) {
+                ruinsElement.classList.add('closing');
+            } else {
+                ruinsElement.classList.remove('closing');
+            }
         }
     }, [isClosing]);
 
@@ -42,7 +45,6 @@ const Ruins = ({ goBack }) => {
     };
 
     return (
-
         <div className={`screen active ruins ${isClosing ? 'closing' : ''}`}>
             <div className="door-button left-button"></div>
             <div className="door-button right-button"></div>
