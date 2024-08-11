@@ -1,5 +1,6 @@
-from app import db, bcrypt
+# backend/models/user.py
 from flask_jwt_extended import create_access_token
+from backend import db, bcrypt
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -8,6 +9,11 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=True)
     registered_on = db.Column(db.DateTime, nullable=False, default=db.func.current_timestamp())
+    common_seeds = db.Column(db.JSON, nullable=True)
+    rare_seeds = db.Column(db.JSON, nullable=True)
+    epic_seeds = db.Column(db.JSON, nullable=True)
+    legendary_seeds = db.Column(db.JSON, nullable=True)
+    temp_field = db.Column(db.String(50), nullable=True)
 
     @staticmethod
     def create_user(telegram_id, username, password, email=None):
