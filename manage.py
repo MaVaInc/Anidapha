@@ -1,5 +1,5 @@
 from flask_migrate import Migrate
-from backend.app import app, db
+from alt.app import app, db
 
 migrate = Migrate(app, db)
 

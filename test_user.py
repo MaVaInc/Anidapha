@@ -1,5 +1,5 @@
-from backend.app import app, db
-from backend.models.user import User
+from alt.app import app, db
+from alt.models.user import User
 
 with app.app_context():
     # Создание нового пользователя

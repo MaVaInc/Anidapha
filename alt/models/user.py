@@ -1,6 +1,6 @@
-# backend/models/user.py
+# alt/models/user.py
 from flask_jwt_extended import create_access_token
-from backend import db, bcrypt
+from alt import db, bcrypt
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)

@@ -1,4 +1,4 @@
-from backend.models import db
+from alt.models import db
 
 class Item(db.Model):
     id = db.Column(db.Integer, primary_key=True)

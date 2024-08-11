@@ -18,9 +18,9 @@ def create_app(config_class='config.Config'):
     jwt.init_app(app)
     bcrypt.init_app(app)
 
-    from backend.models.user import User  # Импортируйте ваши модели здесь
+    from alt.models.user import User  # Импортируйте ваши модели здесь
 
-    from backend.routes import register_blueprints
+    from alt.routes import register_blueprints
     register_blueprints(app)
 
     return app
