@@ -1,11 +1,7 @@
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import UserViewSet, ItemViewSet
-
-router = DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'items', ItemViewSet)
+from django.urls import path
+from .views import auth_view, set_username
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('auth/', auth_view, name='auth_view'),
+    path('set_username/', set_username, name='set_username'),
 ]
