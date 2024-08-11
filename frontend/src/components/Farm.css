@@ -1,0 +1,43 @@
+.screen.active.farmS {
+    /*background: url('/images/A_fantasy_medieval_garden_with_various_mystical_he.png') no-repeat center center fixed;*/
+    background-size: cover;
+}
+
+.garden {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30vmin, 1fr));
+    gap: 10px;
+    padding: 1px;
+    max-height: calc(100vh - 170px);
+    overflow-y: auto;
+    justify-items: center; /* Добавлено для центрирования pot */
+}
+
+.pot {
+    width: 30vmin;
+    height: 30vmin;
+    cursor: pointer;
+    background-image: url('images/grunt.webp');
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #000;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.seed-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    pointer-events: none;
+}
+
+.pot-item {
+    color: white;
+    font-size: 2em;
+}

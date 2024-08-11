@@ -1,0 +1,130 @@
+.screen.ruins {
+    background: url('images/fon_ruins.webp') no-repeat center center fixed;
+    background-size: cover;
+    height: 100vh;
+    /*position: relative;*/
+    overflow: hidden;
+}
+
+.door-button {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    transition: transform 1s;
+}
+
+.left-button {
+    left: 0;
+    background-image: url('images/fon_ruins_left.png');
+}
+
+.right-button {
+    right: 0;
+    background-image: url('images/fon_ruins_right.png');
+}
+
+.screen.active .left-button {
+    animation: slideLeft 1s forwards;
+    animation-delay: 0.05s;
+}
+
+.screen.active .right-button {
+    animation: slideRight 1s forwards;
+    animation-delay: 0.05s;
+}
+
+.screen.closing .left-button {
+    animation: slideLeftBack 1s forwards;
+}
+
+.screen.closing .right-button {
+    animation: slideRightBack 1s forwards;
+}
+
+@keyframes slideLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes slideLeftBack {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideRightBack {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+#back-buttonr {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 1.5em;
+    background-color: #0072ff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 11;
+}
+
+.large-button {
+    width: 200px;
+    height: 200px;
+    background-color: #000000;
+    background-size: cover;
+    background-position: center;
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    text-align: center;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    animation: shake 0.5s infinite;
+    color: white;
+    font-size: 3em;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px #000;
+}
+
+@keyframes shake {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    25% { transform: translate(-50%, -50%) rotate(2deg); }
+    50% { transform: translate(-50%, -50%) rotate(0deg); }
+    75% { transform: translate(-50%, -50%) rotate(-2deg); }
+    100% { transform: translate(-50%, -50%) rotate(0deg); }
+}
+
+.large-button:active {
+    animation: none; /* Останавливаем анимацию при нажатии */
+}

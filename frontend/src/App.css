@@ -1,0 +1,89 @@
+*,
+:before,
+:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #000;
+  transition: background 0.5s ease-in-out;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100%;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  height: calc(100vh - 50px);
+  background: #fff;
+  color: #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.screen.active {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
+#back-button {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 1.5em;
+  background-color: #0072ff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+#back-button.active {
+  display: block;
+}
+
+@media (max-width: 600px) {
+  .top-bar .coin {
+    font-size: 3vmin;
+  }
+  .top-bar .coin .coin-img {
+    width: 5vmin;
+    height: 5vmin;
+  }
+  .ruins-button,
+  .menu-button::after {
+    font-size: 3vmin;
+  }
+  .modal-button {
+    width: 30%;
+    height: 20vmin;
+    font-size: 3vmin;
+  }
+}
+
