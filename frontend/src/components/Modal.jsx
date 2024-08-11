@@ -1,34 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Modal.css';
+
 const Modal = ({ isModalVisible, activeTab, setActiveTab, seeds, handleModalItemClick, closeModal }) => {
-    const handleOutsideClick = (event) => {
-        if (event.target.className === 'modal active') {
-            closeModal();
-        }
+    const [hoveredSeed, setHoveredSeed] = useState(null);
+    const [isHovering, setIsHovering] = useState(false);
+
+    if (!isModalVisible) return null;
+
+    const handleMouseOver = (seed) => {
+        setHoveredSeed(seed);
+        setIsHovering(true);
+    };
+
+    const handleMouseOut = () => {
+        setIsHovering(false);
     };
 
     return (
-        <div id="modal" className={`modal ${isModalVisible ? 'active' : ''}`} onClick={handleOutsideClick}>
-            <div className="modal-content">
-                <span className="close" onClick={closeModal}>
-                    &times;
-                </span>
-                <div className="tabs">
-                    <button className={activeTab === 'common' ? 'active' : ''} onClick={() => setActiveTab('common')}>Common</button>
-                    <button className={activeTab === 'rare' ? 'active' : ''} onClick={() => setActiveTab('rare')}>Rare</button>
-                    <button className={activeTab === 'epic' ? 'active' : ''} onClick={() => setActiveTab('epic')}>Epic</button>
-                    <button className={activeTab === 'legendary' ? 'active' : ''} onClick={() => setActiveTab('legendary')}>Legendary</button>
+        <div className="modal-overlay" onClick={closeModal}>
+            <div className="modal" onClick={e => e.stopPropagation()}>
+                <div className="tab-navigation">
+                    {Object.keys(seeds).map(tab => (
+                        <button key={tab} className={tab === activeTab ? 'active' : ''} onClick={() => setActiveTab(tab)}>
+                            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                        </button>
+                    ))}
                 </div>
-                <div className="button-container">
-                    {seeds[activeTab].map((seed, index) => (
-                        <div className="modal-button" key={index} onClick={() => handleModalItemClick(seed)}>
-                            <img src={`/images/seeds/${seed.id}.webp`} alt={seed.name} className="seed-image" />
+                <div className="seed-list">
+                                        {seeds[activeTab].map((seed) => (
+                        <div
+                            key={seed.id}
+                            className="seed-item"
+                            onMouseOver={() => handleMouseOver(seed)}
+                            onMouseOut={handleMouseOut}
+                            onClick={() => handleModalItemClick(seed)}
+                        >
+                            <img src={`/images/seeds/${seed.id}.webp`} alt={seed.name} />
+                            <span>{seed.name}</span>
                         </div>
                     ))}
                 </div>
+                {isHovering && hoveredSeed && (
+                    <div className="seed-info">
+                        <h3>{hoveredSeed.name}</h3>
+                        <p>Раритет: {hoveredSeed.rarity}</p>
+                        <p>Время роста: {hoveredSeed.grow_time}</p>
+                        <p>Применение: {hoveredSeed.applied_to.join(', ')}</p>
+                    </div>
+                )}
             </div>
         </div>
     );
 };
 
 export default Modal;
+

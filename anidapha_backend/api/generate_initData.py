@@ -25,9 +25,9 @@ def generate_init_data(user_id, bot_token, first_name='', last_name='', username
 # Пример использования:
 bot_token = '7234439409:AAG6HEzoTVX5kjZbqdUcT5alJ15NuId1hDM'
 user_id = '123456789'
-first_name = 'John'
-last_name = 'Doe'
-username = 'johndoe'
+first_name = 'Jувohn'
+last_name = 'Dвoывe'
+username = 'johфывndoe'
 photo_url = 'https://example.com/photo.jpg'
 
 def get_init_data():
