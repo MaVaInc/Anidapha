@@ -22,7 +22,7 @@ const Ruins = ({ goBack }) => {
 
     const handleRewardClick = () => {
         const tg = window.Telegram.WebApp;
-        const apiUrl = !tg.initData || tg.initData === '' ? 'http://localhost:5000/api' : '/api';
+        const apiUrl = !tg.initData || tg.initData === '' ? 'http://localhost:8000/api' : '/api';
 
         // Вызов тактильной связи
         if (tg.HapticFeedback) {

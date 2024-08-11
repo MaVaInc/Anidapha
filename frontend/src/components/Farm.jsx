@@ -20,7 +20,7 @@ const Farm = ({ goBack }) => {
 
     useEffect(() => {
         const isDebug = !tg.initData || tg.initData === '';
-        const apiUrl = isDebug ? 'http://localhost:5000/api' : '/api';
+        const apiUrl = isDebug ? 'http://localhost:8000/api' : '/api';
         const userId = isDebug ? 'debug-user' : tg.initDataUnsafe.user.id;
 
         fetch(`${apiUrl}/seeds`, {

@@ -17,7 +17,7 @@ const Market = () => {
     useEffect(() => {
         const fetchItems = async () => {
             try {
-                const response = await fetch('http://localhost:5000/api/market');
+                const response = await fetch('http://localhost:8000/api/market');
                 const data = await response.json();
                 setItems(data);
             } catch (error) {
