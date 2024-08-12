@@ -28,11 +28,11 @@ def plant_seed(request):
             return Response({'success': False, 'message': 'This plot is already occupied.'}, status=400)
 
         plot.plant_name = seed.name
-        plot.texture_url = f"/images/seeds/{seed_id}.webp"  # Or any other logic for determining texture
+        plot.texture_url = f"/images/seeds/{seed_id}.webp"
         plot.planted_at = timezone.now()
         plot.save()
 
-        # Remove seed from inventory
+        # Удаляем семя из инвентаря
         seed.delete()
 
         return Response({'success': True, 'plot': PlotSerializer(plot).data})

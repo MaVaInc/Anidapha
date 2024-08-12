@@ -16,7 +16,7 @@ class Plot(models.Model):
 
 class Seed(models.Model):
     owner = models.ForeignKey('api.User', on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField( max_length=255)
 
     def __str__(self):
         return f"Seed {self.name} for {self.owner.username}"

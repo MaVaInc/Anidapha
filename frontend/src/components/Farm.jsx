@@ -1,4 +1,3 @@
-// Farm.jsx
 import React, { useState, useEffect } from 'react';
 import './Farm.css';
 import './Modal.css';
@@ -7,9 +6,8 @@ import Modal from './Modal';
 const Farm = ({ goBack }) => {
     const tg = window.Telegram.WebApp;
     const [isModalVisible, setModalVisible] = useState(false);
-    const [selectedPot, setSelectedPot] = useState(null);
-    const [potItems, setPotItems] = useState(Array(15).fill(''));
-    const [seedTextures, setSeedTextures] = useState({});
+    const [selectedPlot, setSelectedPlot] = useState(null);
+    const [plots, setPlots] = useState([]);
     const [seeds, setSeeds] = useState({
         common: [],
         rare: [],
@@ -19,49 +17,104 @@ const Farm = ({ goBack }) => {
     const [activeTab, setActiveTab] = useState('common');
 
     useEffect(() => {
-        const isDebug = !tg.initData || tg.initData === '';
-        const apiUrl = isDebug ? 'http://localhost:8000/api' : '/api';
-        const userId = isDebug ? 'debug-user' : tg.initDataUnsafe.user.id;
+        const apiUrl = '/farm';
 
+        // Fetch farm state
+        fetch(`${apiUrl}/farm/state/`, {
+            headers: {
+                'Authorization': `Bearer ${tg.initDataUnsafe.query_id}`
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setPlots(data);
+                } else {
+                    console.error('Invalid data format:', data);
+                }
+            })
+            .catch(error => console.error('Error fetching farm state:', error));
+
+        // Fetch seeds
         fetch(`${apiUrl}/seeds`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${tg.initDataUnsafe.query_id}`
             },
-            body: JSON.stringify({ userId })
+            body: JSON.stringify({ userId: tg.initDataUnsafe.user.id })
         })
-            .then(response => response.json())
-            .then(data => {
-                setSeeds({
-                    common: data.commonSeeds,
-                    rare: data.rareSeeds,
-                    epic: data.epicSeeds,
-                    legendary: data.legendarySeeds
-                });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
             })
-            .catch(error => console.error('Error fetching data:', error));
-    }, []);
+            .then(data => {
+                if (data && data.commonSeeds && data.rareSeeds && data.epicSeeds && data.legendarySeeds) {
+                    setSeeds({
+                        common: data.commonSeeds,
+                        rare: data.rareSeeds,
+                        epic: data.epicSeeds,
+                        legendary: data.legendarySeeds
+                    });
+                } else {
+                    console.error('Invalid seed data format:', data);
+                }
+            })
+            .catch(error => console.error('Error fetching seeds:', error));
+    }, [tg.initDataUnsafe.query_id]);
 
-    const handlePotClick = (index) => {
-        setSelectedPot(index);
+    const handlePlotClick = (index) => {
+        setSelectedPlot(index);
         setModalVisible(true);
     };
 
     const handleModalItemClick = (item) => {
-        const newPotItems = [...potItems];
-        newPotItems[selectedPot] = item.name;
-        setPotItems(newPotItems);
+        if (!item || typeof item.id === 'undefined') {
+            console.error('Invalid seed item:', item);
+            return;
+        }
 
-        const newSeedTextures = { ...seedTextures };
-        newSeedTextures[selectedPot] = item.id;
-        setSeedTextures(newSeedTextures);
+        const newPlots = [...plots];
+        if (!newPlots[selectedPlot]) {
+            console.error('Invalid plot selected:', selectedPlot);
+            return;
+        }
+        newPlots[selectedPlot].plant_name = item.name;
+        newPlots[selectedPlot].texture_url = `/images/seeds/${item.id}.webp`;
+        setPlots(newPlots);
 
         setModalVisible(false);
+
+        // Save updated plot data to the backend
+        const apiUrl = '/farm';
+
+        fetch(`${apiUrl}/farm/plant/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${tg.initDataUnsafe.query_id}`
+            },
+            body: JSON.stringify({
+                plot_id: newPlots[selectedPlot].plot_id,
+                seed_id: item.id
+            })
+        }).catch(error => console.error('Error saving plot data:', error));
     };
 
     const closeModal = () => {
         setModalVisible(false);
     };
+
+    if (plots.length === 0) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div
@@ -73,12 +126,12 @@ const Farm = ({ goBack }) => {
         >
             <h1>Farm</h1>
             <div className="garden">
-                {potItems.map((item, index) => (
-                    <div className="pot" key={index} onClick={() => handlePotClick(index)}>
-                        {item && <span className="pot-item">{item}</span>}
-                        {seedTextures[index] && (
+                {plots.map((plot, index) => (
+                    <div className="plot" key={index} onClick={() => handlePlotClick(index)}>
+                        {plot.plant_name && <span className="plot-item">{plot.plant_name}</span>}
+                        {plot.texture_url && (
                             <img
-                                src={`/images/seeds/${seedTextures[index]}.webp`}
+                                src={plot.texture_url}
                                 alt="Seed Texture"
                                 className="seed-texture"
                             />
@@ -94,9 +147,6 @@ const Farm = ({ goBack }) => {
                 handleModalItemClick={handleModalItemClick}
                 closeModal={closeModal}
             />
-            {/*<button id="back-button" className="back-button" onClick={goBack}>*/}
-            {/*    Back*/}
-            {/*</button>*/}
         </div>
     );
 };

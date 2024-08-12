@@ -17,3 +17,6 @@ urlpatterns += [
 urlpatterns += [
     path('api/set_username/', set_username, name='set_username'),
 ]
+urlpatterns += [
+    path('farm/', include('farm.urls')),  # Новое приложение Farm
+]

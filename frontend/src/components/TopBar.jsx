@@ -1,7 +1,6 @@
 import React from 'react';
 import './TopBar.css';
 
-
 const TopBar = ({ platinum, stars, gold }) => {
     return (
         <div className="top-bar">
