@@ -33,8 +33,8 @@ from .models import User
 
 @api_view(['POST'])
 def auth_view(request):
-    # init_data = request.data.get('init_data')
-    init_data = get_init_data()
+    init_data = request.data.get('init_data')
+    # init_data = get_init_data()
     bot_token = SECRET_KEY
 
     if validate_init_data(init_data, bot_token):
