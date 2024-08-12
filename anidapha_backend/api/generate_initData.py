@@ -24,7 +24,7 @@ def generate_init_data(user_id, bot_token, first_name='', last_name='', username
 
 # Пример использования:
 bot_token = '7234439409:AAG6HEzoTVX5kjZbqdUcT5alJ15NuId1hDM'
-user_id = '123456789'
+user_id = '222п225'
 first_name = 'John'
 last_name = 'Doe'
 username = 'johndoe'

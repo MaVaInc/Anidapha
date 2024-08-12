@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Пароль для SSH соединения
-SSH_PASSWORD="Mavaincee2020"
+SSH_PASSWORD="1f4590207cea"
 git="https://github.com/MaVaInc/Anidapha.git"
 # Синхронизация файлов на сервере
 sshpass -p "$SSH_PASSWORD" rsync -avz /home/roman/PycharmProjects/Anidapha/* root@77.221.154.137:/var/www/anidapha

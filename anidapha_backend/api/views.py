@@ -1,26 +1,31 @@
 import hashlib
 import hmac
-import time
-import jwt
 import secrets
+import time
 import urllib.parse
-
-from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view
-from rest_framework.exceptions import ValidationError
 from django.http import JsonResponse
+from .models import Plot
+
+
+import jwt
 from django.utils import timezone
-from .serializers import UserSerializer
-from .models import User
+from rest_framework import viewsets
+from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.tokens import RefreshToken
+
 from .generate_initData import get_init_data
+from .models import User
+from .serializers import UserSerializer
 
 SECRET_KEY = '7234439409:AAG6HEzoTVX5kjZbqdUcT5alJ15NuId1hDM'
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
+
 
 @api_view(['POST'])
 def auth_view(request):
@@ -37,7 +42,8 @@ def auth_view(request):
             'last_name': init_data_dict.get('user[last_name]', ''),
             'username': init_data_dict.get('user[username]', ''),
             'photo_url': init_data_dict.get('user[photo_url]', ''),
-            'auth_date': timezone.datetime.fromtimestamp(int(init_data_dict['auth_date'])).strftime('%Y-%m-%d %H:%M:%S'),
+            'auth_date': timezone.datetime.fromtimestamp(int(init_data_dict['auth_date'])).strftime(
+                '%Y-%m-%d %H:%M:%S'),
         }
 
         telegram_id = user_info['id']
@@ -59,14 +65,17 @@ def auth_view(request):
                 'registered': False
             })
         else:
-            token = jwt.encode({'user_id': user.id}, SECRET_KEY, algorithm='HS256')
+            # Генерация access и refresh токенов
+            refresh = RefreshToken.for_user(user)
             return JsonResponse({
                 'welcome_message': f"Welcome back, {user.username}!",
-                'token': token,
+                'access_token': str(refresh.access_token),
+                'refresh_token': str(refresh),
                 'registered': True
             })
     else:
         return JsonResponse({'success': False, 'message': 'Invalid init data'}, status=401)
+
 
 def validate_init_data(init_data: str, bot_token: str) -> bool:
     try:
@@ -89,7 +98,6 @@ def validate_init_data(init_data: str, bot_token: str) -> bool:
     except Exception as e:
         print(f"Validation error: {e}")
         return False
-
 @api_view(['POST'])
 def set_username(request):
     try:
@@ -112,3 +120,50 @@ def set_username(request):
     user.save()
 
     return JsonResponse({'success': True, 'username': username})
+
+
+from django.utils import timezone
+from rest_framework import viewsets
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.response import Response
+from .models import Plot, Seed
+from .serializers import PlotSerializer, SeedSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_farm_state(request):
+    user = request.user
+    plots = Plot.objects.filter(user=user)
+    serializer = PlotSerializer(plots, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def plant_seed(request):
+
+    user = request.user
+    plot_id = request.data.get('plot_id')
+    seed_id = request.data.get('seed_id')
+
+    try:
+        plot = Plot.objects.get(user=user, plot_id=plot_id)
+        seed = Seed.objects.get(id=seed_id, owner=user)
+
+        if not plot.is_empty():
+            return Response({'success': False, 'message': 'This plot is already occupied.'}, status=400)
+
+        plot.plant_name = seed.name
+        plot.texture_url = f"/images/seeds/{seed_id}.webp"  # Или любая другая логика определения текстуры
+        plot.planted_at = timezone.now()
+        plot.save()
+
+        # Удаление семени из инвентаря
+        seed.delete()
+
+        return Response({'success': True, 'plot': PlotSerializer(plot).data})
+    except Plot.DoesNotExist:
+        return Response({'success': False, 'message': 'Plot does not exist'}, status=404)
+    except Seed.DoesNotExist:
+        return Response({'success': False, 'message': 'Seed does not exist in inventory'}, status=404)
