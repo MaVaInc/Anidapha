@@ -1,21 +1,9 @@
-from alt.app import app, db
-from alt.models.user import User
+import json
 
-with app.app_context():
-    # Создание нового пользователя
-    new_user = User(
-        telegram_id="1234516789",
-        username="test_user",
-        password="password",
-        email="test@example.com",
-        common_seeds={"seed1": 10},
-        rare_seeds={"seed2": 5},
-        epic_seeds={"seed3": 2},
-        legendary_seeds={"seed4": 1}
-    )
+parsed_query = {'id': 942725235, 'first_name': 'PyTorch', 'last_name': 'Love', 'username': 'mavainc',
+                'language_code': 'ru', 'is_premium': True, 'allows_write_to_pm': True,
+                'auth_date': '2024-08-12 20:59:07'}
 
-    # Добавление пользователя в базу данных
-    db.session.add(new_user)
-    db.session.commit()
+user_info_dict = json.loads(parsed_query['user'][0])
 
-    print("Test user added.")
+print(user_info_dict)

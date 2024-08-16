@@ -24,14 +24,8 @@ SECRET_KEY = 'django-insecure-1=(ao0w%n!adf76upxef+t*e#mubm5m8ti7ujtj^9o4@i1di$g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['t-mini-app.com', 'www.t-mini-app.com']
+ALLOWED_HOSTS = ['t-mini-app.com', 'www.t-mini-app.com', 'localhost', '127.0.0.1']
 
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-}
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,10 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'api',
     'corsheaders',
     'rest_framework_simplejwt',
-    'farm'
+    'api',
+    'farm',
 ]
 
 MIDDLEWARE = [
@@ -57,14 +51,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
-CORS_ALLOW_ALL_ORIGINS = True
+
 ROOT_URLCONF = 'anidapha_backend.urls'
-CORS_ALLOW_HEADERS = [
-    'authorization',
-    'content-type',
-]
 
 TEMPLATES = [
     {
@@ -89,11 +78,21 @@ WSGI_APPLICATION = 'anidapha_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'adventurers',
+        'USER': 'pro',
+        'PASSWORD': 'Mavaincee2020',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
+# REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -127,17 +126,22 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_HEADERS = [
+    'authorization',
+    'content-type',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CORS Whitelist (if you need to specify certain origins)
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
 ]
-
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
-CORS_ALLOW_ALL_ORIGINS = True
