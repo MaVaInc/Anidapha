@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'anidapha_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'adventurers',
+        'NAME': 'adventurer',
         'USER': 'pro',
         'PASSWORD': 'Mavaincee2020',
         'HOST': 'localhost',
@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
+AUTH_USER_MODEL = 'api.User'
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
@@ -128,6 +128,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS = [
+    # os.path.join(BASE_DIR, 'static'),  # Общие статические файлы (например, из вашего приложения)
+    os.path.join(BASE_DIR, '../frontend/build/static'),  # Статика из сборки React
+]
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True

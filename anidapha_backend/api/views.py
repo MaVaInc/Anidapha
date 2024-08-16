@@ -4,6 +4,7 @@ import urllib.parse
 from django.shortcuts import render
 from django.template import context
 from rest_framework import viewsets
+from rest_framework.response import Response
 
 SECRET_KEY = '7234439409:AAG6HEzoTVX5kjZbqdUcT5alJ15NuId1hDM'
 
@@ -138,3 +139,9 @@ def set_username(request):
     user.save()
 
     return JsonResponse({'success': True, 'username': username})
+
+@api_view(['GET'])
+def get_user_balances(request):
+    user = request.user
+    serializer = UserSerializer(user, fields=['platinum_balance', 'gold_balance', 'stars_balance'])
+    return Response(serializer.data)

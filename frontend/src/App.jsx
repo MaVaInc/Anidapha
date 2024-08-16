@@ -6,6 +6,7 @@ import Market from './components/Market';
 import Farm from './components/Farm';
 import Ruins from './components/Ruins';
 import Login from './components/Login';  // Импортируем Login
+import Wiki from './components/Wiki';  // Импортируем Login
 
 const App = () => {
     const [platinum, setPlatinum] = useState(0);
@@ -61,10 +62,7 @@ const App = () => {
                                 <Farm />
                             )}
                             {activeScreen === 'whitepaperS' && (
-                                <div className="screen active">
-                                    <h1>Wiki</h1>
-                                    <p>Content for wiki...</p>
-                                </div>
+                                <Wiki />
                             )}
                             <button id="back-button" className="back-button" onClick={goBack}>
                                 Back
