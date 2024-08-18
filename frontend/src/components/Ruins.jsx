@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './Ruins.css';
+import RewardCard from './RewardCard';
 
 const Ruins = ({ goBack }) => {
     const [isClosing, setClosing] = useState(false);
+    const [rewardData, setRewardData] = useState(null);
 
     useEffect(() => {
         const ruinsElement = document.querySelector('.screen.ruins');
@@ -15,32 +17,54 @@ const Ruins = ({ goBack }) => {
         }
     }, [isClosing]);
 
+    useEffect(() => {
+        return () => {
+            setRewardData(null); // Очищаем данные о награде при размонтировании
+        };
+    }, []);
+
     const handleBackClick = () => {
         setClosing(true);
-        setTimeout(() => {
+        const timeoutId = setTimeout(() => {
             goBack();
             setClosing(false);
         }, 1000);
+
+        return () => clearTimeout(timeoutId); // Очищаем таймаут при уходе с экрана
     };
 
     const handleRewardClick = () => {
-        const tg = window.Telegram.WebApp;
-        const apiUrl = !tg.initData || tg.initData === '' ? 'http://localhost:8000/api' : '/api';
+        const apiUrl = '/api';
+        const authToken = localStorage.getItem('token');
 
-        // Вызов тактильной связи
-        if (tg.HapticFeedback) {
-            tg.HapticFeedback.impactOccurred('medium');
+        if (!authToken) {
+            console.error('Authorization token not found in local storage');
+            return;
         }
 
-        fetch(`${apiUrl}/reward`, {
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+            window.Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
+        }
+
+        fetch(`${apiUrl}/reward/`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userId: tg.initDataUnsafe.user.id })
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}` // Используем JWT для аутентификации
+            }
         })
-            .then(response => response.json())
-            .then(data => alert(`You received: ${JSON.stringify(data)}`))
+            .then(response => {
+                console.log('Response status:', response.status);
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    return response.json().then(err => { throw new Error(err.message || 'Failed to fetch reward'); });
+                }
+            })
+            .then(data => {
+                console.log('Reward data:', data);
+                setRewardData(data);
+            })
             .catch(error => console.error('Error fetching reward:', error));
     };
 
@@ -54,6 +78,9 @@ const Ruins = ({ goBack }) => {
             <button id="back-buttonr" className="back-buttonr" onClick={handleBackClick}>
                 Back
             </button>
+            {rewardData && (
+                <RewardCard data={rewardData} onClose={() => setRewardData(null)} />
+            )}
         </div>
     );
 };

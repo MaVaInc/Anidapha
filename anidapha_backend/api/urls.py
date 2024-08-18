@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import auth_view, set_username, get_user_data
+from .views import *
 
 urlpatterns = [
     path('auth/', auth_view, name='auth_view'),
     path('set_username/', set_username, name='set_username'),
     path('user_data/', get_user_data, name='get_user_balances'),
+    path('inventory/', get_inventory, name='get_user_balances'),
+    path('reward/', reward, name='reward'),
+    path('sell', sell, name='sell'),
 ]

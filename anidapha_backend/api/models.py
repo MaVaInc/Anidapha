@@ -55,3 +55,42 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
+
+
+
+class Item(models.Model):
+    ITEM_TYPES = [
+        ('weapon', 'Weapon'),  # Оружие
+        ('armor', 'Armor'),  # Броня
+        ('helmet', 'Helmet'),  # Шлем
+        ('shield', 'Shield'),  # Щит
+        ('boots', 'Boots'),  # Ботинки
+        ('gloves', 'Gloves'),  # Перчатки
+        ('ring', 'Ring'),  # Кольцо
+        ('amulet', 'Amulet'),  # Амулет
+        ('belt', 'Belt'),  # Пояс
+        ('accessory', 'Accessory'),  # Аксессуар
+        ('potion', 'Potion'),  # Зелье
+        ('scroll', 'Scroll'),  # Свиток
+        ('material', 'Material'),  # Материал для крафта
+        ('quest_item', 'Quest Item'),  # Квестовый предмет
+        ('other', 'Other'),  # Другие предметы
+    ]
+
+    name = models.CharField(max_length=100, verbose_name="Название")
+    creator = models.CharField(max_length=100,default='admin', verbose_name="Создатель")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='items', verbose_name="Владелец")
+    item_type = models.CharField(max_length=20, choices=ITEM_TYPES, verbose_name="Тип")
+    attack = models.IntegerField(default=0, verbose_name="Атака")
+    defense = models.IntegerField(default=0, verbose_name="Броня")
+    accuracy = models.IntegerField(default=0, verbose_name="Точность")
+    evasion = models.IntegerField(default=0, verbose_name="Уворот")
+    stun = models.IntegerField(default=0, verbose_name="Оглушение")
+    block = models.IntegerField(default=0, verbose_name="Блок")
+    health = models.IntegerField(default=0, verbose_name="Жизни")
+    price = models.FloatField(default=0.0, verbose_name="Цена")
+    unique_properties = models.CharField(max_length=255, blank=True, verbose_name="Уникальные свойства")
+    image = models.ImageField(upload_to='item_images/', blank=True, null=True, verbose_name="Изображение")
+
+    def __str__(self):
+        return self.name

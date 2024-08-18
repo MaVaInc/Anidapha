@@ -31,19 +31,17 @@ const Login = ({ setIsAuthenticated }) => {
                 return response.json();
             })
             .then(data => {
-                console.log('Server response:', data); // Выводим весь ответ сервера для отладки
                 setWelcomeMessage(data.welcome_message);
                 if (!data.registered) {
                     setUsername(data.suggested_username);
                 } else {
                     if (data.access_token) {
-                        console.log('Received token:', data.access_token); // Для отладки
                         localStorage.setItem('token', data.access_token);
                         setIsRegistered(true);
-                        setIsAuthenticated(true); // Пользователь уже зарегистрирован
+                        setIsAuthenticated(true);
 
-                        // Делаем запрос на получение данных пользователя
-                        fetchUserData(data.access_token, apiUrl);
+
+                        fetchUserData(localStorage.getItem('token'), apiUrl);
                     } else {
                         console.error('No access token found in response');
                     }
@@ -53,15 +51,14 @@ const Login = ({ setIsAuthenticated }) => {
         }
     }, [tg.initData, setIsAuthenticated]);
 
-    // Функция для получения данных пользователя
     const fetchUserData = (token, apiUrl) => {
-       fetch(`${apiUrl}/user_data`, {
+       fetch(`${apiUrl}/user_data/`, {
     method: 'GET',
     headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
     },
-    redirect: 'follow' // Автоматически следовать перенаправлению
+    redirect: 'follow'
 })
 .then(response => response.json())
 .then(data => {
@@ -90,9 +87,9 @@ const Login = ({ setIsAuthenticated }) => {
             if (data.success) {
                 alert(`Username saved: ${data.username}`);
                 setIsRegistered(true);
-                setIsAuthenticated(true);  // Пользователь залогинился после сохранения ника
+                setIsAuthenticated(true);
 
-                // Обновляем данные пользователя после сохранения ника
+
                 fetchUserData(token, apiUrl);
             } else {
                 alert('Error saving username');
