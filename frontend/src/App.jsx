@@ -1,29 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import TopBar from './components/TopBar';
 import MainButtonContainer from './components/MainButtonContainer';
 import Market from './components/Market';
 import Farm from './components/Farm';
 import Ruins from './components/Ruins';
-import Login from './components/Login';  // Импортируем Login
-import Wiki from './components/Wiki';  // Импортируем Login
+import Login from './components/Login';
+import Wiki from './components/Wiki';
 
 const App = () => {
-    const [platinum, setPlatinum] = useState(0);
-    const [stars, setStars] = useState(0);
-    const [gold, setGold] = useState(0);
     const [activeScreen, setActiveScreen] = useState('');
     const [showExtra, setShowExtra] = useState(false);
     const [isMainButtonChecked, setMainButtonChecked] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);  // Добавлено состояние аутентификации
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+
 
     const toggleButtons = (event) => {
         setMainButtonChecked(event.target.checked);
         setShowExtra(!showExtra);
         if (!showExtra) {
-            setGold(gold + 3);
-            setStars(stars + 1);
-            setPlatinum(platinum + 2);
+            // setGold(gold + 3);
+            // setStars(stars + 1);
+            // setPlatinum(platinum + 2);
         }
     };
 
@@ -38,9 +37,9 @@ const App = () => {
 
     return (
         <div className="App">
-            {isAuthenticated ? (  // Проверяем аутентификацию
+            {isAuthenticated ? (
                 <>
-                    <TopBar platinum={platinum} stars={stars} gold={gold} />
+                    <TopBar />
                     {activeScreen === '' ? (
                         <div className="container">
                             <MainButtonContainer
@@ -71,7 +70,7 @@ const App = () => {
                     )}
                 </>
             ) : (
-                <Login setIsAuthenticated={setIsAuthenticated} />  // Подключаем компонент Login
+                <Login setIsAuthenticated={setIsAuthenticated} />
             )}
         </div>
     );

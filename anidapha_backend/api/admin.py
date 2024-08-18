@@ -23,7 +23,7 @@ class CustomUserAdmin(UserAdmin):
         (None, {'fields': ('username', 'password')}),
         ('Personal info', {'fields': ('first_name', 'last_name', 'telegram_id', 'photo_url')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
-        ('Balances', {'fields': ('ton_balance', 'dog_balance', 'platinum_balance', 'gold_balance')}),
+        ('Balances', {'fields': ('ton_balance', 'dogs_balance', 'platinum_balance', 'gold_balance')}),
         ('Important dates', {'fields': ('last_login', 'created_at')}),
     )
 

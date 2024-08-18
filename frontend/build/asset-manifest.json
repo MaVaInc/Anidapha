@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.12daa971.css",
-    "main.js": "/static/js/main.d9522d4a.js",
+    "main.css": "/static/css/main.bedc2435.css",
+    "main.js": "/static/js/main.b5e371fd.js",
     "static/media/fon_ruins_right.png": "/static/media/fon_ruins_right.6f88d7b0c9c7ce0bcd93.png",
     "static/media/fon_ruins_left.png": "/static/media/fon_ruins_left.6f1c2a364e63686c2bae.png",
     "static/media/fon_ruins.webp": "/static/media/fon_ruins.4a88d6c6d65852cbf260.webp",
@@ -10,11 +10,11 @@
     "static/media/DALLE_market.webp": "/static/media/DALLE_market.a1b55fb3d1cde70a30af.webp",
     "static/media/DALLE_FARM.webp": "/static/media/DALLE_FARM.97c8b41bf8caf99f6cec.webp",
     "index.html": "/index.html",
-    "main.12daa971.css.map": "/static/css/main.12daa971.css.map",
-    "main.d9522d4a.js.map": "/static/js/main.d9522d4a.js.map"
+    "main.bedc2435.css.map": "/static/css/main.bedc2435.css.map",
+    "main.b5e371fd.js.map": "/static/js/main.b5e371fd.js.map"
   },
   "entrypoints": [
-    "static/css/main.12daa971.css",
-    "static/js/main.d9522d4a.js"
+    "static/css/main.bedc2435.css",
+    "static/js/main.b5e371fd.js"
   ]
 }

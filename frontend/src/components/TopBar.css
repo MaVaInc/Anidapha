@@ -1,25 +1,26 @@
 .top-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.44);
-    color: #fff;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 10px 0;
-    z-index: 1000;
+    position: fixed; /* Фиксированное позиционирование, чтобы оставаться на месте при прокрутке */
+    top: 0; /* Закрепляем в самом верху */
+    left: 0; /* Закрепляем к левому краю */
+    width: 100%; /* Ширина на всю ширину экрана */
+    background-color: rgba(0, 0, 0, 0.8); /* Полупрозрачный черный фон */
+    color: #fff; /* Белый текст */
+    display: flex; /* Включаем flexbox для внутреннего выравнивания */
+    justify-content: space-around; /* Равномерное распределение элементов внутри */
+    align-items: center; /* Вертикальное выравнивание по центру */
+    padding: 10px 0; /* Внутренние отступы сверху и снизу */
+    z-index: 1000; /* Высокий z-index, чтобы перекрывать другие элементы */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Тень для придания объема */
 }
 
 .top-bar .coin {
-    font-size: 4vmin;
-    display: flex;
-    align-items: center;
+    font-size: 4vmin; /* Размер шрифта, адаптированный под размер экрана */
+    display: flex; /* Flexbox для выравнивания изображений и текста */
+    align-items: center; /* Вертикальное выравнивание по центру */
 }
 
 .top-bar .coin .coin-img {
-    width: 6vmin;
-    height: 6vmin;
-    margin-right: 5px;
+    width: 6vmin; /* Размер изображения, адаптированный под размер экрана */
+    height: 6vmin; /* Соответствующий высоте размер */
+    margin-right: 5px; /* Отступ справа от изображения */
 }

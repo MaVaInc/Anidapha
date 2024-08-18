@@ -9,7 +9,7 @@ from rest_framework.response import Response
 SECRET_KEY = '7234439409:AAG6HEzoTVX5kjZbqdUcT5alJ15NuId1hDM'
 
 import urllib.parse
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import User
 from .serializers import UserSerializer
 
@@ -34,26 +34,17 @@ from .models import User
 
 @api_view(['POST'])
 def auth_view(request):
-    init_data = request.data.get('initData')
+    permission_classes = [AllowAny]
+    init_data = "query_id=AAFz2DA4AAAAAHPYMDhiiK2X&user=%7B%22id%22%3A942725235%2C%22first_name%22%3A%22PyTorch%22%2C%22last_name%22%3A%22Love%22%2C%22username%22%3A%22mavainc%22%2C%22language_code%22%3A%22ru%22%2C%22is_premium%22%3Atrue%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1723920109&hash=85d51bb692c51ec8b26788468f76850f85c7068b50b4eb92187b25fba94b0f35"
+    # init_data = request.data.get('initData')
     # init_data = get_init_data()
     bot_token = SECRET_KEY
     # try:
     if validate_init_data(init_data, bot_token):
         user_info_dict = urllib.parse.parse_qs(init_data)
-        # user_info_dict = json.loads(init_data)
         user_info = json.loads(user_info_dict['user'][0])
         auth_date = json.loads(user_info_dict['auth_date'][0])
         user_info['auth_date']= timezone.datetime.fromtimestamp(int(auth_date)).strftime('%Y-%m-%d %H:%M:%S')
-        # Теперь можно получить нужные данные
-        # user_info = {
-        #     'id': user_info_dict.get('id', ''),
-        #     'first_name': user_info_dict.get('first_name', ''),
-        #     'last_name': user_info_dict.get('last_name', ''),
-        #     'username': user_info_dict.get('username', ''),
-        #     'photo_url': user_info_dict.get('photo_url', ''),  # Если нет, вернет пустую строку
-        #     'auth_date': timezone.datetime.fromtimestamp(int(init_data['auth_date'])).strftime(
-        #         '%Y-%m-%d %H:%M:%S'),
-        # }
 
 
         telegram_id = user_info['id']
@@ -141,7 +132,8 @@ def set_username(request):
     return JsonResponse({'success': True, 'username': username})
 
 @api_view(['GET'])
-def get_user_balances(request):
+def get_user_data(request):
     user = request.user
-    serializer = UserSerializer(user, fields=['platinum_balance', 'gold_balance', 'stars_balance'])
-    return Response(serializer.data)
+    serializer = UserSerializer(user)
+    print(serializer.data)
+    return JsonResponse(serializer.data)

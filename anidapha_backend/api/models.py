@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
+from django.utils import timezone
 
 
 class UserManager(BaseUserManager):
@@ -48,6 +49,9 @@ class User(AbstractUser):
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['telegram_id']  # Поля, которые необходимо запросить при создании суперпользователя
-
+    def save(self, *args, **kwargs):
+        if self.auth_date and timezone.is_naive(self.auth_date):
+            self.auth_date = timezone.make_aware(self.auth_date)
+        super().save(*args, **kwargs)
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
