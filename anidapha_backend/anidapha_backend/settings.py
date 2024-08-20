@@ -30,6 +30,7 @@ ALLOWED_HOSTS = ['t-mini-app.com', 'www.t-mini-app.com', 'localhost', '127.0.0.1
 APPEND_SLASH = False
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,18 @@ INSTALLED_APPS = [
     'api',
     'farm',
 ]
+JAZZMIN_SETTINGS = {
+    "site_title": "ANIDAPHA ADMIN",
+    "site_header": "ЛОГОВО",
+    "welcome_sign": "Добро пожаловать Хозяин",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "site_logo": "images/anidapha_logo.webp",
+
+    # "theme": "cosmo",  # Тема оформления
+    "dark_mode_theme": "cyborg"
+    # И другие параметры...
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
 
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     path('inventory/', get_inventory, name='get_user_balances'),
     path('reward/', reward, name='reward'),
     path('sell', sell, name='sell'),
+    path('farm/', include('farm.urls')),
 ]

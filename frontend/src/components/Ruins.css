@@ -2,8 +2,16 @@
     background: url('images/fon_ruins.webp') no-repeat center center fixed;
     background-size: cover;
     height: 100vh;
-    /*position: relative;*/
     overflow: hidden;
+    /*position: relative; !* Оставил позиционирование, чтобы работать с абсолютными элементами внутри *!*/
+}
+
+.preload {
+    background-image: url('images/fon_ruins_left.png'), url('images/fon_ruins_right.png');
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    position: absolute;
 }
 
 .door-button {
@@ -13,7 +21,7 @@
     top: 0;
     background-size: cover;
     background-position: center;
-    z-index: 1;
+    z-index: 1333;
     transition: transform 1s;
 }
 
@@ -93,7 +101,8 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    z-index: 11;
+    z-index: 111;
+    /* оставлено как есть */
 }
 
 .large-button {
@@ -115,6 +124,8 @@
     font-size: 3em;
     font-weight: bold;
     text-shadow: 2px 2px 5px #000;
+
+    /*z-index: 2; !* Добавил, чтобы кнопка была выше других элементов *!*/
 }
 
 @keyframes shake {
@@ -127,4 +138,62 @@
 
 .large-button:active {
     animation: none; /* Останавливаем анимацию при нажатии */
+}
+
+/* Добавил класс для эффекта волны */
+.wave {
+    position: absolute;
+    background: rgba(5, 2, 2, 0.03);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: scale(0);
+    animation: wave-animation 1s ease-out forwards;
+}
+
+@keyframes wave-animation {
+    to {
+        transform: scale(15);
+        opacity: 0;
+    }
+}
+
+@keyframes fall {
+    0% {
+        transform: translate(-50%, -50%) translateY(0);
+        opacity: 1;
+    }
+            5% {
+        transform: translate(-50%, -50%) translateY(0);
+        opacity: 1;
+    }
+    10% {
+        transform: translate(-50%, -50%) translateY(50px);
+        opacity: 1;
+    }
+        30% {
+        transform: translate(-50%, -50%) translateY(800px);
+        opacity: 1;
+    }
+
+    40% {
+        transform: translate(-50%, -50%) translateY(2000px);
+        opacity: 1;
+    }
+    60% {
+        transform: translate(-50%, -50%) translateY(2500px);
+        opacity: 0;
+    }
+        99% {
+    transform: translate(-50%, -50%) translateY(0);
+    opacity: 0;
+    }
+    100% {
+    transform: translate(-50%, -50%) translateY(0);
+    opacity: 1;
+        z-index: 1;
+    }
+}
+
+.large-button.falling {
+    animation: fall 5s ease-in forwards; /* Анимация с равномерным ускорением */
 }

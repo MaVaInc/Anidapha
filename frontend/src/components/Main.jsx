@@ -1,46 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import TopBar from './components/TopBar';
-import MainButtonContainer from './components/MainButtonContainer';
-import Market from './components/Market';
-import Farm from './components/Farm';
-import Ruins from './components/Ruins';
-import Login from './components/Login';
-import Wiki from './components/Wiki';
-import { initSwipeBehavior } from '@telegram-apps/sdk';
-
-const [swipeBehavior] = initSwipeBehavior();
-swipeBehavior.disableVerticalSwipe();
-
-const App = () => {
-    const [activeScreen, setActiveScreen] = useState('');
-    const [showExtra, setShowExtra] = useState(false);
-    const [isMainButtonChecked, setMainButtonChecked] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-
-
-    const toggleButtons = (event) => {
-        setMainButtonChecked(event.target.checked);
-        setShowExtra(!showExtra);
-        if (!showExtra) {
-            // setGold(gold + 3);
-            // setStars(stars + 1);
-            // setPlatinum(platinum + 2);
-        }
-    };
-
-    const showScreen = (screenId) => {
-        setActiveScreen(screenId);
-    };
-
-    const goBack = () => {
-        setActiveScreen('');
-        setMainButtonChecked(true);
-    };
-
-    return (
-        <div className="App">
+import TopBar from "./TopBar";
+import MainButtonContainer from "./MainButtonContainer";
+import Ruins from "./Ruins";
+import Market from "./Market";
+import Farm from "./Farm";
+import Wiki from "./Wiki";
+import Login from "./Login";
+import React from "react";
+import App from "../App";
+return(
+<div className="App">
             {isAuthenticated ? (
                 <>
                     <TopBar />
@@ -78,6 +46,5 @@ const App = () => {
             )}
         </div>
     );
-};
 
-export default App;
+export default Main;

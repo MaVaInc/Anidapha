@@ -1,6 +1,9 @@
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, AbstractUser
 from django.utils import timezone
+
+from farm.models import Plot
+
 
 
 class UserManager(BaseUserManager):
@@ -10,12 +13,18 @@ class UserManager(BaseUserManager):
         if not username:
             raise ValueError('The username must be set')
 
-        # Создаем пользователя с заданными полями
         extra_fields.setdefault('is_active', True)
         user = self.model(telegram_id=telegram_id, username=username, **extra_fields)
         user.set_password(password)
-        user.save(using=self._db)
+        # user.save(using=self._db)
+        with transaction.atomic():
+            # Сохраняем пользователя, чтобы у него появился ID
+            user.save(using=self._db)
+
+            # Создаем три грядки для нового пользователя после того, как у него появился ID
+
         return user
+
 
     def create_superuser(self, telegram_id, username, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
@@ -29,6 +38,7 @@ class UserManager(BaseUserManager):
         return self.create_user(telegram_id=telegram_id, username=username, password=password, **extra_fields)
 
 class User(AbstractUser):
+    objects = UserManager()
     telegram_id = models.CharField(max_length=255, unique=True)
     username = models.CharField(max_length=255, unique=True)
     first_name = models.CharField(max_length=255, null=True, blank=True)
@@ -45,7 +55,7 @@ class User(AbstractUser):
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
 
-    objects = UserManager()
+
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['telegram_id']  # Поля, которые необходимо запросить при создании суперпользователя

@@ -1,7 +1,8 @@
 from django.urls import path
-from . import views
+from .views import *
 
 urlpatterns = [
-    path('farm/state/', views.get_farm_state, name='get_farm_state'),
-    path('farm/plant/', views.plant_seed, name='plant_seed'),
+    path('state/', farm_state_view, name='farm_state_view'),
+    path('seeds/', seeds_view, name='seeds_view'),
+    path('plant/', plant_seed_view, name='plant_seed_view'),
 ]

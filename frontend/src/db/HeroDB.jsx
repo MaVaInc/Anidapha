@@ -13,7 +13,7 @@ db.version(1).stores({
 // Функция для сохранения данных о герое
 export const saveHeroData = async (heroData) => {
     db.hero.clear()
-    return await db.hero.put(heroData, 1); // сохраняем данные героя с фиксированным id=1
+    return await db.hero.put(heroData); // сохраняем данные героя с фиксированным id=1
 };
 
 // Функция для получения данных о герое

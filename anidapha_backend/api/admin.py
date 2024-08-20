@@ -1,20 +1,32 @@
 from django.contrib import admin
-from .models import User
+from django.contrib.auth.admin import UserAdmin
+from .models import User, Item
+from farm.models import Plot
 
-# admin.site.register(User)
-from django.contrib import admin
-
+# Настройка админ-панели
 admin.site.site_header = "Anidapha Admin Panel"
 admin.site.site_title = "Adminka"
 admin.site.index_title = "Добро пожаловать хозяин"
-from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import User  # Импортируйте вашу пользовательскую модель
 
+
+# Inline для отображения грядок пользователя
+class PlotInline(admin.TabularInline):
+    model = Plot
+    extra = 0  # Не добавлять пустые строки для новых записей
+
+
+# Inline для отображения предметов пользователя
+class ItemInline(admin.TabularInline):
+    model = Item
+    extra = 0
+
+
+# Кастомная админка для модели User
 class CustomUserAdmin(UserAdmin):
     # Поля, которые будут отображаться в списке пользователей
-    list_display = ('username', 'telegram_id', 'first_name', 'last_name')
+    list_display = ('username', 'dogs_balance', 'first_name', 'last_name')
     readonly_fields = ('created_at', 'last_login')
+
     # Поля, по которым можно фильтровать в списке пользователей
     list_filter = ('is_active', 'dogs_balance')
 
@@ -39,5 +51,9 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username', 'telegram_id', 'first_name', 'last_name')
     ordering = ('username',)
 
-# Зарегистрируйте модель пользователя с кастомной администрацией
+    # Inline модели для отображения связанных объектов
+    inlines = [PlotInline, ItemInline]
+
+
+# Регистрация модели User с кастомной администрацией
 admin.site.register(User, CustomUserAdmin)

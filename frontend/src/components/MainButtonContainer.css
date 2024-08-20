@@ -16,6 +16,7 @@
     background: conic-gradient(#ff6347, #1e90ff);
     cursor: pointer;
     outline: none;
+
     transition: transform 1.0s ease-in-out;
 }
 
@@ -48,6 +49,8 @@
     font-size: 4vmin;
     color: white;
     text-shadow: 1px 1px 2px #000;
+
+
 }
 
 .menu-button.farm {
@@ -93,6 +96,10 @@
     opacity: 1;
     transform: scale(1);
 }
+.main-button:checked ~ .menu-button.ruins {
+    transform: translate(-50%, -50vmin) scale(1);
+    opacity: 1;
+}
 .menu-button.ruins {
     background-image: url('images/fon_ruins.webp');
     position: absolute;
@@ -100,8 +107,24 @@
     left: 50%;
     transition: opacity 1s ease-in-out, transform 1s ease-in-out;
     transform: translate(0, -50%) scale(0);
+    /*box-shadow: 0 0 20px rgba(0, 141, 255, 0.7), 0 0 40px rgba(0, 17, 228, 0.6); !* Эффект свечения *!*/
+    animation: fire-animation 2s infinite ease ;
 }
-.main-button:checked ~ .menu-button.ruins {
-    transform: translate(-50%, -50vmin) scale(1);
-    opacity: 1;
+
+@keyframes fire-animation {
+    0% {
+        box-shadow: 0 0 10px rgba(0, 141, 255, 0.7), 0 0 40px rgba(0, 17, 228, 0.6);
+    }
+    /*25% {*/
+    /*    box-shadow: 0 0 25px rgba(0, 141, 255, 0.8), 0 0 50px rgba(0, 17, 228, 0.7);*/
+    /*}*/
+    50% {
+        box-shadow: 0 0 30px rgba(0, 141, 255, 0.9), 0 0 60px rgba(0, 17, 228, 0.8);
+    }
+    /*75% {*/
+    /*    box-shadow: 0 0 25px rgba(0, 141, 255, 0.8), 0 0 50px rgba(0, 17, 228, 0.7);*/
+    /*}*/
+    100% {
+        box-shadow: 0 0 10px rgba(0, 141, 255, 0.7), 0 0 40px rgba(0, 17, 228, 0.6);
+    }
 }

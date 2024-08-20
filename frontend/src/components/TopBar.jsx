@@ -23,12 +23,12 @@ const TopBar = () => {
     if (!hero) return <p>Loading...</p>;
 
     return (
-        <div className="top-bar">
+        <header className="top-bar">
             <div className="coin">
                 <img src="/images/dogs_ico.png" alt="Platinum" className="coin-img" />
                 <span>{hero.dogs_balance}</span>
             </div>
-        </div>
+        </header>
     );
 };
 

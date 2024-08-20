@@ -1,12 +1,16 @@
 import json
 import random
 import urllib.parse
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from django.shortcuts import render
 from django.template import context
 from rest_framework import viewsets
 from rest_framework.response import Response
+
+from farm.models import Plot, Seed
+
+# from ..farm.models import Seed
 
 SECRET_KEY = '7234439409:AAG6HEzoTVX5kjZbqdUcT5alJ15NuId1hDM'
 
@@ -56,7 +60,7 @@ def auth_view(request):
             user, created = User.objects.get_or_create(
                 telegram_id=telegram_id,
                 defaults={
-                    'username': f"user_{secrets.token_hex(4)}",
+                    'username': f"user_{secrets.token_hex(3)}",
                     'first_name': user_info['first_name'],
                     'last_name': user_info['last_name'],
                     'photo_url': None,
@@ -65,13 +69,13 @@ def auth_view(request):
             )
 
         except Exception as e:
-            return JsonResponse({'success': False, 'message': f'ddddddddddddddd {e} aaaaaaa {user_info}'},
+            return JsonResponse({'success': False, 'message': f'PD'},
                                 status=401)
 
         if created or not user.username:
             return JsonResponse({
                 'welcome_message': "Welcome! Please choose a nickname.",
-                'suggested_username': user.username,
+                'suggested_username': 'x_'+user.username,
                 'registered': False
             })
         else:
@@ -127,14 +131,16 @@ def validate_init_data(init_data: str, bot_token: str) -> bool:
 def set_username(request):
     user = request.user
     username = request.data.get('username')
-
     if User.objects.filter(username=username).exists():
-        return JsonResponse({'success': True, 'message': 'Username already taken'}, status=400)
+        return JsonResponse({'success': False, 'message': 'Username already taken'}, status=400)
 
     user.username = username
-    user.save()
+    plots = [Plot(user=user) for _ in range(3)]
+    seed = Seed(owner=user,name='Бурьян', growth_time=timedelta(minutes=1))
+    seed.save()
+    Plot.objects.bulk_create(plots)
 
-    return JsonResponse({'success': True, 'username': username})
+    return JsonResponse({'success': True, 'seed': seed.name,'message': f'Вы получили {seed.name}'})
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
