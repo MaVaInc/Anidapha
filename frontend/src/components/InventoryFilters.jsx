@@ -11,7 +11,7 @@ const InventoryFilters = ({ filter, subFilter, onFilterChange, onSubFilterChange
                 <Button onClick={() => onFilterChange('plants')} variant={filter === 'plants' ? 'contained' : 'outlined'}>Plants</Button>
             </ButtonGroup>
             {filter === 'equipment' && (
-                <ButtonGroup variant="outlined" color="secondary">
+                <ButtonGroup variant="outlined" color="secondary" className="subcategory-group">
                     <Button onClick={() => onSubFilterChange('all')} variant={subFilter === 'all' ? 'contained' : 'outlined'}>All Equipment</Button>
                     <Button onClick={() => onSubFilterChange('weapon')} variant={subFilter === 'weapon' ? 'contained' : 'outlined'}>Weapons</Button>
                     <Button onClick={() => onSubFilterChange('armor')} variant={subFilter === 'armor' ? 'contained' : 'outlined'}>Armor</Button>
@@ -25,9 +25,11 @@ const InventoryFilters = ({ filter, subFilter, onFilterChange, onSubFilterChange
                 </ButtonGroup>
             )}
             {filter === 'plants' && (
-                <ButtonGroup variant="outlined" color="secondary">
-                    <Button onClick={() => onSubFilterChange('all')} variant={subFilter === 'all' ? 'contained' : 'outlined'}>All Plants</Button>
-                    <Button onClick={() => onSubFilterChange('seeds')} variant={subFilter === 'seeds' ? 'contained' : 'outlined'}>Seeds</Button>
+                <ButtonGroup variant="outlined" color="secondary" className="subcategory-group">
+                    <Button onClick={() => onSubFilterChange('all')} variant={subFilter === 'all' ? 'contained' : 'outlined'}>All Stages</Button>
+                    <Button onClick={() => onSubFilterChange('seed')} variant={subFilter === 'seed' ? 'contained' : 'outlined'}>Seed</Button>
+                    <Button onClick={() => onSubFilterChange('growing')} variant={subFilter === 'growing' ? 'contained' : 'outlined'}>Growing</Button>
+                    <Button onClick={() => onSubFilterChange('harvest')} variant={subFilter === 'harvest' ? 'contained' : 'outlined'}>Harvest</Button>
                 </ButtonGroup>
             )}
         </div>

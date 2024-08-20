@@ -14,7 +14,7 @@ export const saveHeroData = async (heroData) => {
     const heroToSave = {
         dogs_balance: heroData.dogs_balance
     };
-    console.log('Saving hero data:', heroToSave);
+    // console.log('Saving hero data:', heroToSave);
     try {
         await db.hero.clear();
         return await db.hero.put(heroToSave); // сохраняем данные героя
@@ -33,7 +33,6 @@ export const saveInventory = async (data) => {
         // Разделение данных на items и seeds
         const itemRecords = [];
         const seedRecords = [];
-
         // Если данные приходят с ключами `item` и `seed`, соответственно разбиваем их
         if (data.item) {
             data.item.forEach(item => {
@@ -77,7 +76,6 @@ export const saveInventory = async (data) => {
             await db.seeds.bulkPut(seedRecords);
         }
 
-        console.log('Inventory data saved locally:', { itemRecords, seedRecords });
     } catch (error) {
         console.error('Error saving inventory data:', error);
         throw error;
@@ -87,10 +85,8 @@ export const saveInventory = async (data) => {
 export const getHeroData = async () => {
     try {
         const heroData = await db.hero.orderBy('id').first();
-        console.log('Hero data retrieved from local DB:', heroData);
         return heroData;
     } catch (error) {
-        console.error('Error retrieving hero data:', error);
         throw error;
     }
 };
@@ -99,7 +95,6 @@ export const getInventoryData = async () => {
     try {
         const items = await db.items.toArray();
         const seeds = await db.seeds.toArray();
-        console.log('Inventory data retrieved from local DB:', { items, seeds });
         return { items, seeds };
     } catch (error) {
         console.error('Error retrieving inventory data:', error);
@@ -116,7 +111,6 @@ export const syncWithServer = async () => {
         await saveHeroData(heroData);
         await saveInventory(inventoryItems);
 
-        console.log('Sync with server completed successfully.');
     } catch (error) {
         console.error('Error during sync with server:', error);
     }
@@ -139,7 +133,6 @@ export const fetchHeroDataFromServer = async () => {
 }); // API-эндпоинт для получения данных героя
         if (response.ok) {
             const data = await response.json();
-            console.log('Hero data fetched from server:', data);
             return data;
         } else {
             throw new Error('Failed to fetch hero data');
@@ -166,7 +159,6 @@ export const fetchInventoryFromServer = async () => {
 }); // API-эндпоинт для получения данных героя
         if (response.ok) {
             const data = await response.json();
-            console.log('Hero data fetched from server:', data);
             return data;
         } else {
             throw new Error('Failed to fetch hero data');

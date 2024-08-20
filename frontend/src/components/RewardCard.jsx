@@ -119,7 +119,7 @@ const RewardCard = ({ data, onClose }) => {
                             </div>
                             <div className="item-info">
                                 <span>Уникальные свойства:</span>
-                                <span className="item-value">{data.item.unique_properties}</span>
+                                <span className="item-value">Секрет</span>
                             </div>
                         </div>
                     </div>

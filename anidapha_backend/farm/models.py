@@ -1,4 +1,5 @@
 
+
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
@@ -24,6 +25,7 @@ class Seed(models.Model):
     rarity = models.CharField(max_length=10, choices=RARITY_CHOICES, default='common')
     stage = models.CharField(max_length=10, choices=GROWTH_STAGES, default='seed')
     planted_at = models.DateTimeField(null=True, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=10)
 
     def plant(self):
         """

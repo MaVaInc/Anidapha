@@ -1,21 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import './TopBar.css';
-import { getHeroData } from '../db/HeroDB';
+import {getHeroData, getInventoryData, saveInventory, syncWithServer} from '../db/HeroDB';
 
 const TopBar = () => {
     const [hero, setHero] = useState(null);
+    const [inventory, setInventory] = useState(null);
 
     const loadHeroData = async () => {
         const data = await getHeroData();
         setHero(data);
     };
-
+    const loadInventoryData = async () => {
+        const data = await getInventoryData();
+        setInventory(data);
+    };
     useEffect(() => {
         loadHeroData();
+        loadInventoryData();
 
         const intervalId = setInterval(() => {
             loadHeroData();
-        }, 1000);
+            loadInventoryData();
+            syncWithServer()
+        }, 2000);
 
         return () => clearInterval(intervalId);
     }, []);
