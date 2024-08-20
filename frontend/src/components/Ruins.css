@@ -1,17 +1,161 @@
-.screen.ruins {
-    background: url('images/fon_ruins.webp') no-repeat center center fixed;
-    background-size: cover;
-    height: 100vh;
-    overflow: hidden;
-    /*position: relative; !* Оставил позиционирование, чтобы работать с абсолютными элементами внутри *!*/
-}
-
 .preload {
-    background-image: url('images/fon_ruins_left.png'), url('images/fon_ruins_right.png');
+    background-image: url('images/fon_ruins_left.png'), url('images/fon_ruins_right.png'), url('images/fon_ruins.webp') ;
     width: 0;
     height: 0;
     overflow: hidden;
     position: absolute;
+}
+
+.screen.ruins {
+    background: url('images/fon_ruins.webp') no-repeat center center fixed;
+    background-size: cover;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.large-button {
+    position: relative;
+    box-sizing: border-box;
+    width: 200px;
+
+    height: 200px;
+    /*border: 20px solid #010204;*/
+    cursor: pointer;
+
+    text-align: center;
+    overflow: hidden;
+    border-radius: 50%;
+    /*background-color: transparent;*/
+    background-color: #ff8800;
+    z-index: 20;
+    transform-origin: center;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    /*animation: pulseEffect 1s ease forwards;*/
+
+}
+
+.large-button.split .top-half {
+    animation: splitTop 0.5s forwards;
+}
+
+.large-button.split .bottom-half {
+    animation: splitBottom 0.5s forwards;
+}
+
+.large-button.split {
+    animation: explode 0.5s forwards;
+}
+
+/* Добавляем пустоту */
+.hollow-effect {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 50%;
+    z-index: -1;
+    animation: hollowExpand 1s forwards;
+}
+
+/* Анимация расширения пустоты */
+@keyframes hollowExpand {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+
+/* Анимация увеличения кнопки */
+@keyframes explode {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        /*border: 200px solid #010204;*/
+
+    }
+    100% {
+        opacity: 0;
+        transform: scale(3.5);
+        /*border: 200px solid #010204;*/
+
+    }
+}
+
+@keyframes splitTop {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-100px);
+    }
+}
+
+@keyframes splitBottom {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100px);
+    }
+}
+
+.top-half, .bottom-half {
+    position: absolute;
+    width: 100%;
+    font-size: 30px;
+    height: 50%;
+    background-color: #000;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.top-half {
+    top: 0;
+    text-align: center;
+}
+
+.bottom-half {
+    bottom: 0;
+}
+
+.fragment {
+    position: absolute;
+    background-image: url('images/dogs_ico.png');
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 1500;
+    animation: fall 3s ease-out forwards;
+}
+
+.large-button.split .fragment {
+    opacity: 1;
+    animation-delay: 0.5s;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 1;
+    }
 }
 
 .door-button {
@@ -21,7 +165,7 @@
     top: 0;
     background-size: cover;
     background-position: center;
-    z-index: 1333;
+    z-index: 133333;
     transition: transform 1s;
 }
 
@@ -102,98 +246,4 @@
     border-radius: 5px;
     cursor: pointer;
     z-index: 111;
-    /* оставлено как есть */
-}
-
-.large-button {
-    width: 200px;
-    height: 200px;
-    background-color: #000000;
-    background-size: cover;
-    background-position: center;
-    border: none;
-    border-radius: 50%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    cursor: pointer;
-    animation: shake 0.5s infinite;
-    color: white;
-    font-size: 3em;
-    font-weight: bold;
-    text-shadow: 2px 2px 5px #000;
-
-    /*z-index: 2; !* Добавил, чтобы кнопка была выше других элементов *!*/
-}
-
-@keyframes shake {
-    0% { transform: translate(-50%, -50%) rotate(0deg); }
-    25% { transform: translate(-50%, -50%) rotate(2deg); }
-    50% { transform: translate(-50%, -50%) rotate(0deg); }
-    75% { transform: translate(-50%, -50%) rotate(-2deg); }
-    100% { transform: translate(-50%, -50%) rotate(0deg); }
-}
-
-.large-button:active {
-    animation: none; /* Останавливаем анимацию при нажатии */
-}
-
-/* Добавил класс для эффекта волны */
-.wave {
-    position: absolute;
-    background: rgba(5, 2, 2, 0.03);
-    border-radius: 50%;
-    pointer-events: none;
-    transform: scale(0);
-    animation: wave-animation 1s ease-out forwards;
-}
-
-@keyframes wave-animation {
-    to {
-        transform: scale(15);
-        opacity: 0;
-    }
-}
-
-@keyframes fall {
-    0% {
-        transform: translate(-50%, -50%) translateY(0);
-        opacity: 1;
-    }
-            5% {
-        transform: translate(-50%, -50%) translateY(0);
-        opacity: 1;
-    }
-    10% {
-        transform: translate(-50%, -50%) translateY(50px);
-        opacity: 1;
-    }
-        30% {
-        transform: translate(-50%, -50%) translateY(800px);
-        opacity: 1;
-    }
-
-    40% {
-        transform: translate(-50%, -50%) translateY(2000px);
-        opacity: 1;
-    }
-    60% {
-        transform: translate(-50%, -50%) translateY(2500px);
-        opacity: 0;
-    }
-        99% {
-    transform: translate(-50%, -50%) translateY(0);
-    opacity: 0;
-    }
-    100% {
-    transform: translate(-50%, -50%) translateY(0);
-    opacity: 1;
-        z-index: 1;
-    }
-}
-
-.large-button.falling {
-    animation: fall 5s ease-in forwards; /* Анимация с равномерным ускорением */
 }

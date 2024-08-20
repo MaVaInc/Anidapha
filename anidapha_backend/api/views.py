@@ -1,22 +1,19 @@
 import json
+import math
 import random
 import urllib.parse
 from datetime import datetime, timedelta
 
-from django.shortcuts import render
-from django.template import context
+from farm.models import  Seed
 from rest_framework import viewsets
-from rest_framework.response import Response
 
-from farm.models import Plot, Seed
-
-# from ..farm.models import Seed
+from farm.serializers import SeedSerializer
 
 SECRET_KEY = '7234439409:AAG6HEzoTVX5kjZbqdUcT5alJ15NuId1hDM'
 
 import urllib.parse
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import User, Item
+from .models import User, Item, InventoryItem
 from .serializers import UserSerializer, ItemSerializer
 
 
@@ -35,7 +32,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User
+from .models import *
 
 
 @api_view(['POST'])
@@ -50,8 +47,7 @@ def auth_view(request):
         user_info_dict = urllib.parse.parse_qs(init_data)
         user_info = json.loads(user_info_dict['user'][0])
         auth_date = json.loads(user_info_dict['auth_date'][0])
-        user_info['auth_date']= timezone.datetime.fromtimestamp(int(auth_date)).strftime('%Y-%m-%d %H:%M:%S')
-
+        user_info['auth_date'] = timezone.datetime.fromtimestamp(int(auth_date)).strftime('%Y-%m-%d %H:%M:%S')
 
         telegram_id = user_info['id']
         try:
@@ -75,7 +71,7 @@ def auth_view(request):
         if created or not user.username:
             return JsonResponse({
                 'welcome_message': "Welcome! Please choose a nickname.",
-                'suggested_username': 'x_'+user.username,
+                'suggested_username': 'x_' + user.username,
                 'registered': False
             })
         else:
@@ -136,70 +132,244 @@ def set_username(request):
 
     user.username = username
     plots = [Plot(user=user) for _ in range(3)]
-    seed = Seed(owner=user,name='Бурьян', growth_time=timedelta(minutes=1))
+    seed = Seed(owner=user, name='Бурьян', growth_time=timedelta(minutes=1))
     seed.save()
     Plot.objects.bulk_create(plots)
 
-    return JsonResponse({'success': True, 'seed': seed.name,'message': f'Вы получили {seed.name}'})
+    return JsonResponse({'success': True, 'seed': seed.name, 'message': f'Вы получили {seed.name}'})
+
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_data(request):
     user = request.user
     serializer = UserSerializer(user)
-    print(serializer.data)
     return JsonResponse(serializer.data)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_inventory(request):
+    user = request.user
+    inventory_items = InventoryItem.objects.filter(owner=user)
+
+    response_data = []
+
+    for inventory_item in inventory_items:
+        # if inventory_item.item:
+            response_data.append({
+                'type': 'item',
+                'item_id': inventory_item.item.id,
+                'name': inventory_item.item.name,
+                'item_type': inventory_item.item.item_type,
+                'quantity': inventory_item.quantity,
+                'attack': inventory_item.item.attack,
+                'defense': inventory_item.item.defense,
+                'accuracy': inventory_item.item.accuracy,
+                'evasion': inventory_item.item.evasion,
+                'stun': inventory_item.item.stun,
+                'block': inventory_item.item.block,
+                'health': inventory_item.item.health,
+                'price': inventory_item.item.price,
+                'unique_properties': inventory_item.item.unique_properties,
+                'image': inventory_item.item.image.url if inventory_item.item.image else None,
+            })
+        # elif inventory_item.seed:
+        #     response_data.append({
+        #         'type': 'seed',
+        #         'seed_id': inventory_item.seed.id,
+        #         'name': inventory_item.seed.name,
+        #         'growth_time': inventory_item.seed.growth_time,
+        #         'rarity': inventory_item.seed.get_rarity_display(),
+        #         'stage': inventory_item.seed.get_stage_display(),
+        #         'quantity': inventory_item.quantity,
+        #     })
+
+    return JsonResponse({'inventory': response_data})
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_inventory(request):
     user = request.user
     items = Item.objects.filter(owner=user)  # Выбираем все предметы, принадлежащие пользователю
-    serializer = ItemSerializer(items, many=True)  # Сериализуем данные
-    return JsonResponse(serializer.data, safe=False)
+    seed = Seed.objects.filter(owner=user)  # Выбираем все предметы, принадлежащие пользователю
+    serializer_item = ItemSerializer(items, many=True)  # Сериализуем данные
+    serializer_seed = SeedSerializer(seed, many=True)  # Сериализуем данные
+    return JsonResponse({'item':serializer_item.data, 'seed': serializer_seed.data}, safe=False)
 
+
+import random
+import math
+from collections import defaultdict
+from django.http import JsonResponse
+from .models import Item, User  # Подкорректируйте путь к модели User в зависимости от вашего проекта
+
+
+def add_characteristic(characteristics, weights, item_stats):
+    """
+    Добавляет случайную характеристику из доступных и возвращает обновленные item_stats и total_stats_value.
+    """
+    if not characteristics:
+        print('error')
+        return item_stats, 0
+    i=0
+    stat_pro = None
+    while True:
+        i+=1
+        values=(0,0)
+        stat = random.choice(list(characteristics.keys()))
+        if i>5:
+            stat_pro, values = get_random_characteristic()
+            stat = stat_pro
+        if stat not in item_stats:  # Проверяем, есть ли уже эта характеристика
+            if stat_pro:
+                min_value, max_value = values
+            else:
+                min_value, max_value = characteristics[stat]
+            value = random.randint(min_value, max_value)
+            item_stats[stat] = value
+
+            # Вычисляем весовую ценность характеристики
+            stat_value = value * weights.get(stat, 1)
+
+            # Удаляем использованную характеристику из списка доступных
+            # del characteristics[stat]
+
+            return item_stats, stat_value
+def get_random_characteristic():
+    """
+    Возвращает случайную характеристику из всех доступных характеристик вне зависимости от типа предмета.
+    """
+    item_types = {
+        'weapon': {'attack': (1, 10), 'accuracy': (-3, 5), 'defense': (0, 4)},
+        'armor': {'defense': (3, 12), 'health': (10, 80)},
+        'helmet': {'defense': (2, 8), 'health': (5, 40)},
+        'shield': {'block': (15, 35), 'defense': (5, 15)},
+        'boots': {'evasion': (3, 10), 'accuracy': (1, 5)},
+        'gloves': {'accuracy': (5, 10), 'attack': (2, 8)},
+        'ring': {'accuracy': (3, 8), 'evasion': (3, 8)},
+        'amulet': {'health': (15, 70), 'defense': (2, 8)},
+        'belt': {'health': (10, 50), 'defense': (1, 5)},
+        'accessory': {'unique_properties': (1, 1)},
+    }
+    # Создаем список всех возможных характеристик из всех типов предметов
+    all_characteristics = {}
+    for characteristics in item_types.values():
+        all_characteristics.update(characteristics)
+
+    # Выбираем случайную характеристику из объединенного списка
+    random_stat = random.choice(list(all_characteristics.keys()))
+    min_value, max_value = all_characteristics[random_stat]
+    value = random.randint(min_value, max_value)
+    return random_stat,all_characteristics[random_stat]
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def reward(request):
     user = request.user
     user = User.objects.get(username=user.username)
+
     try:
         if int(user.dogs_balance) < -10:
             return JsonResponse({'success': False, 'message': f'Not enough balance {user.dogs_balance}'}, status=400)
-    except :
+    except:
         return JsonResponse({'success': False, 'message': f'{user.data}'}, status=400)
 
     # Списываем баланс
     user.dogs_balance -= 1
 
-    # Генерация случайного товара
-    item_types = ['weapon', 'armor', 'helmet', 'shield', 'boots', 'gloves', 'ring', 'amulet', 'belt', 'accessory']
-    random_item_type = random.choice(item_types)
-    random_attack = random.randint(5, 20)
-    random_defense = random.randint(5, 20)
-    random_accuracy = random.randint(5, 20)
-    random_evasion = random.randint(5, 20)
-    random_stun = random.randint(5, 20)
-    random_block = random.randint(5, 20)
-    random_health = random.randint(50, 100)
-    random_price = round(random.uniform(10.0, 100.0), 2)
-    random_unique_properties = "Some unique property"
+    # Определяем возможные типы предметов
+    item_types = {
+        'weapon': {'attack': (1, 10), 'accuracy': (-3, 5), 'defense': (0, 4)},
+        'armor': {'defense': (3, 12), 'health': (10, 80)},
+        'helmet': {'defense': (2, 8), 'health': (5, 40)},
+        'shield': {'block': (15, 35), 'defense': (5, 15)},
+        'boots': {'evasion': (3, 10), 'accuracy': (1, 5)},
+        'gloves': {'accuracy': (5, 10), 'attack': (2, 8)},
+        'ring': {'accuracy': (3, 8), 'evasion': (3, 8)},
+        'amulet': {'health': (15, 70), 'defense': (2, 8)},
+        'belt': {'health': (10, 50), 'defense': (1, 5)},
+        'accessory': {'unique_properties': (1, 1)},
+    }
 
-    # Создаем товар
+    weights = {
+        'attack': 1.2,
+        'defense': 1.8,
+        'accuracy': 2.0,
+        'evasion': 2.4,
+        'stun': 1.0,
+        'block': 0.7,
+        'health': 0.1,
+    }
+
+    random_item_type = random.choice(list(item_types.keys()))
+    characteristics = item_types[random_item_type].copy()
+
+    item_stats = {}
+    total_stats_value = 0
+
+    # Генерация характеристик для предмета
+    item_stats, value = add_characteristic(characteristics, weights, item_stats)
+    total_stats_value += value
+
+    if random.random() < 0.8:  # 80% шанс на вторую характеристику
+        item_stats, value = add_characteristic(characteristics, weights, item_stats)
+        total_stats_value += value
+
+    if random.random() < 0.3:  # 30% шанс на третью характеристику
+        item_stats, value = add_characteristic(characteristics, weights, item_stats)
+        total_stats_value += value
+
+    if random.random() < 0.03:  # 3% шанс на четвертую характеристику
+        item_stats, value = add_characteristic(characteristics, weights, item_stats)
+        total_stats_value += value
+
+    if random.random() < 0.01:  # 1% шанс на пятую характеристику
+        item_stats, value = add_characteristic(characteristics, weights, item_stats)
+        total_stats_value += value
+
+    # Рассчитываем цену предмета
+    if total_stats_value == 0:
+        base_price = 10
+    else:
+        base_price = total_stats_value * random.uniform(0.1, 0.34)
+
+    max_price = 10000
+    min_price = 10
+    price_range = max_price - min_price
+
+    # Настраиваем экспоненциальное распределение
+    non_linear_price = min_price + price_range * (1 - math.exp(-base_price / 500))
+
+    final_price = round(max(min_price, non_linear_price), 2)
+
+    # Применяем скейлинг в зависимости от количества характеристик
+    num_characteristics = len(item_stats)
+    if num_characteristics > 4:
+        final_price *= 20  # x20 для более 4 характеристик
+    elif num_characteristics > 3:
+        final_price *= 5  # x5 для более 3 характеристик
+
+    final_price = round(final_price, 2)
+
+    # Создаем товар с учетом сгенерированных характеристик и рассчитанной цены
     new_item = Item.objects.create(
         name=f"Random {random_item_type.capitalize()}",
         creator="System",
         owner=user,
         item_type=random_item_type,
-        attack=random_attack,
-        defense=random_defense,
-        accuracy=random_accuracy,
-        evasion=random_evasion,
-        stun=random_stun,
-        block=random_block,
-        health=random_health,
-        price=random_price,
-        unique_properties=random_unique_properties,
+        attack=item_stats.get('attack', None),
+        defense=item_stats.get('defense', None),
+        accuracy=item_stats.get('accuracy', None),
+        evasion=item_stats.get('evasion', None),
+        stun=item_stats.get('stun', None),
+        block=item_stats.get('block', None),
+        health=item_stats.get('health', None),
+        price=final_price,
+        image='images/sworld.png',
+        unique_properties=item_stats.get('unique_properties', "Some unique property"),
     )
+
+    # Сохраняем изменения
     new_item.save()
     user.save()
 
@@ -216,17 +386,16 @@ def reward(request):
         'block': new_item.block,
         'health': new_item.health,
         'price': new_item.price,
-        'unique_properties': 'Шанс привлечь бедствие в виде одного с 12 уникальный Мобов',
+        'image': str(new_item.image),
+        'unique_properties': new_item.unique_properties,
     }
 
     return JsonResponse({'success': True, 'item': item_data})
 
 
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def sell(request):
-
     item_id = request.data.get('itemId')
     user = request.user
     user = User.objects.get(username=user.username)
@@ -234,7 +403,8 @@ def sell(request):
     try:
         item = Item.objects.get(id=item_id, owner=user)
     except Item.DoesNotExist:
-        return JsonResponse({'success': False, 'message': f'Item not found  {request.data}or does not belong to user'}, status=400)
+        return JsonResponse({'success': False, 'message': f'Item not found  {request.data}or does not belong to user'},
+                            status=400)
 
     # Добавляем стоимость товара к балансу пользователя
     user.dogs_balance = float(user.dogs_balance) + float(item.price)

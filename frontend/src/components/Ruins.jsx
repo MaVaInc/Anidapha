@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import './Ruins.css';
 import RewardCard from './RewardCard';
-import FortuneWheel from './FortuneWheel';
 
 const Ruins = ({ goBack }) => {
     const [isClosing, setClosing] = useState(false);
     const [rewardData, setRewardData] = useState(null);
-    const [showWheel, setShowWheel] = useState(false);
     const [showReward, setShowReward] = useState(false);
     const [imagesLoaded, setImagesLoaded] = useState(false);
+    const [isSplit, setIsSplit] = useState(false);
+    const [isButtonVisible, setIsButtonVisible] = useState(true);
 
     useEffect(() => {
-        // Собираем все изображения, которые необходимо загрузить
         const images = document.querySelectorAll('img');
         const promises = Array.from(images).map(image => {
             return new Promise((resolve) => {
@@ -24,15 +23,14 @@ const Ruins = ({ goBack }) => {
             });
         });
 
-        // Ждем загрузки всех изображений
         Promise.all(promises).then(() => {
-            setImagesLoaded(true); // Отмечаем, что изображения загружены
+            setImagesLoaded(true);
         });
     }, []);
 
     useEffect(() => {
         const ruinsElement = document.querySelector('.screen.ruins');
-        if (ruinsElement && imagesLoaded) { // Запускаем анимации только после загрузки изображений
+        if (ruinsElement && imagesLoaded) {
             if (isClosing) {
                 ruinsElement.classList.add('closing');
             } else {
@@ -48,38 +46,33 @@ const Ruins = ({ goBack }) => {
             setClosing(false);
         }, 1000);
 
-        return () => clearTimeout(timeoutId); // Очищаем таймаут при уходе с экрана
+        return () => clearTimeout(timeoutId);
     };
 
-    const handleRewardClick = (event) => {
-        if (!imagesLoaded) return; // Не запускаем анимацию до загрузки изображений
+    const handleButtonClick = () => {
+        if (!imagesLoaded) return;
 
-        const button = event.currentTarget;
+        setIsSplit(true);
+        // setIsButtonVisible(false); // Скрываем кнопку после разрыва
 
-        // Добавляем класс falling для активации анимации
-        button.classList.add('falling');
-
-        const apiUrl = '/api';
-        const authToken = localStorage.getItem('token');
-
-        if (!authToken) {
-            console.error('Authorization token not found in local storage');
-            return;
-        }
-
-        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-            window.Telegram.WebApp.HapticFeedback.impactOccurred('heavy');
-        }
-
-
-
-        // Задержка перед отправкой запроса
         setTimeout(() => {
-            fetch(`${apiUrl}/reward/`, {
+            const screen = document.querySelector('.screen.ruins');
+            for (let i = 0; i < 50; i++) {
+                const fragment = document.createElement('div');
+                fragment.className = 'fragment';
+                fragment.style.left = `${Math.random() * 100}vw`;
+                fragment.style.top = `${Math.random() * 50}vh`;
+                fragment.style.animationDelay = `${Math.random()}s`;
+                screen.appendChild(fragment);
+            }
+        }, 500);
+
+        setTimeout(() => {
+            fetch('/api/reward/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             })
             .then(response => {
@@ -90,16 +83,23 @@ const Ruins = ({ goBack }) => {
                 }
             })
             .then(data => {
-                setRewardData(data);
-                // Останавливаем вращение колеса и показываем награду через 4 секунды
-                setTimeout(() => {
-                    setShowReward(true);
-                    button.classList.remove('falling');
-                }, 3000); // Задержка 4 секунды после завершения вращения
-            })
+ // Показываем награду
 
+                setTimeout(() => {
+                                    setRewardData(data);
+                setShowReward(true);
+                    setIsSplit(false); // Сбрасываем состояние разрыва
+                     // Делаем кнопку снова видимой
+                }, 2000); // Задержка перед повторным появлением кнопки
+            })
             .catch(error => console.error('Error fetching reward:', error));
-        }, 500); // Задержка 500ms
+        }, 500);
+    };
+
+    const handleCloseReward = () => {
+        setIsButtonVisible(true);
+        setShowReward(false);
+        setRewardData(null); // Сбрасываем данные награды после закрытия
 
     };
 
@@ -107,12 +107,16 @@ const Ruins = ({ goBack }) => {
         <div className={`screen active ruins ${isClosing ? 'closing' : ''}`}>
             <div className="door-button left-button"></div>
             <div className="door-button right-button"></div>
-            <button className="large-button" onClick={handleRewardClick} disabled={!imagesLoaded}>
-                BOOM
-            </button>
+
+            {isButtonVisible && (
+                <div className={`large-button ${isSplit ? 'split' : ''}`} onClick={handleButtonClick}>
+                    <div className="top-half">100</div>
+                    <div className="bottom-half">DOGS</div>
+                </div>
+            )}
 
             {showReward && rewardData && (
-                <RewardCard data={rewardData} onClose={() => setRewardData(null)}/>
+                <RewardCard data={rewardData} onClose={handleCloseReward} />
             )}
 
             <button id="back-buttonr" className="back-buttonr" onClick={handleBackClick}>

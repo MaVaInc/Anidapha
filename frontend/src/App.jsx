@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import TopBar from './components/TopBar';
 import MainButtonContainer from './components/MainButtonContainer';
@@ -7,6 +7,8 @@ import Farm from './components/Farm';
 import Ruins from './components/Ruins';
 import Login from './components/Login';
 import Wiki from './components/Wiki';
+import Inventory from './components/Inventory'; // Импортируем инвентарь
+import { useSwipeable } from 'react-swipeable';
 import { initSwipeBehavior } from '@telegram-apps/sdk';
 
 const [swipeBehavior] = initSwipeBehavior();
@@ -17,17 +19,11 @@ const App = () => {
     const [showExtra, setShowExtra] = useState(false);
     const [isMainButtonChecked, setMainButtonChecked] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-
+    const [isInventoryOpen, setInventoryOpen] = useState(false); // Добавляем состояние для инвентаря
 
     const toggleButtons = (event) => {
         setMainButtonChecked(event.target.checked);
         setShowExtra(!showExtra);
-        if (!showExtra) {
-            // setGold(gold + 3);
-            // setStars(stars + 1);
-            // setPlatinum(platinum + 2);
-        }
     };
 
     const showScreen = (screenId) => {
@@ -39,8 +35,19 @@ const App = () => {
         setMainButtonChecked(true);
     };
 
+    const toggleDrawer = (open) => {
+        setInventoryOpen(open);
+    };
+
+    const swipeHandlers = useSwipeable({
+        onSwipedUp: () => toggleDrawer(true),
+        onSwipedDown: () => toggleDrawer(false),
+        preventDefaultTouchmoveEvent: true,
+        trackMouse: true,
+    });
+
     return (
-        <div className="App">
+        <div className="App" {...swipeHandlers}>
             {isAuthenticated ? (
                 <>
                     <TopBar />
@@ -72,6 +79,7 @@ const App = () => {
                             </button>
                         </div>
                     )}
+                    <Inventory isOpen={isInventoryOpen} toggleDrawer={toggleDrawer} />
                 </>
             ) : (
                 <Login setIsAuthenticated={setIsAuthenticated} />

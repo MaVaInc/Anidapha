@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
-import { saveHeroData } from '../db/HeroDB';
+import {saveHeroData, saveInventory} from '../db/HeroDB';
 import { initSwipeBehavior } from '@telegram-apps/sdk';
 
 const Login = ({ setIsAuthenticated }) => {
@@ -16,6 +16,7 @@ const Login = ({ setIsAuthenticated }) => {
     const [username, setUsername] = useState('');
     const [isRegistered, setIsRegistered] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [userInventory, setInventory] = useState(null);
 
     useEffect(() => {
         tg.expand();
@@ -40,6 +41,7 @@ const Login = ({ setIsAuthenticated }) => {
                     setIsRegistered(true);
                     setIsAuthenticated(true);
                     fetchUserData(localStorage.getItem('token'), apiUrl);
+                    fetchUserInventory(localStorage.getItem('token'), apiUrl);
                 }
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -61,7 +63,23 @@ const Login = ({ setIsAuthenticated }) => {
         })
         .catch(error => console.error('Error fetching user data:', error));
     };
-
+    const fetchUserInventory = (token, apiUrl) => {
+        fetch(`${apiUrl}/inventory/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('data')
+            console.log(data)
+            setInventory(data);
+            saveInventory(data);
+        })
+        .catch(error => console.error('Error fetching user data:', error));
+    };
 const handleUsernameSubmit = () => {
     const apiUrl = !tg.initData || tg.initData === '' ? 'http://localhost:8000/api' : '/api';
 

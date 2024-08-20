@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User, Item
-from farm.models import Plot
+from .models import Plot
 
 # Настройка админ-панели
 admin.site.site_header = "Anidapha Admin Panel"
@@ -57,3 +57,11 @@ class CustomUserAdmin(UserAdmin):
 
 # Регистрация модели User с кастомной администрацией
 admin.site.register(User, CustomUserAdmin)
+
+
+class PlotAdmin(admin.ModelAdmin):
+    list_display = ('plot_id', 'user', 'plant_name', 'planted_at', 'is_empty')
+    search_fields = ('user__username', 'plant_name')
+    list_filter = ('planted_at', 'seed')
+
+admin.site.register(Plot, PlotAdmin)

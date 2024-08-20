@@ -1,25 +1,127 @@
-// src/db/HeroDB.js
 import Dexie from 'dexie';
 
 // Создаем базу данных
-const db = new Dexie('HeroDatabase');
+const db = new Dexie('UserDatabase');
 
 // Определяем структуру базы данных
 db.version(1).stores({
-    hero: 'id, username, count_purchases ,dogsBalance',
-    inventory: '++id, heroId, itemName, itemType, category, rarity, quantity'
+    hero: '++id, dogs_balance',
+    items: '++id, item_id, name, item_type, quantity, attack, defense, accuracy,evasion, stun, block, health,price,image',
+    seeds: '++id, name, growth_time, rarity, stage, quantity, seed_id'
 });
 
-// Функция для сохранения данных о герое
 export const saveHeroData = async (heroData) => {
-    db.hero.clear()
-    return await db.hero.put(heroData); // сохраняем данные героя с фиксированным id=1
+    const heroToSave = {
+        dogs_balance: heroData.dogs_balance
+    };
+    console.log('Saving hero data:', heroToSave);
+    try {
+        await db.hero.clear();
+        return await db.hero.put(heroToSave); // сохраняем данные героя
+    } catch (error) {
+        console.error('Error saving hero data:', error);
+        throw error;
+    }
 };
 
-// Функция для получения данных о герое
-export const getHeroData = async () => {
-    return await db.hero.orderBy('id').first(); // Получаем первого героя по порядку
+export const saveInventory = async (data) => {
+    try {
+        // Очистка старых данных
+        await db.items.clear();
+        await db.seeds.clear();
+
+        // Разделение данных на items и seeds
+        const itemRecords = [];
+        const seedRecords = [];
+
+        // Если данные приходят с ключами `item` и `seed`, соответственно разбиваем их
+        if (data.item) {
+            data.item.forEach(item => {
+                itemRecords.push({
+                    item_id: item.id,
+                    name: item.name,
+                    item_type: item.item_type,
+                    quantity: item.quantity || 1,
+                    attack: item.attack || 0,
+                    defense: item.defense || 0,
+                    accuracy: item.accuracy || 0,
+                    evasion: item.evasion || 0,
+                    stun: item.stun || 0,
+                    block: item.block || 0,
+                    health: item.health || 0,
+                    price: item.price || 0.0,
+                    image: item.image || ''
+                });
+            });
+        }
+
+        if (data.seed) {
+            data.seed.forEach(seed => {
+                seedRecords.push({
+                    seed_id: seed.id,
+                    name: seed.name,
+                    growth_time: seed.growth_time || 0,
+                    rarity: seed.rarity || 'common',
+                    stage: seed.stage || 'seed',
+                    quantity: seed.quantity || 1
+                });
+            });
+        }
+
+        // Сохранение в базу данных
+        if (itemRecords.length > 0) {
+            await db.items.bulkPut(itemRecords);
+        }
+
+        if (seedRecords.length > 0) {
+            await db.seeds.bulkPut(seedRecords);
+        }
+
+        console.log('Inventory data saved locally:', { itemRecords, seedRecords });
+    } catch (error) {
+        console.error('Error saving inventory data:', error);
+        throw error;
+    }
 };
+
+export const getHeroData = async () => {
+    try {
+        const heroData = await db.hero.orderBy('id').first();
+        console.log('Hero data retrieved from local DB:', heroData);
+        return heroData;
+    } catch (error) {
+        console.error('Error retrieving hero data:', error);
+        throw error;
+    }
+};
+
+export const getInventoryData = async () => {
+    try {
+        const items = await db.items.toArray();
+        const seeds = await db.seeds.toArray();
+        console.log('Inventory data retrieved from local DB:', { items, seeds });
+        return { items, seeds };
+    } catch (error) {
+        console.error('Error retrieving inventory data:', error);
+        throw error;
+    }
+};
+
+// Функция синхронизации с сервером
+export const syncWithServer = async () => {
+    try {
+        const heroData = await fetchHeroDataFromServer();
+        const inventoryItems = await fetchInventoryFromServer();
+
+        await saveHeroData(heroData);
+        await saveInventory(inventoryItems);
+
+        console.log('Sync with server completed successfully.');
+    } catch (error) {
+        console.error('Error during sync with server:', error);
+    }
+};
+
 
 // Функция для получения данных героя с сервера
 export const fetchHeroDataFromServer = async () => {
@@ -74,29 +176,5 @@ export const fetchInventoryFromServer = async () => {
         throw error;
     }
 };
-
-// Функция для сохранения данных героя в локальное хранилище (например, IndexedDB, LocalStorage)
-
-// Функция для сохранения данных инвентаря в локальное хранилище
-export const saveInventory = async (items) => {
-    // Здесь ваш код для сохранения данных инвентаря
-    console.log('Inventory data saved locally:', items);
-};
-
-// Функция синхронизации с сервером
-export const syncWithServer = async () => {
-    try {
-        const heroData = await fetchHeroDataFromServer();
-        const inventoryItems = await fetchInventoryFromServer();
-
-        await saveHeroData(heroData);
-        await saveInventory(inventoryItems);
-
-        console.log('Sync with server completed successfully.');
-    } catch (error) {
-        console.error('Error during sync with server:', error);
-    }
-};
-
 
 export default db;
