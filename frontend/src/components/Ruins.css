@@ -111,23 +111,35 @@
     }
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap'); /* Пример шрифта Roboto */
+
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif; /* Применяем шрифт Roboto */
+}
+
 .top-half, .bottom-half {
     position: absolute;
     width: 100%;
-    font-size: 30px;
     height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; /* Выравниваем текст по нижнему краю для верхней половины и по верхнему краю для нижней */
     background-color: #000;
-    text-align: center;
     color: #FFFFFF;
+    font-size: 36px; /* Увеличиваем размер шрифта */
+    text-align: center;
+    padding: 20px; /* Немного отступов для текста */
+    box-sizing: border-box;
 }
 
 .top-half {
     top: 0;
-    text-align: center;
 }
 
 .bottom-half {
     bottom: 0;
+    align-items: flex-start; /* Выравниваем текст по верхнему краю */
 }
 
 .fragment {
@@ -247,3 +259,63 @@
     cursor: pointer;
     z-index: 111;
 }
+/*.flying-texture {*/
+/*    position: absolute;*/
+/*    max-width: 200px;*/
+/*    max-height: 200px;*/
+/*    object-fit: contain;*/
+/*    transform-origin: center;*/
+/*    animation: fly-random 2s ease-in-out forwards;*/
+/*    opacity: 1;*/
+/*}*/
+
+@keyframes fall {
+    0% {
+        transform: translateY(var(--start-y)) rotate(0deg) scale(var(--random-scale-start));
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(var(--end-y)) rotate(var(--rotate-angle)) scale(var(--random-scale-end));
+        opacity: 1;
+    }
+}
+
+.flying-texture {
+    position: absolute;
+    top: var(--start-y);
+    left: var(--start-x);
+    width: 50px;
+    height: 50px;
+    animation: fall var(--fall-duration) linear forwards;
+    opacity: 0;
+    animation-fill-mode: forwards;
+    object-fit: contain;
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.5);
+    }
+}
+

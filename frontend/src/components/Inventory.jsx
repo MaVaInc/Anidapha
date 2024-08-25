@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { SwipeableDrawer, Box } from '@mui/material';
-import { getHeroData, getInventoryData } from '../db/HeroDB';
+import { getInventoryData } from '../db/HeroDB';
 import InventoryFilters from './InventoryFilters';
 import ItemCardInventory from './ItemCardInventory';
+import InventoryItem from './InventoryItem';
 import './Inventory.css';
 
 const Inventory = ({ isOpen, toggleDrawer }) => {
@@ -11,38 +12,44 @@ const Inventory = ({ isOpen, toggleDrawer }) => {
     const [filter, setFilter] = useState('all');
     const [subFilter, setSubFilter] = useState('all');
     const [selectedItem, setSelectedItem] = useState(null);
+    const [isUpdating, setIsUpdating] = useState(true);
+    const [openListItem, setOpenListItem] = useState(null);  // Хранит информацию об открытом списке
 
     useEffect(() => {
         const fetchInventory = async () => {
-            console.log('Fetching inventory...');
+            if (!isUpdating) return;
 
             try {
-                const heroData = await getHeroData();
                 const inventoryData = await getInventoryData();
-
-                console.log('Hero Data:', heroData);
-                console.log('Inventory Data:', inventoryData);
 
                 const combinedItems = [
                     ...inventoryData.items.map(item => ({ ...item, type: 'item', category: 'equipment' })),
                     ...inventoryData.seeds.map(seed => ({ ...seed, type: 'seed', category: 'plants' }))
                 ];
 
-                console.log('Combined Items:', combinedItems);
+                const groupedItems = combinedItems.reduce((acc, item) => {
+                    const key = `${item.name}-${item.item_type || item.stage}`;
+                    if (!acc[key]) {
+                        acc[key] = { ...item, quantity: item.quantity || 1, originalItems: [item] };
+                    } else {
+                        acc[key].quantity += item.quantity || 1;
+                        acc[key].originalItems.push(item);
+                    }
+                    return acc;
+                }, {});
 
-                setInventoryItems(combinedItems);
-                applyFilters(filter, subFilter, combinedItems);
+                const groupedArray = Object.values(groupedItems);
+
+                setInventoryItems(groupedArray);
+                applyFilters(filter, subFilter, groupedArray);
+                setIsUpdating(false);  // Остановим обновление после загрузки данных
             } catch (error) {
                 console.error('Error fetching inventory:', error);
             }
         };
 
-        fetchInventory(); // первоначальный вызов
-
-        const intervalId = setInterval(fetchInventory, 2000); // запуск интервала на 2 секунды
-
-        return () => clearInterval(intervalId); // очистка интервала при размонтировании компонента
-    }, [filter, subFilter]); // включаем зависимость от фильтров
+        fetchInventory();
+    }, [isUpdating]);
 
     const applyFilters = (mainFilter, subFilter, items) => {
         let filtered = items;
@@ -59,7 +66,6 @@ const Inventory = ({ isOpen, toggleDrawer }) => {
             }
         }
 
-        console.log('Filtered Items:', filtered);
         setFilteredItems(filtered);
     };
 
@@ -74,11 +80,43 @@ const Inventory = ({ isOpen, toggleDrawer }) => {
     };
 
     const handleItemClick = (item) => {
-        setSelectedItem(item);
+        if (item.originalItems && item.originalItems.length > 1) {
+            setOpenListItem(item);
+            setIsUpdating(false);  // Останавливаем обновление
+        } else {
+            setSelectedItem(item.originalItems ? item.originalItems[0] : item);
+            setIsUpdating(false);  // Останавливаем обновление
+        }
+    };
+
+    const handleListClose = () => {
+        setOpenListItem(null);  // Закрываем список
+        setIsUpdating(true);  // Включаем обновление
     };
 
     const handleCardClose = () => {
         setSelectedItem(null);
+        setIsUpdating(true);  // Включаем обновление после закрытия диалога
+    };
+
+    const handleItemSold = () => {
+        if (selectedItem) {
+            setInventoryItems(prevItems =>
+                prevItems.map(item => {
+                    if (item.name === selectedItem.name && (item.item_type || item.stage) === (selectedItem.item_type || item.stage)) {
+                        const remainingItems = item.originalItems.filter(i => i !== selectedItem);
+                        if (remainingItems.length > 0) {
+                            return { ...item, quantity: item.quantity - 1, originalItems: remainingItems };
+                        } else {
+                            return null;
+                        }
+                    }
+                    return item;
+                }).filter(item => item !== null)
+            );
+            setSelectedItem(null);
+            setIsUpdating(true);  // Включаем обновление после продажи
+        }
     };
 
     return (
@@ -99,20 +137,36 @@ const Inventory = ({ isOpen, toggleDrawer }) => {
                     />
                     <Box className="inventory-content">
                         {filteredItems.map((item) => (
-                            <div key={item.id} className="inventory-item" onClick={() => handleItemClick(item)}>
-                                <p>{item.name} (x{item.quantity})</p>
-                                <p>Type: {item.item_type}</p>
-                                <p>Rarity: {item.rarity}</p>
-                            </div>
+                            <InventoryItem
+                                key={item.id}
+                                item={item}
+                                onClick={handleItemClick}
+                                isListOpen={openListItem && openListItem.name === item.name}  // Передаем статус списка
+                            />
                         ))}
                     </Box>
                 </Box>
             </SwipeableDrawer>
 
+            {openListItem && (
+                <div className="item-list-overlay">
+                    <div className="item-list-modal">
+                        {openListItem.originalItems.map((originalItem, index) => (
+                            <div key={index} className="item-list-entry" onClick={() => handleItemClick(originalItem)}>
+                                <img src={originalItem.image} alt={originalItem.name} className="item-list-image" />
+                                <p>{originalItem.price} DOGS</p>
+                            </div>
+                        ))}
+                        <button onClick={handleListClose}>Close</button>
+                    </div>
+                </div>
+            )}
+
             {selectedItem && (
                 <ItemCardInventory
                     data={{ item: selectedItem }}
                     onClose={handleCardClose}
+                    onSold={handleItemSold}
                 />
             )}
         </>

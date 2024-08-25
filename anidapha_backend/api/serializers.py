@@ -25,3 +25,6 @@ class PlotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Plot
         fields = '__all__'
+
+
+

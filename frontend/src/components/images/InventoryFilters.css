@@ -1,0 +1,19 @@
+.inventory-filters {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Убедитесь, что контейнер занимает всю ширину */
+}
+
+.subcategory-group, .inventory-filters > .MuiButtonGroup-root {
+    width: 100%;
+    justify-content: space-between; /* Раздвигаем кнопки по всей ширине */
+}
+
+.custom-button {
+    flex: 1; /* Кнопки занимают равную ширину */
+    border-right: 1px solid rgba(0, 0, 0, 0.12); /* Добавляем правый бордер ко всем кнопкам */
+}
+
+.custom-button:last-child {
+    border-right: none; /* Убираем правый бордер у последней кнопки */
+}

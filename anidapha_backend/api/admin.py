@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import User, Item
 from .models import Plot
+from django.utils.html import format_html
 
 # Настройка админ-панели
 admin.site.site_header = "Anidapha Admin Panel"
@@ -65,3 +66,6 @@ class PlotAdmin(admin.ModelAdmin):
     list_filter = ('planted_at', 'seed')
 
 admin.site.register(Plot, PlotAdmin)
+
+
+

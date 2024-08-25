@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './Login.css';
-import {saveHeroData, saveInventory} from '../db/HeroDB';
+import { saveHeroData, saveInventory } from '../db/HeroDB';
 import { initSwipeBehavior } from '@telegram-apps/sdk';
+import ItemCardInventory from './ItemCardInventory';
 
 const Login = ({ setIsAuthenticated }) => {
     const tg = window.Telegram.WebApp;
 
-    // Инициализация поведения свайпа
     useEffect(() => {
         const [swipeBehavior] = initSwipeBehavior();
-        swipeBehavior.disableVerticalSwipe();  // Отключаем вертикальный свайп
+        swipeBehavior.disableVerticalSwipe();
     }, []);
 
     const [welcomeMessage, setWelcomeMessage] = useState('');
@@ -17,6 +17,7 @@ const Login = ({ setIsAuthenticated }) => {
     const [isRegistered, setIsRegistered] = useState(false);
     const [userData, setUserData] = useState(null);
     const [userInventory, setInventory] = useState(null);
+    const [dailyReward, setDailyReward] = useState(null);
 
     useEffect(() => {
         tg.expand();
@@ -42,6 +43,7 @@ const Login = ({ setIsAuthenticated }) => {
                     setIsAuthenticated(true);
                     fetchUserData(localStorage.getItem('token'), apiUrl);
                     fetchUserInventory(localStorage.getItem('token'), apiUrl);
+                    fetchDailyReward(localStorage.getItem('token'), apiUrl);
                 }
             })
             .catch(error => console.error('Error fetching data:', error));
@@ -63,6 +65,7 @@ const Login = ({ setIsAuthenticated }) => {
         })
         .catch(error => console.error('Error fetching user data:', error));
     };
+
     const fetchUserInventory = (token, apiUrl) => {
         fetch(`${apiUrl}/inventory/`, {
             method: 'GET',
@@ -73,58 +76,101 @@ const Login = ({ setIsAuthenticated }) => {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('data')
-            console.log(data)
             setInventory(data);
             saveInventory(data);
         })
-        .catch(error => console.error('Error fetching user data:', error));
+        .catch(error => console.error('Error fetching user inventory:', error));
     };
-const handleUsernameSubmit = () => {
-    const apiUrl = !tg.initData || tg.initData === '' ? 'http://localhost:8000/api' : '/api';
 
-    // Аутентификация перед отправкой данных
-    fetch(`${apiUrl}/auth/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ initData: tg.initData }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.access_token) {
-            localStorage.setItem('token', data.access_token);
-            setIsAuthenticated(true);
 
-            // Теперь выполняем основную логику после аутентификации
-            const token = data.access_token
-            fetch(`${apiUrl}/set_username/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify({ username }),
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert(`Вы получили : ${data.seed} `);
-                    setIsRegistered(true);
-                    fetchUserData(token, apiUrl);
-                } else {
-                    alert('Error saving username');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-        } else {
-            console.error('Authentication failed');
+
+
+
+
+
+    const fetchDailyReward = (token, apiUrl) => {
+        fetch(`${apiUrl}/get_daily_reward/`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.reward) {
+                setDailyReward(data.reward);
+
+                alert(`Вы получили: ${data.reward.name}`);
+            }
+        })
+        .catch(error => console.error('Error fetching daily reward:', error));
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    useEffect(() => {
+        if (dailyReward) {
+            console.log('Daily Reward:', dailyReward);
         }
-    })
-    .catch(error => console.error('Error authenticating user:', error));
-};
+    }, [dailyReward]);
 
+    const handleUsernameSubmit = () => {
+        const apiUrl = !tg.initData || tg.initData === '' ? 'http://localhost:8000/api' : '/api';
+
+        fetch(`${apiUrl}/auth/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ initData: tg.initData }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.access_token) {
+                localStorage.setItem('token', data.access_token);
+                setIsAuthenticated(true);
+
+                const token = data.access_token;
+                fetch(`${apiUrl}/set_username/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({ username }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert(`Вы получили: ${data.seed}`);
+                        setIsRegistered(true);
+                        fetchUserData(token, apiUrl);
+                    } else {
+                        alert('Error saving username');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                console.error('Authentication failed');
+            }
+        })
+        .catch(error => console.error('Error authenticating user:', error));
+    };
 
     return (
         <div className="login-screen">
@@ -146,8 +192,13 @@ const handleUsernameSubmit = () => {
             {userData && (
                 <div className="user-data">
                     <h2>Welcome, {userData.username}</h2>
-                    {/* Вы можете добавить больше данных пользователя здесь */}
                 </div>
+            )}
+            {dailyReward && (
+                <ItemCardInventory
+                    data={{ item: dailyReward }}
+                    onClose={() => setDailyReward(null)}
+                />
             )}
         </div>
     );

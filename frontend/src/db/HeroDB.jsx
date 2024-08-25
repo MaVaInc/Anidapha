@@ -1,13 +1,13 @@
 import Dexie from 'dexie';
 
 // Создаем базу данных
-const db = new Dexie('UserDatabase');
+const db = new Dexie('Database');
 
 // Определяем структуру базы данных
 db.version(1).stores({
     hero: '++id, dogs_balance',
-    items: '++id, item_id, name, item_type, quantity, attack, defense, accuracy,evasion, stun, block, health,price,image',
-    seeds: '++id, name, growth_time, rarity, stage, quantity, seed_id'
+    items: '++id, item_id, name, item_type, quantity, attack, defense, accuracy,evasion, stun, block, health,price,image, rarity',
+    seeds: '++id, name, growth_time, rarity, stage, quantity, seed_id, price'
 });
 
 export const saveHeroData = async (heroData) => {
@@ -49,6 +49,7 @@ export const saveInventory = async (data) => {
                     block: item.block || 0,
                     health: item.health || 0,
                     price: item.price || 0.0,
+                    rarity: item.rarity || 'common',
                     image: item.image || ''
                 });
             });
@@ -62,6 +63,7 @@ export const saveInventory = async (data) => {
                     growth_time: seed.growth_time || 0,
                     rarity: seed.rarity || 'common',
                     stage: seed.stage || 'seed',
+                    price: seed.price || 0.0,
                     quantity: seed.quantity || 1
                 });
             });

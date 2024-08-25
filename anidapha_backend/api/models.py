@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.utils import timezone
 
 from farm.models import Seed
+from colorful.fields import RGBColorField
 
 
 class UserManager(BaseUserManager):
@@ -46,7 +47,7 @@ class User(AbstractUser):
     platinum_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     gold_balance = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     count_purchases = models.IntegerField(default=0)
-
+    last_daily_reward = models.DateTimeField(null=True, blank=True)  # Поле для хр
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
@@ -70,16 +71,24 @@ class Item(models.Model):
         ('helmet', 'Helmet'),
         ('shield', 'Shield'),
         ('boots', 'Boots'),
+        ('pants', 'Pants'),
         ('gloves', 'Gloves'),
         ('ring', 'Ring'),
         ('amulet', 'Amulet'),
-        ('belt', 'Belt'),
         ('accessory', 'Accessory'),
         ('potion', 'Potion'),
         ('scroll', 'Scroll'),
         ('material', 'Material'),
         ('quest_item', 'Quest Item'),
+        ('stone','Stone'),
         ('other', 'Other'),
+    ]
+    RARITY_CHOICES = [
+        ('common', 'Common'),
+        ('uncommon', 'Uncommon'),
+        ('rare', 'Rare'),
+        ('epic', 'Epic'),
+        ('legendary', 'Legendary'),
     ]
 
     name = models.CharField(max_length=100, verbose_name="Название")
@@ -96,6 +105,7 @@ class Item(models.Model):
     price = models.FloatField(default=0.0, verbose_name="Цена")
     unique_properties = models.CharField(max_length=255, blank=True, verbose_name="Уникальные свойства")
     image = models.ImageField(upload_to='images/', blank=True, null=True, verbose_name="Изображение")
+    rarity = models.CharField(max_length=10, choices=RARITY_CHOICES, default='common')
 
     def __str__(self):
         return self.name
@@ -171,3 +181,85 @@ class Plot(models.Model):
 
     def __str__(self):
         return f"Plot {self.plot_id} for {self.user.username}"
+
+
+
+
+
+
+
+
+
+class Resource(models.Model):
+    RESOURCE_TYPES = [
+        ('stone', 'Stone'),
+        ('iron', 'Iron'),
+        ('wood', 'Wood'),
+        ('gold', 'Gold'),
+        ('silver', 'Silver'),
+        ('copper', 'Copper'),
+        ('platinum', 'Platinum'),
+        ('crystal', 'Crystal'),
+        ('herb', 'Herb'),
+        ('gemstone', 'Gemstone'),
+        ('fabric', 'Fabric'),
+        ('leather', 'Leather'),
+        ('bone', 'Bone'),
+        ('clay', 'Clay'),
+        ('other', 'Other'),
+    ]
+
+    INITIAL_RARITY = {
+        'stone': 'common',
+        'wood': 'common',
+        'iron': 'common',
+        'copper': 'uncommon',
+        'silver': 'uncommon',
+        'gold': 'rare',
+        'crystal': 'rare',
+        'platinum': 'epic',
+        'gemstone': 'epic',
+        'herb': 'uncommon',
+        'fabric': 'common',
+        'leather': 'common',
+        'bone': 'common',
+        'clay': 'common',
+        'other': 'common',
+    }
+
+    RARITY_CHOICES = [
+        ('common', 'Common'),
+        ('uncommon', 'Uncommon'),
+        ('rare', 'Rare'),
+        ('epic', 'Epic'),
+        ('legendary', 'Legendary'),
+    ]
+
+    name = models.CharField(max_length=100, verbose_name="Название")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='resources', verbose_name="Владелец")
+    resource_type = models.CharField(max_length=20, choices=RESOURCE_TYPES, verbose_name="Тип ресурса")
+    rarity = models.CharField(max_length=10, choices=RARITY_CHOICES, verbose_name="Редкость", default='common')
+    description = models.TextField(blank=True, verbose_name="Описание")
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name="Цена")
+    items_created = models.ManyToManyField('Item', related_name='resources_used', blank=True, verbose_name="Что можно создать")
+    image = models.ImageField(upload_to='images/resources/', blank=True, null=True, verbose_name="Изображение")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        # Устанавливаем начальную редкость на основе типа ресурса
+        if not self.pk:  # Проверка на создание нового объекта
+            self.rarity = self.INITIAL_RARITY.get(self.resource_type, 'common')
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"{self.name}"
+
+
+
+
+
+
+
+
+
+

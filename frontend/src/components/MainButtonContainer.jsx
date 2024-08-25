@@ -5,7 +5,7 @@ const MainButtonContainer = ({ isMainButtonChecked, toggleButtons, showExtra, sh
     const [imagesLoaded, setImagesLoaded] = useState(false);
 
     useEffect(() => {
-        // Собираем все изображения, которые необходимо загрузить
+
         const images = document.querySelectorAll('.menu-button');
         const promises = Array.from(images).map(image => {
             return new Promise((resolve) => {
@@ -18,9 +18,9 @@ const MainButtonContainer = ({ isMainButtonChecked, toggleButtons, showExtra, sh
             });
         });
 
-        // Ждем загрузки всех изображений
+
         Promise.all(promises).then(() => {
-            setImagesLoaded(true); // Отмечаем, что изображения загружены
+            setImagesLoaded(true);
         });
     }, []);
 
@@ -34,7 +34,7 @@ const MainButtonContainer = ({ isMainButtonChecked, toggleButtons, showExtra, sh
                 className="main-button"
                 checked={isMainButtonChecked}
                 onChange={toggleButtons}
-                disabled={!imagesLoaded} // Отключаем кнопку до загрузки
+                disabled={!imagesLoaded}
             />
             <div
                 className={`menu-button market ${showExtra && imagesLoaded ? 'active' : ''}`}

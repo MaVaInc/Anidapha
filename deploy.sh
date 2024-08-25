@@ -25,8 +25,8 @@ cd /var/www/anidapha/anidapha_backend/
 source /var/www/anidapha/anidapha_backend/venv/bin/activate
 python3 manage.py collectstatic --no-input
 #python3 -m pip install Pillow
-#python3 manage.py makemigrations
-#python3 manage.py migrate
+python3 manage.py makemigrations
+python3 manage.py migrate
 
 
 #yes

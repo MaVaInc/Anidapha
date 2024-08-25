@@ -57,38 +57,24 @@
 }
 
 .item-name {
-  padding-bottom: 20px;
-  padding-top: 10px;
     text-align: center;
+    color: #f8f8f8;
+    font-size: 1.8rem;
     margin-bottom: 1rem;
+}
+
+
+
+
+
+.description {
+    text-align: center;
+    margin-top: auto; /* Описание перемещается в самый низ */
+    padding-top: 1rem;
+    border-top: 1px solid #0f0059; /* Разделительная линия сверху описания */
     color: #0f0059;
-    font-size: 1.5rem;
+    font-size: 1rem;
 }
-.back-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    color: #0f0059;
-}
-
-.item-info {
-    display: flex;
-    justify-content: space-between;
-    margin: 0.3rem 0;
-}
-
-.item-info span:first-child {
-    text-align: left;
-    flex-grow: 1;
-}
-
-.item-info span.item-value {
-    text-align: right;
-    min-width: 60px; /* Опционально: можно установить минимальную ширину для выравнивания */
-}
-
-
 .back-content p {
     margin: 0.3rem 0;
 }
@@ -106,9 +92,12 @@
   padding: 0; /* Убираем лишние отступы */
   margin: 0; /* Убираем внешние отступы */
   box-shadow: none; /* Убираем тени, если есть */
+    background-repeat: no-repeat;
+     background-position: center;
+     background-size: contain;
 }
 
-.description, .price, .duration {
+.price, .duration {
   color: #ffffff;
   margin: 0.5rem 0;
 }
@@ -174,4 +163,97 @@
 
 .sell-button:hover {
   background-color: #fbfbfb;
+}
+
+
+.common-border {
+    border: 3px solid #d3d3d3;
+}
+
+.uncommon-border {
+    border: 3px solid green;
+}
+
+.rare-border {
+    border: 3px solid blue;
+}
+
+.epic-border {
+    border: 3px solid purple;
+}
+
+.legendary-border {
+    border: 3px solid gold;
+}
+.card-back.common-background {
+    background-color: #d3d3d3; /* Серый цвет для common */
+}
+
+.card-back.uncommon-background {
+    background-color: #008000FF; /* Цвет для uncommon */
+}
+
+.card-back.rare-background {
+    background-color: #0000FFFF; /* Синий цвет для rare */
+}
+
+.card-back.epic-background {
+    background-color: #800080; /* Фиолетовый цвет для epic */
+}
+
+.card-back.legendary-background {
+    background-color: #ff8c00; /* Оранжевый цвет для legendary */
+}
+
+.attribute-icon {
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.item-label {
+    flex-grow: 1;
+    text-align: left;
+}
+
+
+/*.item-info span.item-value {*/
+/*    text-align: right;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: flex-end; !* Выровнять значение и иконку по правому краю *!*/
+/*}*/
+
+.back-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Контент выровнен по верхнему краю */
+    flex-grow: 1;
+    color: #0f0059;
+    gap: 1rem; /* Добавляем расстояние между строками */
+    width: 100%; /* Устанавливаем ширину 100% */
+}
+
+.item-info {
+    display: flex;
+    justify-content: space-between; /* Раздвигает элементы по краям */
+    align-items: center;
+    margin: 0.3rem 0;
+    font-size: 1.2rem;
+    width: 100%; /* Устанавливаем ширину 100% */
+}
+
+.item-info span:first-child {
+    text-align: left;
+    flex-grow: 1;
+    padding-right: 10px; /* Отступ справа для улучшенного выравнивания */
+}
+
+.item-value {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 60px;
+    text-align: right; /* Добавляем выравнивание текста по правому краю */
 }

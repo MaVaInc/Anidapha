@@ -241,16 +241,16 @@ def get_random_characteristic():
     Возвращает случайную характеристику из всех доступных характеристик вне зависимости от типа предмета.
     """
     item_types = {
-        'weapon': {'attack': (1, 10), 'accuracy': (-3, 5), 'defense': (0, 4)},
-        'armor': {'defense': (3, 12), 'health': (10, 80)},
-        'helmet': {'defense': (2, 8), 'health': (5, 40)},
-        'shield': {'block': (15, 35), 'defense': (5, 15)},
+        'mace': {'attack': (5, 15), 'accuracy': (-1, 5)},
+        'axe': {'attack': (10, 25), 'accuracy': (-10, 3)},
+        'sword': {'attack': (1, 8), 'accuracy': (1, 10), 'defense': (0, 6)},
+        'armor': {'defense': (3, 12), 'health': (10, 80),'evasion': (-3, 0)},
+        'helmet': {'defense': (2, 8), 'health': (5, 40),'evasion': (-3, 0)},
+        'shield': {'block': (15, 35), 'defense': (5, 15),'evasion': (-5, 0)},
         'boots': {'evasion': (3, 10), 'accuracy': (1, 5)},
-        'gloves': {'accuracy': (5, 10), 'attack': (2, 8)},
+        'gloves': {'accuracy': (5, 10), 'attack': (2, 8)},'evasion': (0, 3),
         'ring': {'accuracy': (3, 8), 'evasion': (3, 8)},
         'amulet': {'health': (15, 70), 'defense': (2, 8)},
-        'belt': {'health': (10, 50), 'defense': (1, 5)},
-        'accessory': {'unique_properties': (1, 1)},
     }
     # Создаем список всех возможных характеристик из всех типов предметов
     all_characteristics = {}
@@ -269,26 +269,27 @@ def reward(request):
     user = User.objects.get(username=user.username)
 
     try:
-        if int(user.dogs_balance) < -10:
+        if int(user.dogs_balance) < 100:
             return JsonResponse({'success': False, 'message': f'Not enough balance {user.dogs_balance}'}, status=400)
     except:
         return JsonResponse({'success': False, 'message': f'{user.data}'}, status=400)
 
     # Списываем баланс
-    user.dogs_balance -= 1
+    user.dogs_balance -= 100
 
     # Определяем возможные типы предметов
     item_types = {
-        'weapon': {'attack': (1, 10), 'accuracy': (-3, 5), 'defense': (0, 4)},
+        'mace': {'attack': (5, 15), 'accuracy': (-1, 5)},
+        'axe': {'attack': (10, 25), 'accuracy': (-10, 3)},
+        'sword': {'attack': (1, 8), 'accuracy': (1, 10), 'defense': (0, 6)},
         'armor': {'defense': (3, 12), 'health': (10, 80)},
         'helmet': {'defense': (2, 8), 'health': (5, 40)},
         'shield': {'block': (15, 35), 'defense': (5, 15)},
         'boots': {'evasion': (3, 10), 'accuracy': (1, 5)},
+        'pants': {'evasion': (3, 10), 'accuracy': (1, 5)},
         'gloves': {'accuracy': (5, 10), 'attack': (2, 8)},
         'ring': {'accuracy': (3, 8), 'evasion': (3, 8)},
         'amulet': {'health': (15, 70), 'defense': (2, 8)},
-        'belt': {'health': (10, 50), 'defense': (1, 5)},
-        'accessory': {'unique_properties': (1, 1)},
     }
 
     weights = {
@@ -344,10 +345,13 @@ def reward(request):
 
     # Применяем скейлинг в зависимости от количества характеристик
     num_characteristics = len(item_stats)
+    rarity = 'common'
     if num_characteristics > 4:
         final_price *= 20  # x20 для более 4 характеристик
+        rarity = 'rare'
     elif num_characteristics > 3:
         final_price *= 5  # x5 для более 3 характеристик
+        rarity = 'uncommon'
 
     final_price = round(final_price, 2)
 
@@ -365,8 +369,9 @@ def reward(request):
         block=item_stats.get('block', None),
         health=item_stats.get('health', None),
         price=final_price,
-        image='images/sworld.png',
+        image=f'images/{random_item_type}.PNG',
         unique_properties=item_stats.get('unique_properties', "Some unique property"),
+        rarity=rarity
     )
 
     # Сохраняем изменения
@@ -387,6 +392,7 @@ def reward(request):
         'health': new_item.health,
         'price': new_item.price,
         'image': str(new_item.image),
+        'rarity': str(new_item.rarity),
         'unique_properties': new_item.unique_properties,
     }
 
@@ -403,8 +409,11 @@ def sell(request):
     try:
         item = Item.objects.get(id=item_id, owner=user)
     except Item.DoesNotExist:
-        return JsonResponse({'success': False, 'message': f'Item not found  {request.data}or does not belong to user'},
-                            status=400)
+        try:
+            item = Seed.objects.get(id=item_id, owner=user)
+        except Seed.DoesNotExist:
+            return JsonResponse({'success': False, 'message': f'Item not found  {request.data}or does not belong to user'},
+                                status=400)
 
     # Добавляем стоимость товара к балансу пользователя
     user.dogs_balance = float(user.dogs_balance) + float(item.price)
@@ -418,3 +427,45 @@ def sell(request):
     item.delete()
 
     return JsonResponse({'success': True, 'message': f'You earned {earned_tokens} DOGS'})
+
+from rest_framework.response import Response
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_daily_reward(request):
+    user = request.user
+    now = timezone.now()
+    # user = User.objects.get(username=user.username)
+    try:
+        if user.last_daily_reward:
+            time_since_last_reward = now - user.last_daily_reward
+            if time_since_last_reward < timedelta(seconds=22244):
+                return Response({
+                    'message': 'You have already claimed your daily reward. Please try again later.',
+                    'next_available_in': str(timedelta(hours=24) - time_since_last_reward)
+                }, status=403)
+    except:
+        user.last_daily_reward = now
+
+    # Если прошло 24 часа, даем новую награду
+    # Здесь можно добавить логику генерации награды
+    # Например, выдаем семечко
+    reward = Seed.objects.create(
+        owner=user,
+        name="Бурьян",
+        growth_time=timedelta(hours=1),
+        rarity="common"
+    )
+
+    # Обновляем время последней награды
+    user.last_daily_reward = now
+    user.save()
+
+    return Response({
+        'message': 'Daily reward claimed!',
+        'reward': {
+            'name': reward.name,
+            'rarity': reward.rarity,
+            'growth_time': str(reward.growth_time),
+            'price': reward.price
+        }
+    })

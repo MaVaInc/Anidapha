@@ -9,5 +9,5 @@ urlpatterns = [
     path('reward/', reward, name='reward'),
     path('sell', sell, name='sell'),
     path('farm/', include('farm.urls')),
-    # path('inventory/', get_user_inventory, name='get_user_inventory'),
+    path('get_daily_reward/', get_daily_reward, name='get_daily_reward'),
 ]
