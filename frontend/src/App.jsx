@@ -7,19 +7,27 @@ import Farm from './components/Farm';
 import Ruins from './components/Ruins';
 import Login from './components/Login';
 import Wiki from './components/Wiki';
-import Inventory from './components/Inventory'; // Импортируем инвентарь
+import Inventory from './components/Inventory';
+import SettingsDrawer from './components/SettingsDrawer';
+import { Provider } from 'react-redux';
+import store from './store/store';
 import { useSwipeable } from 'react-swipeable';
-import { initSwipeBehavior } from '@telegram-apps/sdk';
+// import { SwipeBehavior } from '@telegram-apps/sdk';
+// import { TonConnectUIProvider } from '@tonconnect/ui-react';
+import WalletConnect from "./components/SettingsDrawer";
+// import { initSwipeBehavior } from '@telegram-apps/sdk';
 
-const [swipeBehavior] = initSwipeBehavior();
-swipeBehavior.disableVerticalSwipe();
+// const [swipeBehavior] = initSwipeBehavior();
+// swipeBehavior.disableVerticalSwipe();
+
 
 const App = () => {
     const [activeScreen, setActiveScreen] = useState('');
     const [showExtra, setShowExtra] = useState(false);
     const [isMainButtonChecked, setMainButtonChecked] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isInventoryOpen, setInventoryOpen] = useState(false); // Добавляем состояние для инвентаря
+    const [isInventoryOpen, setInventoryOpen] = useState(false);
+    const [isSettingsOpen, setSettingsOpen] = useState(false);
 
     const toggleButtons = (event) => {
         setMainButtonChecked(event.target.checked);
@@ -35,20 +43,45 @@ const App = () => {
         setMainButtonChecked(true);
     };
 
-    const toggleDrawer = (open) => {
+    const toggleInventoryDrawer = (open) => {
+        if (open && isSettingsOpen) {
+            setSettingsOpen(false); // Закрываем настройки, если они открыты
+        }
         setInventoryOpen(open);
     };
 
+    const toggleSettingsDrawer = (open) => {
+        if (open && isInventoryOpen) {
+            setInventoryOpen(false); // Закрываем инвентарь, если он открыт
+        }
+        setSettingsOpen(open);
+    };
+
     const swipeHandlers = useSwipeable({
-        onSwipedUp: () => toggleDrawer(true),
-        onSwipedDown: () => toggleDrawer(false),
+        onSwipedUp: () => {
+            if (isSettingsOpen) {
+                toggleSettingsDrawer(false); // Закрываем настройки, если они открыты
+            } else {
+                toggleInventoryDrawer(true); // Открываем инвентарь, если настройки не открыты
+            }
+        },
+        onSwipedDown: () => {
+            if (isInventoryOpen) {
+                toggleInventoryDrawer(false); // Закрываем инвентарь, если он открыт
+            } else {
+                toggleSettingsDrawer(true); // Открываем настройки, если инвентарь не открыт
+            }
+        },
         preventDefaultTouchmoveEvent: true,
         trackMouse: true,
     });
 
     return (
+          // <TonConnectUIProvider manifestUrl="https://t-mini-app.com/tonconnect-manifest.json">
+<Provider store={store}>
         <div className="App" {...swipeHandlers}>
             {isAuthenticated ? (
+
                 <>
                     <TopBar />
                     {activeScreen === '' ? (
@@ -79,13 +112,15 @@ const App = () => {
                             </button>
                         </div>
                     )}
-                    <Inventory isOpen={isInventoryOpen} toggleDrawer={toggleDrawer} />
+                    <Inventory isOpen={isInventoryOpen} toggleDrawer={toggleInventoryDrawer} />
                 </>
             ) : (
                 <Login setIsAuthenticated={setIsAuthenticated} />
             )}
         </div>
+        </Provider>
     );
+
 };
 
 export default App;

@@ -79,6 +79,11 @@ const handleButtonClick = () => {
             'images/ring.PNG',
             'images/shield.PNG',
             'images/sword.PNG',
+            'images/resources/iron.png',
+            'images/resources/stone.png',
+            'images/resources/wood.png',
+            'images/resources/seed.png',
+
         ];
 
         for (let i = 0; i < 200; i++) {

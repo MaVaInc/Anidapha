@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="robots" content="NONE,NOARCHIVE">
-  <title>IntegrityError
+  <title>TypeError
           at /api/reward/</title>
   <style>
     html * { padding:0; margin:0; }
@@ -100,11 +100,9 @@
 </head>
 <body>
 <header id="summary">
-  <h1>IntegrityError
+  <h1>TypeError
        at /api/reward/</h1>
-  <pre class="exception_value">null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint
-DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).
-</pre>
+  <pre class="exception_value">Object of type ImageFieldFile is not JSON serializable</pre>
   <table class="meta">
 
     <tr>
@@ -123,27 +121,25 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
     <tr>
       <th scope="row">Exception Type:</th>
-      <td>IntegrityError</td>
+      <td>TypeError</td>
     </tr>
 
 
     <tr>
       <th scope="row">Exception Value:</th>
-      <td><pre>null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint
-DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).
-</pre></td>
+      <td><pre>Object of type ImageFieldFile is not JSON serializable</pre></td>
     </tr>
 
 
     <tr>
       <th scope="row">Exception Location:</th>
-      <td><span class="fname">/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py</span>, line 105, in _execute</td>
+      <td><span class="fname">/usr/lib/python3.10/json/encoder.py</span>, line 179, in default</td>
     </tr>
 
 
     <tr>
       <th scope="row">Raised during:</th>
-      <td>api.views.reward</td>
+      <td>api.views.reward_views.reward</td>
     </tr>
 
     <tr>
@@ -166,7 +162,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
     </tr>
     <tr>
       <th scope="row">Server time:</th>
-      <td>Sat, 24 Aug 2024 22:53:13 +0000</td>
+      <td>Sun, 25 Aug 2024 18:12:16 +0000</td>
     </tr>
   </table>
 </header>
@@ -186,164 +182,47 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
         <li class="frame django">
 
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py</code>, line 105, in _execute
-
-
-
-            <div class="context" id="c140032447041024">
-
-                <ol start="98" class="pre-context" id="pre140032447041024">
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>            warnings.warn(self.APPS_NOT_READY_WARNING_MSG, category=RuntimeWarning)</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        self.db.validate_no_broken_transaction()</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        with self.db.wrap_database_errors:</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>            if params is None:</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>                # params default might be backend specific.</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>                return self.cursor.execute(sql)</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>            else:</pre></li>
-
-                </ol>
-
-              <ol start="105" class="context-line">
-                <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>                return self.cursor.execute(sql, params)</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='106' class="post-context" id="post140032447041024">
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>    def _executemany(self, sql, param_list, *ignored_wrapper_args):</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        # Raise a warning during app initialization (stored_app_configs is only</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        # ever set during testing).</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        if not apps.ready and not apps.stored_app_configs:</pre></li>
-
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>            warnings.warn(self.APPS_NOT_READY_WARNING_MSG, category=RuntimeWarning)</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447041024">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>ignored_wrapper_args</td>
-                    <td class="code"><pre>(False,
- {&#x27;connection&#x27;: &lt;DatabaseWrapper vendor=&#x27;postgresql&#x27; alias=&#x27;default&#x27;&gt;,
-  &#x27;cursor&#x27;: &lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;})</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>params</td>
-                    <td class="code"><pre>(&#x27;Random Accessory&#x27;,
- &#x27;System&#x27;,
- 35,
- &#x27;accessory&#x27;,
- None,
- None,
- None,
- None,
- None,
- 34,
- None,
- 143.93,
- &#x27;1&#x27;,
- &#x27;images/accessory.PNG&#x27;,
- None)</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>sql</td>
-                    <td class="code"><pre>(&#x27;INSERT INTO &quot;api_item&quot; (&quot;name&quot;, &quot;creator&quot;, &quot;owner_id&quot;, &quot;item_type&quot;, &#x27;
- &#x27;&quot;attack&quot;, &quot;defense&quot;, &quot;accuracy&quot;, &quot;evasion&quot;, &quot;stun&quot;, &quot;block&quot;, &quot;health&quot;, &#x27;
- &#x27;&quot;price&quot;, &quot;unique_properties&quot;, &quot;image&quot;, &quot;rarity&quot;) VALUES (%s, %s, %s, %s, %s, &#x27;
- &#x27;%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING &quot;api_item&quot;.&quot;id&quot;&#x27;)</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-          <li class="cause"><h3>
-
-            The above exception (null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint
-DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).
-) was the direct cause of the following exception:
-
-        </h3></li>
-
-        <li class="frame django">
-
             <code class="fname">/usr/local/lib/python3.10/dist-packages/django/core/handlers/exception.py</code>, line 55, in inner
 
 
 
-            <div class="context" id="c140032448813440">
+            <div class="context" id="c139958807517056">
 
-                <ol start="48" class="pre-context" id="pre140032448813440">
+                <ol start="48" class="pre-context" id="pre139958807517056">
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>        return inner</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>        return inner</pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>    else:</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>    else:</pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>        @wraps(get_response)</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>        @wraps(get_response)</pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>        def inner(request):</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>        def inner(request):</pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>            try:</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>            try:</pre></li>
 
                 </ol>
 
               <ol start="55" class="context-line">
-                <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>                response = get_response(request)</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>                response = get_response(request)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='56' class="post-context" id="post140032448813440">
+                <ol start='56' class="post-context" id="post139958807517056">
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>            except Exception as exc:</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>            except Exception as exc:</pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>                response = response_for_exception(request, exc)</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>                response = response_for_exception(request, exc)</pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>            return response</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>            return response</pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre>        return inner</pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre>        return inner</pre></li>
 
-                  <li onclick="toggle('pre140032448813440', 'post140032448813440')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807517056', 'post139958807517056')"><pre></pre></li>
 
               </ol>
 
@@ -355,7 +234,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032448813440">
+            <table class="vars" id="v139958807517056">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -366,12 +245,12 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>exc</td>
-                    <td class="code"><pre>IntegrityError(&#x27;null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint\nDETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).\n&#x27;)</pre></td>
+                    <td class="code"><pre>TypeError(&#x27;Object of type ImageFieldFile is not JSON serializable&#x27;)</pre></td>
                   </tr>
 
                   <tr>
                     <td>get_response</td>
-                    <td class="code"><pre>&lt;bound method BaseHandler._get_response of &lt;django.core.handlers.wsgi.WSGIHandler object at 0x7f5bd9775300&gt;&gt;</pre></td>
+                    <td class="code"><pre>&lt;bound method BaseHandler._get_response of &lt;django.core.handlers.wsgi.WSGIHandler object at 0x7f4ab433f580&gt;&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -392,43 +271,43 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
 
 
-            <div class="context" id="c140032448819072">
+            <div class="context" id="c139958807766272">
 
-                <ol start="190" class="pre-context" id="pre140032448819072">
+                <ol start="190" class="pre-context" id="pre139958807766272">
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>        if response is None:</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>        if response is None:</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>            wrapped_callback = self.make_view_atomic(callback)</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>            wrapped_callback = self.make_view_atomic(callback)</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>            # If it is an asynchronous view, run it in a subthread.</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>            # If it is an asynchronous view, run it in a subthread.</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>            if iscoroutinefunction(wrapped_callback):</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>            if iscoroutinefunction(wrapped_callback):</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>                wrapped_callback = async_to_sync(wrapped_callback)</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>                wrapped_callback = async_to_sync(wrapped_callback)</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>            try:</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>            try:</pre></li>
 
                 </ol>
 
               <ol start="197" class="context-line">
-                <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>                response = wrapped_callback(request, *callback_args, **callback_kwargs)</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>                response = wrapped_callback(request, *callback_args, **callback_kwargs)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='198' class="post-context" id="post140032448819072">
+                <ol start='198' class="post-context" id="post139958807766272">
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>            except Exception as e:</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>            except Exception as e:</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>                response = self.process_exception_by_middleware(e, request)</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>                response = self.process_exception_by_middleware(e, request)</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>                if response is None:</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>                if response is None:</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>                    raise</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>                    raise</pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448819072', 'post140032448819072')"><pre>        # Complain if the view returned None (a common error).</pre></li>
+                  <li onclick="toggle('pre139958807766272', 'post139958807766272')"><pre>        # Complain if the view returned None (a common error).</pre></li>
 
               </ol>
 
@@ -440,7 +319,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032448819072">
+            <table class="vars" id="v139958807766272">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -451,7 +330,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>callback</td>
-                    <td class="code"><pre>&lt;function View.as_view.&lt;locals&gt;.view at 0x7f5bd86c6c20&gt;</pre></td>
+                    <td class="code"><pre>&lt;function View.as_view.&lt;locals&gt;.view at 0x7f4ab32b7130&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -481,12 +360,12 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;django.core.handlers.wsgi.WSGIHandler object at 0x7f5bd9775300&gt;</pre></td>
+                    <td class="code"><pre>&lt;django.core.handlers.wsgi.WSGIHandler object at 0x7f4ab433f580&gt;</pre></td>
                   </tr>
 
                   <tr>
                     <td>wrapped_callback</td>
-                    <td class="code"><pre>&lt;function View.as_view.&lt;locals&gt;.view at 0x7f5bd86c6c20&gt;</pre></td>
+                    <td class="code"><pre>&lt;function View.as_view.&lt;locals&gt;.view at 0x7f4ab32b7130&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -502,39 +381,39 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
 
 
-            <div class="context" id="c140032448814080">
+            <div class="context" id="c139958807766336">
 
-                <ol start="58" class="pre-context" id="pre140032448814080">
+                <ol start="58" class="pre-context" id="pre139958807766336">
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre>        async def _view_wrapper(request, *args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre>        async def _view_wrapper(request, *args, **kwargs):</pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre>            return await view_func(request, *args, **kwargs)</pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre>            return await view_func(request, *args, **kwargs)</pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre>    else:</pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre>    else:</pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre>        def _view_wrapper(request, *args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre>        def _view_wrapper(request, *args, **kwargs):</pre></li>
 
                 </ol>
 
               <ol start="65" class="context-line">
-                <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre>            return view_func(request, *args, **kwargs)</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre>            return view_func(request, *args, **kwargs)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='66' class="post-context" id="post140032448814080">
+                <ol start='66' class="post-context" id="post139958807766336">
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre>    _view_wrapper.csrf_exempt = True</pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre>    _view_wrapper.csrf_exempt = True</pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448814080', 'post140032448814080')"><pre>    return wraps(view_func)(_view_wrapper)</pre></li>
+                  <li onclick="toggle('pre139958807766336', 'post139958807766336')"><pre>    return wraps(view_func)(_view_wrapper)</pre></li>
 
               </ol>
 
@@ -546,7 +425,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032448814080">
+            <table class="vars" id="v139958807766336">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -572,7 +451,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>view_func</td>
-                    <td class="code"><pre>&lt;function View.as_view.&lt;locals&gt;.view at 0x7f5bd86c6b90&gt;</pre></td>
+                    <td class="code"><pre>&lt;function View.as_view.&lt;locals&gt;.view at 0x7f4ab32b70a0&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -588,43 +467,43 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
 
 
-            <div class="context" id="c140032467328064">
+            <div class="context" id="c139958807727360">
 
-                <ol start="97" class="pre-context" id="pre140032467328064">
+                <ol start="97" class="pre-context" id="pre139958807727360">
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>            self = cls(**initkwargs)</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>            self = cls(**initkwargs)</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>            self.setup(request, *args, **kwargs)</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>            self.setup(request, *args, **kwargs)</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>            if not hasattr(self, &quot;request&quot;):</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>            if not hasattr(self, &quot;request&quot;):</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>                raise AttributeError(</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>                raise AttributeError(</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>                    &quot;%s instance has no &#x27;request&#x27; attribute. Did you override &quot;</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>                    &quot;%s instance has no &#x27;request&#x27; attribute. Did you override &quot;</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>                    &quot;setup() and forget to call super()?&quot; % cls.__name__</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>                    &quot;setup() and forget to call super()?&quot; % cls.__name__</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>                )</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>                )</pre></li>
 
                 </ol>
 
               <ol start="104" class="context-line">
-                <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>            return self.dispatch(request, *args, **kwargs)</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>            return self.dispatch(request, *args, **kwargs)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='105' class="post-context" id="post140032467328064">
+                <ol start='105' class="post-context" id="post139958807727360">
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>        view.view_class = cls</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>        view.view_class = cls</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>        view.view_initkwargs = initkwargs</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>        view.view_initkwargs = initkwargs</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>        # __name__ and __qualname__ are intentionally left unchanged as</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>        # __name__ and __qualname__ are intentionally left unchanged as</pre></li>
 
-                  <li onclick="toggle('pre140032467328064', 'post140032467328064')"><pre>        # view_class should be used to robustly determine the name of the view</pre></li>
+                  <li onclick="toggle('pre139958807727360', 'post139958807727360')"><pre>        # view_class should be used to robustly determine the name of the view</pre></li>
 
               </ol>
 
@@ -636,7 +515,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032467328064">
+            <table class="vars" id="v139958807727360">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -652,7 +531,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>cls</td>
-                    <td class="code"><pre>&lt;class &#x27;api.views.WrappedAPIView&#x27;&gt;</pre></td>
+                    <td class="code"><pre>&lt;class &#x27;api.views.reward_views.WrappedAPIView&#x27;&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -672,7 +551,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;</pre></td>
+                    <td class="code"><pre>&lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -688,43 +567,43 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
 
 
-            <div class="context" id="c140032448808192">
+            <div class="context" id="c139958807766400">
 
-                <ol start="502" class="pre-context" id="pre140032448808192">
+                <ol start="502" class="pre-context" id="pre139958807766400">
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>                                  self.http_method_not_allowed)</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>                                  self.http_method_not_allowed)</pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>            else:</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>            else:</pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>                handler = self.http_method_not_allowed</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>                handler = self.http_method_not_allowed</pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>            response = handler(request, *args, **kwargs)</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>            response = handler(request, *args, **kwargs)</pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>        except Exception as exc:</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>        except Exception as exc:</pre></li>
 
                 </ol>
 
               <ol start="509" class="context-line">
-                <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>            response = self.handle_exception(exc)</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>            response = self.handle_exception(exc)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='510' class="post-context" id="post140032448808192">
+                <ol start='510' class="post-context" id="post139958807766400">
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>        return self.response</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>        return self.response</pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>    def options(self, request, *args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>    def options(self, request, *args, **kwargs):</pre></li>
 
-                  <li onclick="toggle('pre140032448808192', 'post140032448808192')"><pre>        &quot;&quot;&quot;</pre></li>
+                  <li onclick="toggle('pre139958807766400', 'post139958807766400')"><pre>        &quot;&quot;&quot;</pre></li>
 
               </ol>
 
@@ -736,7 +615,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032448808192">
+            <table class="vars" id="v139958807766400">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -752,7 +631,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>handler</td>
-                    <td class="code"><pre>&lt;bound method api_view.&lt;locals&gt;.decorator.&lt;locals&gt;.handler of &lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;&gt;</pre></td>
+                    <td class="code"><pre>&lt;bound method api_view.&lt;locals&gt;.decorator.&lt;locals&gt;.handler of &lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -767,7 +646,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;</pre></td>
+                    <td class="code"><pre>&lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -783,43 +662,43 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
 
 
-            <div class="context" id="c140032448815296">
+            <div class="context" id="c139958807766528">
 
-                <ol start="462" class="pre-context" id="pre140032448815296">
+                <ol start="462" class="pre-context" id="pre139958807766528">
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>        exception_handler = self.get_exception_handler()</pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>        exception_handler = self.get_exception_handler()</pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>        context = self.get_exception_handler_context()</pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>        context = self.get_exception_handler_context()</pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>        response = exception_handler(exc, context)</pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>        response = exception_handler(exc, context)</pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>        if response is None:</pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>        if response is None:</pre></li>
 
                 </ol>
 
               <ol start="469" class="context-line">
-                <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>            self.raise_uncaught_exception(exc)</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>            self.raise_uncaught_exception(exc)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='470' class="post-context" id="post140032448815296">
+                <ol start='470' class="post-context" id="post139958807766528">
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>        response.exception = True</pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>        response.exception = True</pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>        return response</pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>        return response</pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>    def raise_uncaught_exception(self, exc):</pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>    def raise_uncaught_exception(self, exc):</pre></li>
 
-                  <li onclick="toggle('pre140032448815296', 'post140032448815296')"><pre>        if settings.DEBUG:</pre></li>
+                  <li onclick="toggle('pre139958807766528', 'post139958807766528')"><pre>        if settings.DEBUG:</pre></li>
 
               </ol>
 
@@ -831,7 +710,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032448815296">
+            <table class="vars" id="v139958807766528">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -845,17 +724,17 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
                     <td class="code"><pre>{&#x27;args&#x27;: (),
  &#x27;kwargs&#x27;: {},
  &#x27;request&#x27;: &lt;rest_framework.request.Request: POST &#x27;/api/reward/&#x27;&gt;,
- &#x27;view&#x27;: &lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;}</pre></td>
+ &#x27;view&#x27;: &lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;}</pre></td>
                   </tr>
 
                   <tr>
                     <td>exc</td>
-                    <td class="code"><pre>IntegrityError(&#x27;null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint\nDETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).\n&#x27;)</pre></td>
+                    <td class="code"><pre>TypeError(&#x27;Object of type ImageFieldFile is not JSON serializable&#x27;)</pre></td>
                   </tr>
 
                   <tr>
                     <td>exception_handler</td>
-                    <td class="code"><pre>&lt;function exception_handler at 0x7f5bd8690ee0&gt;</pre></td>
+                    <td class="code"><pre>&lt;function exception_handler at 0x7f4ab3284af0&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -865,7 +744,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;</pre></td>
+                    <td class="code"><pre>&lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -881,43 +760,43 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
 
 
-            <div class="context" id="c140032447147904">
+            <div class="context" id="c139958807734528">
 
-                <ol start="473" class="pre-context" id="pre140032447147904">
+                <ol start="473" class="pre-context" id="pre139958807734528">
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>    def raise_uncaught_exception(self, exc):</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>    def raise_uncaught_exception(self, exc):</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>        if settings.DEBUG:</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>        if settings.DEBUG:</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>            request = self.request</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>            request = self.request</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>            renderer_format = getattr(request.accepted_renderer, &#x27;format&#x27;)</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>            renderer_format = getattr(request.accepted_renderer, &#x27;format&#x27;)</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>            use_plaintext_traceback = renderer_format not in (&#x27;html&#x27;, &#x27;api&#x27;, &#x27;admin&#x27;)</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>            use_plaintext_traceback = renderer_format not in (&#x27;html&#x27;, &#x27;api&#x27;, &#x27;admin&#x27;)</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>            request.force_plaintext_errors(use_plaintext_traceback)</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>            request.force_plaintext_errors(use_plaintext_traceback)</pre></li>
 
                 </ol>
 
               <ol start="480" class="context-line">
-                <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>        raise exc</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>        raise exc</pre> <span>…</span></li>
               </ol>
 
-                <ol start='481' class="post-context" id="post140032447147904">
+                <ol start='481' class="post-context" id="post139958807734528">
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>    # Note: Views are made CSRF exempt from within `as_view` as to prevent</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>    # Note: Views are made CSRF exempt from within `as_view` as to prevent</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>    # accidental removal of this exemption in cases where `dispatch` needs to</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>    # accidental removal of this exemption in cases where `dispatch` needs to</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>    # be overridden.</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>    # be overridden.</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>    def dispatch(self, request, *args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>    def dispatch(self, request, *args, **kwargs):</pre></li>
 
-                  <li onclick="toggle('pre140032447147904', 'post140032447147904')"><pre>        &quot;&quot;&quot;</pre></li>
+                  <li onclick="toggle('pre139958807734528', 'post139958807734528')"><pre>        &quot;&quot;&quot;</pre></li>
 
               </ol>
 
@@ -929,7 +808,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032447147904">
+            <table class="vars" id="v139958807734528">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -940,7 +819,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>exc</td>
-                    <td class="code"><pre>IntegrityError(&#x27;null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint\nDETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).\n&#x27;)</pre></td>
+                    <td class="code"><pre>TypeError(&#x27;Object of type ImageFieldFile is not JSON serializable&#x27;)</pre></td>
                   </tr>
 
                   <tr>
@@ -955,7 +834,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;</pre></td>
+                    <td class="code"><pre>&lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -976,43 +855,43 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
 
 
-            <div class="context" id="c140032448807488">
+            <div class="context" id="c139958807766656">
 
-                <ol start="499" class="pre-context" id="pre140032448807488">
+                <ol start="499" class="pre-context" id="pre139958807766656">
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>            # Get the appropriate handler method</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>            # Get the appropriate handler method</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>            if request.method.lower() in self.http_method_names:</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>            if request.method.lower() in self.http_method_names:</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>                handler = getattr(self, request.method.lower(),</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>                handler = getattr(self, request.method.lower(),</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>                                  self.http_method_not_allowed)</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>                                  self.http_method_not_allowed)</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>            else:</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>            else:</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>                handler = self.http_method_not_allowed</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>                handler = self.http_method_not_allowed</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre></pre></li>
 
                 </ol>
 
               <ol start="506" class="context-line">
-                <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>            response = handler(request, *args, **kwargs)</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>            response = handler(request, *args, **kwargs)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='507' class="post-context" id="post140032448807488">
+                <ol start='507' class="post-context" id="post139958807766656">
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>        except Exception as exc:</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>        except Exception as exc:</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>            response = self.handle_exception(exc)</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>            response = self.handle_exception(exc)</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>        self.response = self.finalize_response(request, response, *args, **kwargs)</pre></li>
 
-                  <li onclick="toggle('pre140032448807488', 'post140032448807488')"><pre>        return self.response</pre></li>
+                  <li onclick="toggle('pre139958807766656', 'post139958807766656')"><pre>        return self.response</pre></li>
 
               </ol>
 
@@ -1024,7 +903,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032448807488">
+            <table class="vars" id="v139958807766656">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -1040,7 +919,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>handler</td>
-                    <td class="code"><pre>&lt;bound method api_view.&lt;locals&gt;.decorator.&lt;locals&gt;.handler of &lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;&gt;</pre></td>
+                    <td class="code"><pre>&lt;bound method api_view.&lt;locals&gt;.decorator.&lt;locals&gt;.handler of &lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -1055,7 +934,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;</pre></td>
+                    <td class="code"><pre>&lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -1071,43 +950,43 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
 
 
-            <div class="context" id="c140032447145088">
+            <div class="context" id="c139958807766080">
 
-                <ol start="43" class="pre-context" id="pre140032447145088">
+                <ol start="43" class="pre-context" id="pre139958807766080">
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>        assert isinstance(http_method_names, (list, tuple)), \</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>        assert isinstance(http_method_names, (list, tuple)), \</pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>            &#x27;@api_view expected a list of strings, received %s&#x27; % type(http_method_names).__name__</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>            &#x27;@api_view expected a list of strings, received %s&#x27; % type(http_method_names).__name__</pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>        allowed_methods = set(http_method_names) | {&#x27;options&#x27;}</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>        allowed_methods = set(http_method_names) | {&#x27;options&#x27;}</pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>        WrappedAPIView.http_method_names = [method.lower() for method in allowed_methods]</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>        WrappedAPIView.http_method_names = [method.lower() for method in allowed_methods]</pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>        def handler(self, *args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>        def handler(self, *args, **kwargs):</pre></li>
 
                 </ol>
 
               <ol start="50" class="context-line">
-                <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>            return func(*args, **kwargs)</pre> <span>…</span></li>
+                <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>            return func(*args, **kwargs)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='51' class="post-context" id="post140032447145088">
+                <ol start='51' class="post-context" id="post139958807766080">
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>        for method in http_method_names:</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>        for method in http_method_names:</pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>            setattr(WrappedAPIView, method.lower(), handler)</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>            setattr(WrappedAPIView, method.lower(), handler)</pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>        WrappedAPIView.__name__ = func.__name__</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>        WrappedAPIView.__name__ = func.__name__</pre></li>
 
-                  <li onclick="toggle('pre140032447145088', 'post140032447145088')"><pre>        WrappedAPIView.__module__ = func.__module__</pre></li>
+                  <li onclick="toggle('pre139958807766080', 'post139958807766080')"><pre>        WrappedAPIView.__module__ = func.__module__</pre></li>
 
               </ol>
 
@@ -1119,7 +998,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032447145088">
+            <table class="vars" id="v139958807766080">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -1135,7 +1014,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>func</td>
-                    <td class="code"><pre>&lt;function reward at 0x7f5bd86c6a70&gt;</pre></td>
+                    <td class="code"><pre>&lt;function reward at 0x7f4ab32b6f80&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -1145,7 +1024,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;api.views.WrappedAPIView object at 0x7f5bd842beb0&gt;</pre></td>
+                    <td class="code"><pre>&lt;api.views.reward_views.WrappedAPIView object at 0x7f4ab3041270&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -1157,48 +1036,32 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
         <li class="frame user">
 
-            <code class="fname">/var/www/anidapha/anidapha_backend/api/views.py</code>, line 359, in reward
+            <code class="fname">/var/www/anidapha/anidapha_backend/api/views/reward_views.py</code>, line 239, in reward
 
 
 
-            <div class="context" id="c140032447148480">
+            <div class="context" id="c139958807763072">
 
-                <ol start="352" class="pre-context" id="pre140032447148480">
+                <ol start="232" class="pre-context" id="pre139958807763072">
 
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>    elif num_characteristics &gt; 3:</pre></li>
+                  <li onclick="toggle('pre139958807763072', 'post139958807763072')"><pre>            &#x27;stage&#x27;: new_item.stage,</pre></li>
 
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>        final_price *= 5  # x5 для более 3 характеристик</pre></li>
+                  <li onclick="toggle('pre139958807763072', 'post139958807763072')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>        rarity = &#x27;uncommon&#x27;</pre></li>
+                  <li onclick="toggle('pre139958807763072', 'post139958807763072')"><pre>        }</pre></li>
 
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807763072', 'post139958807763072')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>    final_price = round(final_price, 2)</pre></li>
+                  <li onclick="toggle('pre139958807763072', 'post139958807763072')"><pre>    new_item.save()</pre></li>
 
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807763072', 'post139958807763072')"><pre>    user.save()</pre></li>
 
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>    # Создаем товар с учетом сгенерированных характеристик и рассчитанной цены</pre></li>
+                  <li onclick="toggle('pre139958807763072', 'post139958807763072')"><pre></pre></li>
 
                 </ol>
 
-              <ol start="359" class="context-line">
-                <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>    new_item = Item.objects.create(</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='360' class="post-context" id="post140032447148480">
-
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>        name=f&quot;Random {random_item_type.capitalize()}&quot;,</pre></li>
-
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>        creator=&quot;System&quot;,</pre></li>
-
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>        owner=user,</pre></li>
-
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>        item_type=random_item_type,</pre></li>
-
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>        attack=item_stats.get(&#x27;attack&#x27;, None),</pre></li>
-
-                  <li onclick="toggle('pre140032447148480', 'post140032447148480')"><pre>        defense=item_stats.get(&#x27;defense&#x27;, None),</pre></li>
-
+              <ol start="239" class="context-line">
+                <li onclick="toggle('pre139958807763072', 'post139958807763072')"><pre>    return JsonResponse({&#x27;success&#x27;: True, &#x27;item&#x27;: item_data})</pre> <span>…</span></li>
               </ol>
 
             </div>
@@ -1209,7 +1072,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032447148480">
+            <table class="vars" id="v139958807763072">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -1219,73 +1082,18 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <tbody>
 
                   <tr>
-                    <td>base_price</td>
-                    <td class="code"><pre>6.7484883546862156</pre></td>
+                    <td>item_data</td>
+                    <td class="code"><pre>{&#x27;image&#x27;: &lt;ImageFieldFile: images/resource/stone.png&gt;,
+ &#x27;itemId&#x27;: 11,
+ &#x27;item_type&#x27;: &#x27;stone&#x27;,
+ &#x27;name&#x27;: &#x27;Stone&#x27;,
+ &#x27;price&#x27;: 40,
+ &#x27;rarity&#x27;: &#x27;common&#x27;}</pre></td>
                   </tr>
 
                   <tr>
-                    <td>characteristics</td>
-                    <td class="code"><pre>{&#x27;unique_properties&#x27;: (1, 1)}</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>final_price</td>
-                    <td class="code"><pre>143.93</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>item_stats</td>
-                    <td class="code"><pre>{&#x27;block&#x27;: 34, &#x27;unique_properties&#x27;: 1}</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>item_types</td>
-                    <td class="code"><pre>{&#x27;accessory&#x27;: {&#x27;unique_properties&#x27;: (1, 1)},
- &#x27;amulet&#x27;: {&#x27;defense&#x27;: (2, 8), &#x27;health&#x27;: (15, 70)},
- &#x27;armor&#x27;: {&#x27;defense&#x27;: (3, 12), &#x27;health&#x27;: (10, 80)},
- &#x27;belt&#x27;: {&#x27;defense&#x27;: (1, 5), &#x27;health&#x27;: (10, 50)},
- &#x27;boots&#x27;: {&#x27;accuracy&#x27;: (1, 5), &#x27;evasion&#x27;: (3, 10)},
- &#x27;gloves&#x27;: {&#x27;accuracy&#x27;: (5, 10), &#x27;attack&#x27;: (2, 8)},
- &#x27;helmet&#x27;: {&#x27;defense&#x27;: (2, 8), &#x27;health&#x27;: (5, 40)},
- &#x27;pants&#x27;: {&#x27;accuracy&#x27;: (1, 5), &#x27;evasion&#x27;: (3, 10)},
- &#x27;ring&#x27;: {&#x27;accuracy&#x27;: (3, 8), &#x27;evasion&#x27;: (3, 8)},
- &#x27;shield&#x27;: {&#x27;block&#x27;: (15, 35), &#x27;defense&#x27;: (5, 15)},
- &#x27;weapon&#x27;: {&#x27;accuracy&#x27;: (-3, 5), &#x27;attack&#x27;: (1, 10), &#x27;defense&#x27;: (0, 4)}}</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>max_price</td>
-                    <td class="code"><pre>10000</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>min_price</td>
-                    <td class="code"><pre>10</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>non_linear_price</td>
-                    <td class="code"><pre>143.92894626365265</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>num_characteristics</td>
-                    <td class="code"><pre>2</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>price_range</td>
-                    <td class="code"><pre>9990</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>random_item_type</td>
-                    <td class="code"><pre>&#x27;accessory&#x27;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>rarity</td>
-                    <td class="code"><pre>&#x27;common&#x27;</pre></td>
+                    <td>new_item</td>
+                    <td class="code"><pre>&lt;Resource: Stone&gt;</pre></td>
                   </tr>
 
                   <tr>
@@ -1294,18 +1102,32 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
                   </tr>
 
                   <tr>
-                    <td>total_stats_value</td>
-                    <td class="code"><pre>24.799999999999997</pre></td>
+                    <td>resource_type</td>
+                    <td class="code"><pre>&#x27;stone&#x27;</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>reward_info</td>
+                    <td class="code"><pre>{&#x27;chance&#x27;: 0.25, &#x27;price&#x27;: 40}</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>reward_pool</td>
+                    <td class="code"><pre>{&#x27;Iron&#x27;: {&#x27;chance&#x27;: 0.1, &#x27;price&#x27;: 200},
+ &#x27;RandomItem&#x27;: {&#x27;chance&#x27;: 0.05, &#x27;price&#x27;: None},
+ &#x27;Seed&#x27;: {&#x27;chance&#x27;: 0.4, &#x27;price&#x27;: 10},
+ &#x27;Stone&#x27;: {&#x27;chance&#x27;: 0.25, &#x27;price&#x27;: 40},
+ &#x27;Wood&#x27;: {&#x27;chance&#x27;: 0.2, &#x27;price&#x27;: 80}}</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>reward_type</td>
+                    <td class="code"><pre>&#x27;Stone&#x27;</pre></td>
                   </tr>
 
                   <tr>
                     <td>user</td>
                     <td class="code"><pre>&lt;User: PyTorch Love&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>value</td>
-                    <td class="code"><pre>23.799999999999997</pre></td>
                   </tr>
 
                   <tr>
@@ -1328,47 +1150,37 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
         <li class="frame django">
 
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/manager.py</code>, line 87, in manager_method
+            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/http/response.py</code>, line 733, in __init__
 
 
 
-            <div class="context" id="c140032447149312">
+            <div class="context" id="c139958807767360">
 
-                <ol start="80" class="pre-context" id="pre140032447149312">
+                <ol start="726" class="pre-context" id="pre139958807767360">
 
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>        return []</pre></li>
+                  <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>            raise TypeError(</pre></li>
 
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>                &quot;In order to allow non-dict objects to be serialized set the &quot;</pre></li>
 
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>    @classmethod</pre></li>
+                  <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>                &quot;safe parameter to False.&quot;</pre></li>
 
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>    def _get_queryset_methods(cls, queryset_class):</pre></li>
+                  <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>            )</pre></li>
 
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>        def create_method(name, method):</pre></li>
+                  <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>        if json_dumps_params is None:</pre></li>
 
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>            @wraps(method)</pre></li>
+                  <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>            json_dumps_params = {}</pre></li>
 
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>            def manager_method(self, *args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>        kwargs.setdefault(&quot;content_type&quot;, &quot;application/json&quot;)</pre></li>
 
                 </ol>
 
-              <ol start="87" class="context-line">
-                <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>                return getattr(self.get_queryset(), name)(*args, **kwargs)</pre> <span>…</span></li>
+              <ol start="733" class="context-line">
+                <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>        data = json.dumps(data, cls=encoder, **json_dumps_params)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='88' class="post-context" id="post140032447149312">
+                <ol start='734' class="post-context" id="post139958807767360">
 
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>            return manager_method</pre></li>
-
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>        new_methods = {}</pre></li>
-
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>        for name, method in inspect.getmembers(</pre></li>
-
-                  <li onclick="toggle('pre140032447149312', 'post140032447149312')"><pre>            queryset_class, predicate=inspect.isfunction</pre></li>
+                  <li onclick="toggle('pre139958807767360', 'post139958807767360')"><pre>        super().__init__(content=data, **kwargs)</pre></li>
 
               </ol>
 
@@ -1380,1090 +1192,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032447149312">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>args</td>
-                    <td class="code"><pre>()</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>kwargs</td>
-                    <td class="code"><pre>{&#x27;accuracy&#x27;: None,
- &#x27;attack&#x27;: None,
- &#x27;block&#x27;: 34,
- &#x27;creator&#x27;: &#x27;System&#x27;,
- &#x27;defense&#x27;: None,
- &#x27;evasion&#x27;: None,
- &#x27;health&#x27;: None,
- &#x27;image&#x27;: &#x27;images/accessory.PNG&#x27;,
- &#x27;item_type&#x27;: &#x27;accessory&#x27;,
- &#x27;name&#x27;: &#x27;Random Accessory&#x27;,
- &#x27;owner&#x27;: &lt;User: PyTorch Love&gt;,
- &#x27;price&#x27;: 143.93,
- &#x27;rarity&#x27;: None,
- &#x27;stun&#x27;: None,
- &#x27;unique_properties&#x27;: 1}</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>name</td>
-                    <td class="code"><pre>&#x27;create&#x27;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;django.db.models.manager.Manager object at 0x7f5bd86d5f90&gt;</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/query.py</code>, line 679, in create
-
-
-
-            <div class="context" id="c140032446960640">
-
-                <ol start="672" class="pre-context" id="pre140032446960640">
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>            raise ValueError(</pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>                &quot;The following fields do not exist in this model: %s&quot;</pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>                % &quot;, &quot;.join(reverse_one_to_one_fields)</pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>            )</pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>        obj = self.model(**kwargs)</pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>        self._for_write = True</pre></li>
-
-                </ol>
-
-              <ol start="679" class="context-line">
-                <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>        obj.save(force_insert=True, using=self.db)</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='680' class="post-context" id="post140032446960640">
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>        return obj</pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>    async def acreate(self, **kwargs):</pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>        return await sync_to_async(self.create)(**kwargs)</pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032446960640', 'post140032446960640')"><pre>    def _prepare_for_bulk_create(self, objs):</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032446960640">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>kwargs</td>
-                    <td class="code"><pre>{&#x27;accuracy&#x27;: None,
- &#x27;attack&#x27;: None,
- &#x27;block&#x27;: 34,
- &#x27;creator&#x27;: &#x27;System&#x27;,
- &#x27;defense&#x27;: None,
- &#x27;evasion&#x27;: None,
- &#x27;health&#x27;: None,
- &#x27;image&#x27;: &#x27;images/accessory.PNG&#x27;,
- &#x27;item_type&#x27;: &#x27;accessory&#x27;,
- &#x27;name&#x27;: &#x27;Random Accessory&#x27;,
- &#x27;owner&#x27;: &lt;User: PyTorch Love&gt;,
- &#x27;price&#x27;: 143.93,
- &#x27;rarity&#x27;: None,
- &#x27;stun&#x27;: None,
- &#x27;unique_properties&#x27;: 1}</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>obj</td>
-                    <td class="code"><pre>&lt;Item: Random Accessory&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>reverse_one_to_one_fields</td>
-                    <td class="code"><pre>frozenset()</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;QuerySet [&lt;Item: Random Armor&gt;, &lt;Item: Random Boots&gt;, &lt;Item: Random Weapon&gt;, &lt;Item: Random Belt&gt;, &lt;Item: Random Accessory&gt;, &lt;Item: Random Boots&gt;, &lt;Item: Random Accessory&gt;, &lt;Item: Random Helmet&gt;, &lt;Item: Random Boots&gt;, &lt;Item: Random Weapon&gt;, &lt;Item: Random Shield&gt;, &lt;Item: Random Belt&gt;, &lt;Item: Random Gloves&gt;, &lt;Item: Random Armor&gt;, &lt;Item: Random Weapon&gt;, &lt;Item: Random Ring&gt;, &lt;Item: Random Ring&gt;, &lt;Item: Random Helmet&gt;, &lt;Item: Random Belt&gt;, &lt;Item: Random Gloves&gt;, &#x27;...(remaining elements truncated)...&#x27;]&gt;</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/base.py</code>, line 891, in save
-
-
-
-            <div class="context" id="c140032447148544">
-
-                <ol start="884" class="pre-context" id="pre140032447148544">
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>            for field in self._meta.concrete_fields:</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>                if not field.primary_key and not hasattr(field, &quot;through&quot;):</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>                    field_names.add(field.attname)</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>            loaded_fields = field_names.difference(deferred_non_generated_fields)</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>            if loaded_fields:</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>                update_fields = frozenset(loaded_fields)</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre></pre></li>
-
-                </ol>
-
-              <ol start="891" class="context-line">
-                <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>        self.save_base(</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='892' class="post-context" id="post140032447148544">
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>            using=using,</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>            force_insert=force_insert,</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>            force_update=force_update,</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>            update_fields=update_fields,</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre>        )</pre></li>
-
-                  <li onclick="toggle('pre140032447148544', 'post140032447148544')"><pre></pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447148544">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>args</td>
-                    <td class="code"><pre>()</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>deferred_non_generated_fields</td>
-                    <td class="code"><pre>set()</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>force_insert</td>
-                    <td class="code"><pre>True</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>force_update</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;Item: Random Accessory&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>update_fields</td>
-                    <td class="code"><pre>None</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>using</td>
-                    <td class="code"><pre>&#x27;default&#x27;</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/base.py</code>, line 997, in save_base
-
-
-
-            <div class="context" id="c140032447148800">
-
-                <ol start="990" class="pre-context" id="pre140032447148800">
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>            parent_inserted = False</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>            if not raw:</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                # Validate force insert only when parents are inserted.</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                force_insert = self._validate_force_insert(force_insert)</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                parent_inserted = self._save_parents(</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                    cls, using, update_fields, force_insert</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                )</pre></li>
-
-                </ol>
-
-              <ol start="997" class="context-line">
-                <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>            updated = self._save_table(</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='998' class="post-context" id="post140032447148800">
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                raw,</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                cls,</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                force_insert or parent_inserted,</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                force_update,</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                using,</pre></li>
-
-                  <li onclick="toggle('pre140032447148800', 'post140032447148800')"><pre>                update_fields,</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447148800">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>cls</td>
-                    <td class="code"><pre>&lt;class &#x27;api.models.Item&#x27;&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>context_manager</td>
-                    <td class="code"><pre>&lt;contextlib._GeneratorContextManager object at 0x7f5bd842bc70&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>force_insert</td>
-                    <td class="code"><pre>(&lt;class &#x27;api.models.Item&#x27;&gt;,)</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>force_update</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>meta</td>
-                    <td class="code"><pre>&lt;Options for Item&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>origin</td>
-                    <td class="code"><pre>&lt;class &#x27;api.models.Item&#x27;&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>parent_inserted</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>raw</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;Item: Random Accessory&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>update_fields</td>
-                    <td class="code"><pre>None</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>using</td>
-                    <td class="code"><pre>&#x27;default&#x27;</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/base.py</code>, line 1160, in _save_table
-
-
-
-            <div class="context" id="c140032447149376">
-
-                <ol start="1153" class="pre-context" id="pre140032447149376">
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>                )</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>            fields = [</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>                f</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>                for f in meta.local_concrete_fields</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>                if not f.generated and (pk_set or f is not meta.auto_field)</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>            ]</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>            returning_fields = meta.db_returning_fields</pre></li>
-
-                </ol>
-
-              <ol start="1160" class="context-line">
-                <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>            results = self._do_insert(</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='1161' class="post-context" id="post140032447149376">
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>                cls._base_manager, using, fields, returning_fields, raw</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>            )</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>            if results:</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>                for value, field in zip(results[0], returning_fields):</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>                    setattr(self, field.attname, value)</pre></li>
-
-                  <li onclick="toggle('pre140032447149376', 'post140032447149376')"><pre>        return updated</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447149376">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>cls</td>
-                    <td class="code"><pre>&lt;class &#x27;api.models.Item&#x27;&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>fields</td>
-                    <td class="code"><pre>[&lt;django.db.models.fields.CharField: name&gt;,
- &lt;django.db.models.fields.CharField: creator&gt;,
- &lt;django.db.models.fields.related.ForeignKey: owner&gt;,
- &lt;django.db.models.fields.CharField: item_type&gt;,
- &lt;django.db.models.fields.IntegerField: attack&gt;,
- &lt;django.db.models.fields.IntegerField: defense&gt;,
- &lt;django.db.models.fields.IntegerField: accuracy&gt;,
- &lt;django.db.models.fields.IntegerField: evasion&gt;,
- &lt;django.db.models.fields.IntegerField: stun&gt;,
- &lt;django.db.models.fields.IntegerField: block&gt;,
- &lt;django.db.models.fields.IntegerField: health&gt;,
- &lt;django.db.models.fields.FloatField: price&gt;,
- &lt;django.db.models.fields.CharField: unique_properties&gt;,
- &lt;django.db.models.fields.files.ImageField: image&gt;,
- &lt;django.db.models.fields.CharField: rarity&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>force_insert</td>
-                    <td class="code"><pre>(&lt;class &#x27;api.models.Item&#x27;&gt;,)</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>force_update</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>meta</td>
-                    <td class="code"><pre>&lt;Options for Item&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>non_pks_non_generated</td>
-                    <td class="code"><pre>[&lt;django.db.models.fields.CharField: name&gt;,
- &lt;django.db.models.fields.CharField: creator&gt;,
- &lt;django.db.models.fields.related.ForeignKey: owner&gt;,
- &lt;django.db.models.fields.CharField: item_type&gt;,
- &lt;django.db.models.fields.IntegerField: attack&gt;,
- &lt;django.db.models.fields.IntegerField: defense&gt;,
- &lt;django.db.models.fields.IntegerField: accuracy&gt;,
- &lt;django.db.models.fields.IntegerField: evasion&gt;,
- &lt;django.db.models.fields.IntegerField: stun&gt;,
- &lt;django.db.models.fields.IntegerField: block&gt;,
- &lt;django.db.models.fields.IntegerField: health&gt;,
- &lt;django.db.models.fields.FloatField: price&gt;,
- &lt;django.db.models.fields.CharField: unique_properties&gt;,
- &lt;django.db.models.fields.files.ImageField: image&gt;,
- &lt;django.db.models.fields.CharField: rarity&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>pk_set</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>pk_val</td>
-                    <td class="code"><pre>None</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>raw</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>returning_fields</td>
-                    <td class="code"><pre>[&lt;django.db.models.fields.BigAutoField: id&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;Item: Random Accessory&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>update_fields</td>
-                    <td class="code"><pre>None</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>updated</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>using</td>
-                    <td class="code"><pre>&#x27;default&#x27;</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/base.py</code>, line 1201, in _do_insert
-
-
-
-            <div class="context" id="c140032448756608">
-
-                <ol start="1194" class="pre-context" id="pre140032448756608">
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>        return filtered._update(values) &gt; 0</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>    def _do_insert(self, manager, using, fields, returning_fields, raw):</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>        &quot;&quot;&quot;</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>        Do an INSERT. If returning_fields is defined then this method should</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>        return the newly created data for the model.</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>        &quot;&quot;&quot;</pre></li>
-
-                </ol>
-
-              <ol start="1201" class="context-line">
-                <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>        return manager._insert(</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='1202' class="post-context" id="post140032448756608">
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>            [self],</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>            fields=fields,</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>            returning_fields=returning_fields,</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>            using=using,</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>            raw=raw,</pre></li>
-
-                  <li onclick="toggle('pre140032448756608', 'post140032448756608')"><pre>        )</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032448756608">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>fields</td>
-                    <td class="code"><pre>[&lt;django.db.models.fields.CharField: name&gt;,
- &lt;django.db.models.fields.CharField: creator&gt;,
- &lt;django.db.models.fields.related.ForeignKey: owner&gt;,
- &lt;django.db.models.fields.CharField: item_type&gt;,
- &lt;django.db.models.fields.IntegerField: attack&gt;,
- &lt;django.db.models.fields.IntegerField: defense&gt;,
- &lt;django.db.models.fields.IntegerField: accuracy&gt;,
- &lt;django.db.models.fields.IntegerField: evasion&gt;,
- &lt;django.db.models.fields.IntegerField: stun&gt;,
- &lt;django.db.models.fields.IntegerField: block&gt;,
- &lt;django.db.models.fields.IntegerField: health&gt;,
- &lt;django.db.models.fields.FloatField: price&gt;,
- &lt;django.db.models.fields.CharField: unique_properties&gt;,
- &lt;django.db.models.fields.files.ImageField: image&gt;,
- &lt;django.db.models.fields.CharField: rarity&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>manager</td>
-                    <td class="code"><pre>&lt;django.db.models.manager.Manager object at 0x7f5bd842ad40&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>raw</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>returning_fields</td>
-                    <td class="code"><pre>[&lt;django.db.models.fields.BigAutoField: id&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;Item: Random Accessory&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>using</td>
-                    <td class="code"><pre>&#x27;default&#x27;</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/manager.py</code>, line 87, in manager_method
-
-
-
-            <div class="context" id="c140032447066432">
-
-                <ol start="80" class="pre-context" id="pre140032447066432">
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>        return []</pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>    @classmethod</pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>    def _get_queryset_methods(cls, queryset_class):</pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>        def create_method(name, method):</pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>            @wraps(method)</pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>            def manager_method(self, *args, **kwargs):</pre></li>
-
-                </ol>
-
-              <ol start="87" class="context-line">
-                <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>                return getattr(self.get_queryset(), name)(*args, **kwargs)</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='88' class="post-context" id="post140032447066432">
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>            return manager_method</pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>        new_methods = {}</pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>        for name, method in inspect.getmembers(</pre></li>
-
-                  <li onclick="toggle('pre140032447066432', 'post140032447066432')"><pre>            queryset_class, predicate=inspect.isfunction</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447066432">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>args</td>
-                    <td class="code"><pre>([&lt;Item: Random Accessory&gt;],)</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>kwargs</td>
-                    <td class="code"><pre>{&#x27;fields&#x27;: [&lt;django.db.models.fields.CharField: name&gt;,
-            &lt;django.db.models.fields.CharField: creator&gt;,
-            &lt;django.db.models.fields.related.ForeignKey: owner&gt;,
-            &lt;django.db.models.fields.CharField: item_type&gt;,
-            &lt;django.db.models.fields.IntegerField: attack&gt;,
-            &lt;django.db.models.fields.IntegerField: defense&gt;,
-            &lt;django.db.models.fields.IntegerField: accuracy&gt;,
-            &lt;django.db.models.fields.IntegerField: evasion&gt;,
-            &lt;django.db.models.fields.IntegerField: stun&gt;,
-            &lt;django.db.models.fields.IntegerField: block&gt;,
-            &lt;django.db.models.fields.IntegerField: health&gt;,
-            &lt;django.db.models.fields.FloatField: price&gt;,
-            &lt;django.db.models.fields.CharField: unique_properties&gt;,
-            &lt;django.db.models.fields.files.ImageField: image&gt;,
-            &lt;django.db.models.fields.CharField: rarity&gt;],
- &#x27;raw&#x27;: False,
- &#x27;returning_fields&#x27;: [&lt;django.db.models.fields.BigAutoField: id&gt;],
- &#x27;using&#x27;: &#x27;default&#x27;}</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>name</td>
-                    <td class="code"><pre>&#x27;_insert&#x27;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;django.db.models.manager.Manager object at 0x7f5bd842ad40&gt;</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/query.py</code>, line 1847, in _insert
-
-
-
-            <div class="context" id="c140032447069632">
-
-                <ol start="1840" class="pre-context" id="pre140032447069632">
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>        query = sql.InsertQuery(</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>            self.model,</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>            on_conflict=on_conflict,</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>            update_fields=update_fields,</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>            unique_fields=unique_fields,</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>        )</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>        query.insert_values(fields, objs, raw=raw)</pre></li>
-
-                </ol>
-
-              <ol start="1847" class="context-line">
-                <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>        return query.get_compiler(using=using).execute_sql(returning_fields)</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='1848' class="post-context" id="post140032447069632">
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>    _insert.alters_data = True</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>    _insert.queryset_only = False</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>    def _batched_insert(</pre></li>
-
-                  <li onclick="toggle('pre140032447069632', 'post140032447069632')"><pre>        self,</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447069632">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>fields</td>
-                    <td class="code"><pre>[&lt;django.db.models.fields.CharField: name&gt;,
- &lt;django.db.models.fields.CharField: creator&gt;,
- &lt;django.db.models.fields.related.ForeignKey: owner&gt;,
- &lt;django.db.models.fields.CharField: item_type&gt;,
- &lt;django.db.models.fields.IntegerField: attack&gt;,
- &lt;django.db.models.fields.IntegerField: defense&gt;,
- &lt;django.db.models.fields.IntegerField: accuracy&gt;,
- &lt;django.db.models.fields.IntegerField: evasion&gt;,
- &lt;django.db.models.fields.IntegerField: stun&gt;,
- &lt;django.db.models.fields.IntegerField: block&gt;,
- &lt;django.db.models.fields.IntegerField: health&gt;,
- &lt;django.db.models.fields.FloatField: price&gt;,
- &lt;django.db.models.fields.CharField: unique_properties&gt;,
- &lt;django.db.models.fields.files.ImageField: image&gt;,
- &lt;django.db.models.fields.CharField: rarity&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>objs</td>
-                    <td class="code"><pre>[&lt;Item: Random Accessory&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>on_conflict</td>
-                    <td class="code"><pre>None</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>query</td>
-                    <td class="code"><pre>&lt;django.db.models.sql.subqueries.InsertQuery object at 0x7f5bd842b220&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>raw</td>
-                    <td class="code"><pre>False</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>returning_fields</td>
-                    <td class="code"><pre>[&lt;django.db.models.fields.BigAutoField: id&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;QuerySet [&lt;Item: Random Armor&gt;, &lt;Item: Random Boots&gt;, &lt;Item: Random Weapon&gt;, &lt;Item: Random Belt&gt;, &lt;Item: Random Accessory&gt;, &lt;Item: Random Boots&gt;, &lt;Item: Random Accessory&gt;, &lt;Item: Random Helmet&gt;, &lt;Item: Random Boots&gt;, &lt;Item: Random Weapon&gt;, &lt;Item: Random Shield&gt;, &lt;Item: Random Belt&gt;, &lt;Item: Random Gloves&gt;, &lt;Item: Random Armor&gt;, &lt;Item: Random Weapon&gt;, &lt;Item: Random Ring&gt;, &lt;Item: Random Ring&gt;, &lt;Item: Random Helmet&gt;, &lt;Item: Random Belt&gt;, &lt;Item: Random Gloves&gt;, &#x27;...(remaining elements truncated)...&#x27;]&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>unique_fields</td>
-                    <td class="code"><pre>None</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>update_fields</td>
-                    <td class="code"><pre>None</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>using</td>
-                    <td class="code"><pre>&#x27;default&#x27;</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/models/sql/compiler.py</code>, line 1836, in execute_sql
-
-
-
-            <div class="context" id="c140032447148608">
-
-                <ol start="1829" class="pre-context" id="pre140032447148608">
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>            and not self.connection.features.can_return_rows_from_bulk_insert</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>        )</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>        opts = self.query.get_meta()</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>        self.returning_fields = returning_fields</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>        cols = []</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>        with self.connection.cursor() as cursor:</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>            for sql, params in self.as_sql():</pre></li>
-
-                </ol>
-
-              <ol start="1836" class="context-line">
-                <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>                cursor.execute(sql, params)</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='1837' class="post-context" id="post140032447148608">
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>            if not self.returning_fields:</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>                return []</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>            if (</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>                self.connection.features.can_return_rows_from_bulk_insert</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>                and len(self.query.objs) &gt; 1</pre></li>
-
-                  <li onclick="toggle('pre140032447148608', 'post140032447148608')"><pre>            ):</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447148608">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>cols</td>
-                    <td class="code"><pre>[]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>cursor</td>
-                    <td class="code"><pre>&lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>opts</td>
-                    <td class="code"><pre>&lt;Options for Item&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>params</td>
-                    <td class="code"><pre>(&#x27;Random Accessory&#x27;,
- &#x27;System&#x27;,
- 35,
- &#x27;accessory&#x27;,
- None,
- None,
- None,
- None,
- None,
- 34,
- None,
- 143.93,
- &#x27;1&#x27;,
- &#x27;images/accessory.PNG&#x27;,
- None)</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>returning_fields</td>
-                    <td class="code"><pre>[&lt;django.db.models.fields.BigAutoField: id&gt;]</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;SQLInsertCompiler model=Item connection=&lt;DatabaseWrapper vendor=&#x27;postgresql&#x27; alias=&#x27;default&#x27;&gt; using=&#x27;default&#x27;&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>sql</td>
-                    <td class="code"><pre>(&#x27;INSERT INTO &quot;api_item&quot; (&quot;name&quot;, &quot;creator&quot;, &quot;owner_id&quot;, &quot;item_type&quot;, &#x27;
- &#x27;&quot;attack&quot;, &quot;defense&quot;, &quot;accuracy&quot;, &quot;evasion&quot;, &quot;stun&quot;, &quot;block&quot;, &quot;health&quot;, &#x27;
- &#x27;&quot;price&quot;, &quot;unique_properties&quot;, &quot;image&quot;, &quot;rarity&quot;) VALUES (%s, %s, %s, %s, %s, &#x27;
- &#x27;%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING &quot;api_item&quot;.&quot;id&quot;&#x27;)</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py</code>, line 122, in execute
-
-
-
-            <div class="context" id="c140032447136768">
-
-                <ol start="115" class="pre-context" id="pre140032447136768">
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>class CursorDebugWrapper(CursorWrapper):</pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>    # XXX callproc isn&#x27;t instrumented at this time.</pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>    def execute(self, sql, params=None):</pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>        with self.debug_sql(sql, params, use_last_executed_query=True):</pre></li>
-
-                </ol>
-
-              <ol start="122" class="context-line">
-                <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>            return super().execute(sql, params)</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='123' class="post-context" id="post140032447136768">
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>    def executemany(self, sql, param_list):</pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>        with self.debug_sql(sql, param_list, many=True):</pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>            return super().executemany(sql, param_list)</pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447136768', 'post140032447136768')"><pre>    @contextmanager</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447136768">
+            <table class="vars" id="v139958807767360">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -2474,39 +1203,43 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
                   <tr>
                     <td>__class__</td>
-                    <td class="code"><pre>&lt;class &#x27;django.db.backends.utils.CursorDebugWrapper&#x27;&gt;</pre></td>
+                    <td class="code"><pre>&lt;class &#x27;django.http.response.JsonResponse&#x27;&gt;</pre></td>
                   </tr>
 
                   <tr>
-                    <td>params</td>
-                    <td class="code"><pre>(&#x27;Random Accessory&#x27;,
- &#x27;System&#x27;,
- 35,
- &#x27;accessory&#x27;,
- None,
- None,
- None,
- None,
- None,
- 34,
- None,
- 143.93,
- &#x27;1&#x27;,
- &#x27;images/accessory.PNG&#x27;,
- None)</pre></td>
+                    <td>data</td>
+                    <td class="code"><pre>{&#x27;item&#x27;: {&#x27;image&#x27;: &lt;ImageFieldFile: images/resource/stone.png&gt;,
+          &#x27;itemId&#x27;: 11,
+          &#x27;item_type&#x27;: &#x27;stone&#x27;,
+          &#x27;name&#x27;: &#x27;Stone&#x27;,
+          &#x27;price&#x27;: 40,
+          &#x27;rarity&#x27;: &#x27;common&#x27;},
+ &#x27;success&#x27;: True}</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>encoder</td>
+                    <td class="code"><pre>&lt;class &#x27;django.core.serializers.json.DjangoJSONEncoder&#x27;&gt;</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>json_dumps_params</td>
+                    <td class="code"><pre>{}</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>kwargs</td>
+                    <td class="code"><pre>{&#x27;content_type&#x27;: &#x27;application/json&#x27;}</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>safe</td>
+                    <td class="code"><pre>True</pre></td>
                   </tr>
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>sql</td>
-                    <td class="code"><pre>(&#x27;INSERT INTO &quot;api_item&quot; (&quot;name&quot;, &quot;creator&quot;, &quot;owner_id&quot;, &quot;item_type&quot;, &#x27;
- &#x27;&quot;attack&quot;, &quot;defense&quot;, &quot;accuracy&quot;, &quot;evasion&quot;, &quot;stun&quot;, &quot;block&quot;, &quot;health&quot;, &#x27;
- &#x27;&quot;price&quot;, &quot;unique_properties&quot;, &quot;image&quot;, &quot;rarity&quot;) VALUES (%s, %s, %s, %s, %s, &#x27;
- &#x27;%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING &quot;api_item&quot;.&quot;id&quot;&#x27;)</pre></td>
+                    <td class="code"><pre>Error in formatting: AttributeError: &#x27;JsonResponse&#x27; object has no attribute &#x27;headers&#x27;</pre></td>
                   </tr>
 
               </tbody>
@@ -2516,49 +1249,49 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
         </li>
 
 
-        <li class="frame django">
+        <li class="frame user">
 
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py</code>, line 79, in execute
+            <code class="fname">/usr/lib/python3.10/json/__init__.py</code>, line 238, in dumps
 
 
 
-            <div class="context" id="c140032447148288">
+            <div class="context" id="c139958807762368">
 
-                <ol start="72" class="pre-context" id="pre140032447148288">
+                <ol start="231" class="pre-context" id="pre139958807762368">
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>            elif kparams is None:</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>        return _default_encoder.encode(obj)</pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>                return self.cursor.callproc(procname, params)</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>    if cls is None:</pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>            else:</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>        cls = JSONEncoder</pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>                params = params or ()</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>    return cls(</pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>                return self.cursor.callproc(procname, params, kparams)</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>        skipkeys=skipkeys, ensure_ascii=ensure_ascii,</pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>        check_circular=check_circular, allow_nan=allow_nan, indent=indent,</pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>    def execute(self, sql, params=None):</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>        separators=separators, default=default, sort_keys=sort_keys,</pre></li>
 
                 </ol>
 
-              <ol start="79" class="context-line">
-                <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>        return self._execute_with_wrappers(</pre> <span>…</span></li>
+              <ol start="238" class="context-line">
+                <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>        **kw).encode(obj)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='80' class="post-context" id="post140032447148288">
+                <ol start='239' class="post-context" id="post139958807762368">
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>            sql, params, many=False, executor=self._execute</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>        )</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>_default_decoder = JSONDecoder(object_hook=None, object_pairs_hook=None)</pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>    def executemany(self, sql, param_list):</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>        return self._execute_with_wrappers(</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447148288', 'post140032447148288')"><pre>            sql, param_list, many=True, executor=self._executemany</pre></li>
+                  <li onclick="toggle('pre139958807762368', 'post139958807762368')"><pre>def detect_encoding(b):</pre></li>
 
               </ol>
 
@@ -2570,7 +1303,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032447148288">
+            <table class="vars" id="v139958807762368">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -2580,153 +1313,64 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <tbody>
 
                   <tr>
-                    <td>params</td>
-                    <td class="code"><pre>(&#x27;Random Accessory&#x27;,
- &#x27;System&#x27;,
- 35,
- &#x27;accessory&#x27;,
- None,
- None,
- None,
- None,
- None,
- 34,
- None,
- 143.93,
- &#x27;1&#x27;,
- &#x27;images/accessory.PNG&#x27;,
- None)</pre></td>
+                    <td>allow_nan</td>
+                    <td class="code"><pre>True</pre></td>
                   </tr>
 
                   <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;</pre></td>
+                    <td>check_circular</td>
+                    <td class="code"><pre>True</pre></td>
                   </tr>
 
                   <tr>
-                    <td>sql</td>
-                    <td class="code"><pre>(&#x27;INSERT INTO &quot;api_item&quot; (&quot;name&quot;, &quot;creator&quot;, &quot;owner_id&quot;, &quot;item_type&quot;, &#x27;
- &#x27;&quot;attack&quot;, &quot;defense&quot;, &quot;accuracy&quot;, &quot;evasion&quot;, &quot;stun&quot;, &quot;block&quot;, &quot;health&quot;, &#x27;
- &#x27;&quot;price&quot;, &quot;unique_properties&quot;, &quot;image&quot;, &quot;rarity&quot;) VALUES (%s, %s, %s, %s, %s, &#x27;
- &#x27;%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING &quot;api_item&quot;.&quot;id&quot;&#x27;)</pre></td>
-                  </tr>
-
-              </tbody>
-            </table>
-            </details>
-
-        </li>
-
-
-        <li class="frame django">
-
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py</code>, line 92, in _execute_with_wrappers
-
-
-
-            <div class="context" id="c140032447147776">
-
-                <ol start="85" class="pre-context" id="pre140032447147776">
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>            sql, param_list, many=True, executor=self._executemany</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>        )</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>    def _execute_with_wrappers(self, sql, params, many, executor):</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>        context = {&quot;connection&quot;: self.db, &quot;cursor&quot;: self}</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>        for wrapper in reversed(self.db.execute_wrappers):</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>            executor = functools.partial(wrapper, executor)</pre></li>
-
-                </ol>
-
-              <ol start="92" class="context-line">
-                <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>        return executor(sql, params, many, context)</pre> <span>…</span></li>
-              </ol>
-
-                <ol start='93' class="post-context" id="post140032447147776">
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre></pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>    def _execute(self, sql, params, *ignored_wrapper_args):</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>        # Raise a warning during app initialization (stored_app_configs is only</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>        # ever set during testing).</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>        if not apps.ready and not apps.stored_app_configs:</pre></li>
-
-                  <li onclick="toggle('pre140032447147776', 'post140032447147776')"><pre>            warnings.warn(self.APPS_NOT_READY_WARNING_MSG, category=RuntimeWarning)</pre></li>
-
-              </ol>
-
-            </div>
-
-
-
-
-              <details>
-                <summary class="commands">Local vars</summary>
-
-            <table class="vars" id="v140032447147776">
-              <thead>
-                <tr>
-                  <th scope="col">Variable</th>
-                  <th scope="col">Value</th>
-                </tr>
-              </thead>
-              <tbody>
-
-                  <tr>
-                    <td>context</td>
-                    <td class="code"><pre>{&#x27;connection&#x27;: &lt;DatabaseWrapper vendor=&#x27;postgresql&#x27; alias=&#x27;default&#x27;&gt;,
- &#x27;cursor&#x27;: &lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;}</pre></td>
+                    <td>cls</td>
+                    <td class="code"><pre>&lt;class &#x27;django.core.serializers.json.DjangoJSONEncoder&#x27;&gt;</pre></td>
                   </tr>
 
                   <tr>
-                    <td>executor</td>
-                    <td class="code"><pre>&lt;bound method CursorWrapper._execute of &lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;&gt;</pre></td>
+                    <td>default</td>
+                    <td class="code"><pre>None</pre></td>
                   </tr>
 
                   <tr>
-                    <td>many</td>
+                    <td>ensure_ascii</td>
+                    <td class="code"><pre>True</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>indent</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>kw</td>
+                    <td class="code"><pre>{}</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>obj</td>
+                    <td class="code"><pre>{&#x27;item&#x27;: {&#x27;image&#x27;: &lt;ImageFieldFile: images/resource/stone.png&gt;,
+          &#x27;itemId&#x27;: 11,
+          &#x27;item_type&#x27;: &#x27;stone&#x27;,
+          &#x27;name&#x27;: &#x27;Stone&#x27;,
+          &#x27;price&#x27;: 40,
+          &#x27;rarity&#x27;: &#x27;common&#x27;},
+ &#x27;success&#x27;: True}</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>separators</td>
+                    <td class="code"><pre>None</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>skipkeys</td>
                     <td class="code"><pre>False</pre></td>
                   </tr>
 
                   <tr>
-                    <td>params</td>
-                    <td class="code"><pre>(&#x27;Random Accessory&#x27;,
- &#x27;System&#x27;,
- 35,
- &#x27;accessory&#x27;,
- None,
- None,
- None,
- None,
- None,
- 34,
- None,
- 143.93,
- &#x27;1&#x27;,
- &#x27;images/accessory.PNG&#x27;,
- None)</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>self</td>
-                    <td class="code"><pre>&lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>sql</td>
-                    <td class="code"><pre>(&#x27;INSERT INTO &quot;api_item&quot; (&quot;name&quot;, &quot;creator&quot;, &quot;owner_id&quot;, &quot;item_type&quot;, &#x27;
- &#x27;&quot;attack&quot;, &quot;defense&quot;, &quot;accuracy&quot;, &quot;evasion&quot;, &quot;stun&quot;, &quot;block&quot;, &quot;health&quot;, &#x27;
- &#x27;&quot;price&quot;, &quot;unique_properties&quot;, &quot;image&quot;, &quot;rarity&quot;) VALUES (%s, %s, %s, %s, %s, &#x27;
- &#x27;%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING &quot;api_item&quot;.&quot;id&quot;&#x27;)</pre></td>
+                    <td>sort_keys</td>
+                    <td class="code"><pre>False</pre></td>
                   </tr>
 
               </tbody>
@@ -2736,49 +1380,49 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
         </li>
 
 
-        <li class="frame django">
+        <li class="frame user">
 
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py</code>, line 100, in _execute
+            <code class="fname">/usr/lib/python3.10/json/encoder.py</code>, line 199, in encode
 
 
 
-            <div class="context" id="c140032447065536">
+            <div class="context" id="c139958807740288">
 
-                <ol start="93" class="pre-context" id="pre140032447065536">
+                <ol start="192" class="pre-context" id="pre139958807740288">
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>            if self.ensure_ascii:</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>    def _execute(self, sql, params, *ignored_wrapper_args):</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>                return encode_basestring_ascii(o)</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>        # Raise a warning during app initialization (stored_app_configs is only</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>            else:</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>        # ever set during testing).</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>                return encode_basestring(o)</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>        if not apps.ready and not apps.stored_app_configs:</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>        # This doesn&#x27;t pass the iterator directly to &#x27;&#x27;.join() because the</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>            warnings.warn(self.APPS_NOT_READY_WARNING_MSG, category=RuntimeWarning)</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>        # exceptions aren&#x27;t as detailed.  The list call should be roughly</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>        self.db.validate_no_broken_transaction()</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>        # equivalent to the PySequence_Fast that &#x27;&#x27;.join() would do.</pre></li>
 
                 </ol>
 
-              <ol start="100" class="context-line">
-                <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>        with self.db.wrap_database_errors:</pre> <span>…</span></li>
+              <ol start="199" class="context-line">
+                <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>        chunks = self.iterencode(o, _one_shot=True)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='101' class="post-context" id="post140032447065536">
+                <ol start='200' class="post-context" id="post139958807740288">
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>            if params is None:</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>        if not isinstance(chunks, (list, tuple)):</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>                # params default might be backend specific.</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>            chunks = list(chunks)</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>                return self.cursor.execute(sql)</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>        return &#x27;&#x27;.join(chunks)</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>            else:</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre>                return self.cursor.execute(sql, params)</pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>    def iterencode(self, o, _one_shot=False):</pre></li>
 
-                  <li onclick="toggle('pre140032447065536', 'post140032447065536')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807740288', 'post139958807740288')"><pre>        &quot;&quot;&quot;Encode the given object and yield each string</pre></li>
 
               </ol>
 
@@ -2790,7 +1434,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032447065536">
+            <table class="vars" id="v139958807740288">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -2800,42 +1444,19 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <tbody>
 
                   <tr>
-                    <td>ignored_wrapper_args</td>
-                    <td class="code"><pre>(False,
- {&#x27;connection&#x27;: &lt;DatabaseWrapper vendor=&#x27;postgresql&#x27; alias=&#x27;default&#x27;&gt;,
-  &#x27;cursor&#x27;: &lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;})</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>params</td>
-                    <td class="code"><pre>(&#x27;Random Accessory&#x27;,
- &#x27;System&#x27;,
- 35,
- &#x27;accessory&#x27;,
- None,
- None,
- None,
- None,
- None,
- 34,
- None,
- 143.93,
- &#x27;1&#x27;,
- &#x27;images/accessory.PNG&#x27;,
- None)</pre></td>
+                    <td>o</td>
+                    <td class="code"><pre>{&#x27;item&#x27;: {&#x27;image&#x27;: &lt;ImageFieldFile: images/resource/stone.png&gt;,
+          &#x27;itemId&#x27;: 11,
+          &#x27;item_type&#x27;: &#x27;stone&#x27;,
+          &#x27;name&#x27;: &#x27;Stone&#x27;,
+          &#x27;price&#x27;: 40,
+          &#x27;rarity&#x27;: &#x27;common&#x27;},
+ &#x27;success&#x27;: True}</pre></td>
                   </tr>
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>sql</td>
-                    <td class="code"><pre>(&#x27;INSERT INTO &quot;api_item&quot; (&quot;name&quot;, &quot;creator&quot;, &quot;owner_id&quot;, &quot;item_type&quot;, &#x27;
- &#x27;&quot;attack&quot;, &quot;defense&quot;, &quot;accuracy&quot;, &quot;evasion&quot;, &quot;stun&quot;, &quot;block&quot;, &quot;health&quot;, &#x27;
- &#x27;&quot;price&quot;, &quot;unique_properties&quot;, &quot;image&quot;, &quot;rarity&quot;) VALUES (%s, %s, %s, %s, %s, &#x27;
- &#x27;%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING &quot;api_item&quot;.&quot;id&quot;&#x27;)</pre></td>
+                    <td class="code"><pre>&lt;django.core.serializers.json.DjangoJSONEncoder object at 0x7f4ab3041540&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -2845,49 +1466,49 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
         </li>
 
 
-        <li class="frame django">
+        <li class="frame user">
 
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/utils.py</code>, line 91, in __exit__
+            <code class="fname">/usr/lib/python3.10/json/encoder.py</code>, line 257, in iterencode
 
 
 
-            <div class="context" id="c140032447063168">
+            <div class="context" id="c139958807618816">
 
-                <ol start="84" class="pre-context" id="pre140032447063168">
+                <ol start="250" class="pre-context" id="pre139958807618816">
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>            db_exc_type = getattr(self.wrapper.Database, dj_exc_type.__name__)</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>                self.key_separator, self.item_separator, self.sort_keys,</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>            if issubclass(exc_type, db_exc_type):</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>                self.skipkeys, self.allow_nan)</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>                dj_exc_value = dj_exc_type(*exc_value.args)</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>        else:</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>                # Only set the &#x27;errors_occurred&#x27; flag for errors that may make</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>            _iterencode = _make_iterencode(</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>                # the connection unusable.</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>                markers, self.default, _encoder, self.indent, floatstr,</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>                if dj_exc_type not in (DataError, IntegrityError):</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>                self.key_separator, self.item_separator, self.sort_keys,</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>                    self.wrapper.errors_occurred = True</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>                self.skipkeys, _one_shot)</pre></li>
 
                 </ol>
 
-              <ol start="91" class="context-line">
-                <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>                raise dj_exc_value.with_traceback(traceback) from exc_value</pre> <span>…</span></li>
+              <ol start="257" class="context-line">
+                <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>        return _iterencode(o, 0)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='92' class="post-context" id="post140032447063168">
+                <ol start='258' class="post-context" id="post139958807618816">
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre></pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>    def __call__(self, func):</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>def _make_iterencode(markers, _default, _encoder, _indent, _floatstr,</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>        # Note that we are intentionally not using @wraps here for performance</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>        _key_separator, _item_separator, _sort_keys, _skipkeys, _one_shot,</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>        # reasons. Refs #21109.</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>        ## HACK: hand-optimized bytecode; turn globals into locals</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>        def inner(*args, **kwargs):</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>        ValueError=ValueError,</pre></li>
 
-                  <li onclick="toggle('pre140032447063168', 'post140032447063168')"><pre>            with self:</pre></li>
+                  <li onclick="toggle('pre139958807618816', 'post139958807618816')"><pre>        dict=dict,</pre></li>
 
               </ol>
 
@@ -2899,7 +1520,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032447063168">
+            <table class="vars" id="v139958807618816">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -2909,38 +1530,57 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <tbody>
 
                   <tr>
-                    <td>db_exc_type</td>
-                    <td class="code"><pre>&lt;class &#x27;psycopg2.IntegrityError&#x27;&gt;</pre></td>
+                    <td>_encoder</td>
+                    <td class="code"><pre>&lt;built-in function encode_basestring_ascii&gt;</pre></td>
                   </tr>
 
                   <tr>
-                    <td>dj_exc_type</td>
-                    <td class="code"><pre>&lt;class &#x27;django.db.utils.IntegrityError&#x27;&gt;</pre></td>
+                    <td>_iterencode</td>
+                    <td class="code"><pre>&lt;_json.Encoder object at 0x7f4ab3019420&gt;</pre></td>
                   </tr>
 
                   <tr>
-                    <td>dj_exc_value</td>
-                    <td class="code"><pre>IntegrityError(&#x27;null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint\nDETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).\n&#x27;)</pre></td>
+                    <td>_one_shot</td>
+                    <td class="code"><pre>True</pre></td>
                   </tr>
 
                   <tr>
-                    <td>exc_type</td>
-                    <td class="code"><pre>&lt;class &#x27;psycopg2.errors.NotNullViolation&#x27;&gt;</pre></td>
+                    <td>floatstr</td>
+                    <td class="code"><pre>&lt;function JSONEncoder.iterencode.&lt;locals&gt;.floatstr at 0x7f4ab31cc5e0&gt;</pre></td>
                   </tr>
 
                   <tr>
-                    <td>exc_value</td>
-                    <td class="code"><pre>NotNullViolation(&#x27;null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint\nDETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).\n&#x27;)</pre></td>
+                    <td>markers</td>
+                    <td class="code"><pre>{139958807699296: &lt;ImageFieldFile: images/resource/stone.png&gt;,
+ 139958807730048: {&#x27;image&#x27;: &lt;ImageFieldFile: images/resource/stone.png&gt;,
+                   &#x27;itemId&#x27;: 11,
+                   &#x27;item_type&#x27;: &#x27;stone&#x27;,
+                   &#x27;name&#x27;: &#x27;Stone&#x27;,
+                   &#x27;price&#x27;: 40,
+                   &#x27;rarity&#x27;: &#x27;common&#x27;},
+ 139958807730176: {&#x27;item&#x27;: {&#x27;image&#x27;: &lt;ImageFieldFile: images/resource/stone.png&gt;,
+                            &#x27;itemId&#x27;: 11,
+                            &#x27;item_type&#x27;: &#x27;stone&#x27;,
+                            &#x27;name&#x27;: &#x27;Stone&#x27;,
+                            &#x27;price&#x27;: 40,
+                            &#x27;rarity&#x27;: &#x27;common&#x27;},
+                   &#x27;success&#x27;: True}}</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>o</td>
+                    <td class="code"><pre>{&#x27;item&#x27;: {&#x27;image&#x27;: &lt;ImageFieldFile: images/resource/stone.png&gt;,
+          &#x27;itemId&#x27;: 11,
+          &#x27;item_type&#x27;: &#x27;stone&#x27;,
+          &#x27;name&#x27;: &#x27;Stone&#x27;,
+          &#x27;price&#x27;: 40,
+          &#x27;rarity&#x27;: &#x27;common&#x27;},
+ &#x27;success&#x27;: True}</pre></td>
                   </tr>
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;django.db.utils.DatabaseErrorWrapper object at 0x7f5bd8596f20&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>traceback</td>
-                    <td class="code"><pre>&lt;traceback object at 0x7f5bd8434e00&gt;</pre></td>
+                    <td class="code"><pre>&lt;django.core.serializers.json.DjangoJSONEncoder object at 0x7f4ab3041540&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -2952,47 +1592,116 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
         <li class="frame django">
 
-            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py</code>, line 105, in _execute
+            <code class="fname">/usr/local/lib/python3.10/dist-packages/django/core/serializers/json.py</code>, line 106, in default
 
 
 
-            <div class="context" id="c140032447041024">
+            <div class="context" id="c139958807765888">
 
-                <ol start="98" class="pre-context" id="pre140032447041024">
+                <ol start="99" class="pre-context" id="pre139958807765888">
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>            warnings.warn(self.APPS_NOT_READY_WARNING_MSG, category=RuntimeWarning)</pre></li>
+                  <li onclick="toggle('pre139958807765888', 'post139958807765888')"><pre>                r = r[:12]</pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        self.db.validate_no_broken_transaction()</pre></li>
+                  <li onclick="toggle('pre139958807765888', 'post139958807765888')"><pre>            return r</pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        with self.db.wrap_database_errors:</pre></li>
+                  <li onclick="toggle('pre139958807765888', 'post139958807765888')"><pre>        elif isinstance(o, datetime.timedelta):</pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>            if params is None:</pre></li>
+                  <li onclick="toggle('pre139958807765888', 'post139958807765888')"><pre>            return duration_iso_string(o)</pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>                # params default might be backend specific.</pre></li>
+                  <li onclick="toggle('pre139958807765888', 'post139958807765888')"><pre>        elif isinstance(o, (decimal.Decimal, uuid.UUID, Promise)):</pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>                return self.cursor.execute(sql)</pre></li>
+                  <li onclick="toggle('pre139958807765888', 'post139958807765888')"><pre>            return str(o)</pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>            else:</pre></li>
+                  <li onclick="toggle('pre139958807765888', 'post139958807765888')"><pre>        else:</pre></li>
 
                 </ol>
 
-              <ol start="105" class="context-line">
-                <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>                return self.cursor.execute(sql, params)</pre> <span>…</span></li>
+              <ol start="106" class="context-line">
+                <li onclick="toggle('pre139958807765888', 'post139958807765888')"><pre>            return super().default(o)</pre> <span>…</span></li>
               </ol>
 
-                <ol start='106' class="post-context" id="post140032447041024">
+            </div>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre></pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>    def _executemany(self, sql, param_list, *ignored_wrapper_args):</pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        # Raise a warning during app initialization (stored_app_configs is only</pre></li>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        # ever set during testing).</pre></li>
+              <details>
+                <summary class="commands">Local vars</summary>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>        if not apps.ready and not apps.stored_app_configs:</pre></li>
+            <table class="vars" id="v139958807765888">
+              <thead>
+                <tr>
+                  <th scope="col">Variable</th>
+                  <th scope="col">Value</th>
+                </tr>
+              </thead>
+              <tbody>
 
-                  <li onclick="toggle('pre140032447041024', 'post140032447041024')"><pre>            warnings.warn(self.APPS_NOT_READY_WARNING_MSG, category=RuntimeWarning)</pre></li>
+                  <tr>
+                    <td>__class__</td>
+                    <td class="code"><pre>&lt;class &#x27;django.core.serializers.json.DjangoJSONEncoder&#x27;&gt;</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>o</td>
+                    <td class="code"><pre>&lt;ImageFieldFile: images/resource/stone.png&gt;</pre></td>
+                  </tr>
+
+                  <tr>
+                    <td>self</td>
+                    <td class="code"><pre>&lt;django.core.serializers.json.DjangoJSONEncoder object at 0x7f4ab3041540&gt;</pre></td>
+                  </tr>
+
+              </tbody>
+            </table>
+            </details>
+
+        </li>
+
+
+        <li class="frame user">
+
+            <code class="fname">/usr/lib/python3.10/json/encoder.py</code>, line 179, in default
+
+
+
+            <div class="context" id="c139958807766016">
+
+                <ol start="172" class="pre-context" id="pre139958807766016">
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>                    pass</pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>                else:</pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>                    return list(iterable)</pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>                # Let the base class default method raise the TypeError</pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>                return JSONEncoder.default(self, o)</pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre></pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>        &quot;&quot;&quot;</pre></li>
+
+                </ol>
+
+              <ol start="179" class="context-line">
+                <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>        raise TypeError(f&#x27;Object of type {o.__class__.__name__} &#x27;</pre> <span>…</span></li>
+              </ol>
+
+                <ol start='180' class="post-context" id="post139958807766016">
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>                        f&#x27;is not JSON serializable&#x27;)</pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre></pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>    def encode(self, o):</pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>        &quot;&quot;&quot;Return a JSON string representation of a Python data structure.</pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre></pre></li>
+
+                  <li onclick="toggle('pre139958807766016', 'post139958807766016')"><pre>        &gt;&gt;&gt; from json.encoder import JSONEncoder</pre></li>
 
               </ol>
 
@@ -3004,7 +1713,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <details>
                 <summary class="commands">Local vars</summary>
 
-            <table class="vars" id="v140032447041024">
+            <table class="vars" id="v139958807766016">
               <thead>
                 <tr>
                   <th scope="col">Variable</th>
@@ -3014,42 +1723,13 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
               <tbody>
 
                   <tr>
-                    <td>ignored_wrapper_args</td>
-                    <td class="code"><pre>(False,
- {&#x27;connection&#x27;: &lt;DatabaseWrapper vendor=&#x27;postgresql&#x27; alias=&#x27;default&#x27;&gt;,
-  &#x27;cursor&#x27;: &lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;})</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>params</td>
-                    <td class="code"><pre>(&#x27;Random Accessory&#x27;,
- &#x27;System&#x27;,
- 35,
- &#x27;accessory&#x27;,
- None,
- None,
- None,
- None,
- None,
- 34,
- None,
- 143.93,
- &#x27;1&#x27;,
- &#x27;images/accessory.PNG&#x27;,
- None)</pre></td>
+                    <td>o</td>
+                    <td class="code"><pre>&lt;ImageFieldFile: images/resource/stone.png&gt;</pre></td>
                   </tr>
 
                   <tr>
                     <td>self</td>
-                    <td class="code"><pre>&lt;django.db.backends.postgresql.base.CursorDebugWrapper object at 0x7f5bd842b880&gt;</pre></td>
-                  </tr>
-
-                  <tr>
-                    <td>sql</td>
-                    <td class="code"><pre>(&#x27;INSERT INTO &quot;api_item&quot; (&quot;name&quot;, &quot;creator&quot;, &quot;owner_id&quot;, &quot;item_type&quot;, &#x27;
- &#x27;&quot;attack&quot;, &quot;defense&quot;, &quot;accuracy&quot;, &quot;evasion&quot;, &quot;stun&quot;, &quot;block&quot;, &quot;health&quot;, &#x27;
- &#x27;&quot;price&quot;, &quot;unique_properties&quot;, &quot;image&quot;, &quot;rarity&quot;) VALUES (%s, %s, %s, %s, %s, &#x27;
- &#x27;%s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING &quot;api_item&quot;.&quot;id&quot;&#x27;)</pre></td>
+                    <td class="code"><pre>&lt;django.core.serializers.json.DjangoJSONEncoder object at 0x7f4ab3041540&gt;</pre></td>
                   </tr>
 
               </tbody>
@@ -3065,7 +1745,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
   <div id="pastebinTraceback" class="pastebin">
     <input type="hidden" name="language" value="PythonConsole">
     <input type="hidden" name="title"
-      value="IntegrityError at /api/reward/">
+      value="TypeError at /api/reward/">
     <input type="hidden" name="source" value="Django Dpaste Agent">
     <input type="hidden" name="poster" value="Django">
     <textarea name="content" id="traceback_area" cols="140" rows="25">
@@ -3103,12 +1783,6 @@ Installed Middleware:
 
 
 Traceback (most recent call last):
-  File "/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
-
-The above exception (null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint
-DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).
-) was the direct cause of the following exception:
   File "/usr/local/lib/python3.10/dist-packages/django/core/handlers/exception.py", line 55, in inner
     response = get_response(request)
   File "/usr/local/lib/python3.10/dist-packages/django/core/handlers/base.py", line 197, in _get_response
@@ -3127,43 +1801,23 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
     response = handler(request, *args, **kwargs)
   File "/usr/local/lib/python3.10/dist-packages/rest_framework/decorators.py", line 50, in handler
     return func(*args, **kwargs)
-  File "/var/www/anidapha/anidapha_backend/api/views.py", line 359, in reward
-    new_item = Item.objects.create(
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/query.py", line 679, in create
-    obj.save(force_insert=True, using=self.db)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/base.py", line 891, in save
-    self.save_base(
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/base.py", line 997, in save_base
-    updated = self._save_table(
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/base.py", line 1160, in _save_table
-    results = self._do_insert(
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/base.py", line 1201, in _do_insert
-    return manager._insert(
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/manager.py", line 87, in manager_method
-    return getattr(self.get_queryset(), name)(*args, **kwargs)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/query.py", line 1847, in _insert
-    return query.get_compiler(using=using).execute_sql(returning_fields)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/models/sql/compiler.py", line 1836, in execute_sql
-    cursor.execute(sql, params)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py", line 122, in execute
-    return super().execute(sql, params)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py", line 79, in execute
-    return self._execute_with_wrappers(
-  File "/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py", line 92, in _execute_with_wrappers
-    return executor(sql, params, many, context)
-  File "/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py", line 100, in _execute
-    with self.db.wrap_database_errors:
-  File "/usr/local/lib/python3.10/dist-packages/django/db/utils.py", line 91, in __exit__
-    raise dj_exc_value.with_traceback(traceback) from exc_value
-  File "/usr/local/lib/python3.10/dist-packages/django/db/backends/utils.py", line 105, in _execute
-    return self.cursor.execute(sql, params)
+  File "/var/www/anidapha/anidapha_backend/api/views/reward_views.py", line 239, in reward
+    return JsonResponse({&#x27;success&#x27;: True, &#x27;item&#x27;: item_data})
+  File "/usr/local/lib/python3.10/dist-packages/django/http/response.py", line 733, in __init__
+    data = json.dumps(data, cls=encoder, **json_dumps_params)
+  File "/usr/lib/python3.10/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+  File "/usr/lib/python3.10/json/encoder.py", line 199, in encode
+    chunks = self.iterencode(o, _one_shot=True)
+  File "/usr/lib/python3.10/json/encoder.py", line 257, in iterencode
+    return _iterencode(o, 0)
+  File "/usr/local/lib/python3.10/dist-packages/django/core/serializers/json.py", line 106, in default
+    return super().default(o)
+  File "/usr/lib/python3.10/json/encoder.py", line 179, in default
+    raise TypeError(f&#x27;Object of type {o.__class__.__name__} &#x27;
 
-Exception Type: IntegrityError at /api/reward/
-Exception Value: null value in column &quot;rarity&quot; of relation &quot;api_item&quot; violates not-null constraint
-DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, null, null, null, null, 34, null, 143.93, 1, images/accessory.PNG, 35, null).
-
+Exception Type: TypeError at /api/reward/
+Exception Value: Object of type ImageFieldFile is not JSON serializable
 </textarea>
   <br><br>
   <input type="submit" value="Share this traceback on a public website">
@@ -3240,7 +1894,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
         <tr>
           <td>HTTP_AUTHORIZATION</td>
           <td class="code"><pre>(&#x27;Bearer &#x27;
- &#x27;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0NTYxNTg4LCJpYXQiOjE3MjQ1Mzk5ODgsImp0aSI6ImU2YzVlZDYyMWQ3MjQyZDJhNWUxOTM1NjlmNWZkMTI4IiwidXNlcl9pZCI6MzV9.HoJopC1oDMVnUh_9et3VMs82uZwqNaAmJ0B5fjxKWcA&#x27;)</pre></td>
+ &#x27;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzI0NjMxMTMwLCJpYXQiOjE3MjQ2MDk1MzAsImp0aSI6IjJiNTMwMzZmZjY1YjQwNTE4M2RhNmUwNTZhYjM3YTI3IiwidXNlcl9pZCI6MX0.ukXYYm4u7b0mPO-1Thwqc_aW49nB3Ki9UnCtkK1r61s&#x27;)</pre></td>
         </tr>
 
         <tr>
@@ -3351,7 +2005,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
         <tr>
           <td>wsgi.errors</td>
-          <td class="code"><pre>&lt;gunicorn.http.wsgi.WSGIErrorsWrapper object at 0x7f5bd8460520&gt;</pre></td>
+          <td class="code"><pre>&lt;gunicorn.http.wsgi.WSGIErrorsWrapper object at 0x7f4ab3040dc0&gt;</pre></td>
         </tr>
 
         <tr>
@@ -3361,7 +2015,7 @@ DETAIL:  Failing row contains (1187, Random Accessory, System, accessory, null, 
 
         <tr>
           <td>wsgi.input</td>
-          <td class="code"><pre>&lt;gunicorn.http.body.Body object at 0x7f5bd8460400&gt;</pre></td>
+          <td class="code"><pre>&lt;gunicorn.http.body.Body object at 0x7f4ab3040ca0&gt;</pre></td>
         </tr>
 
         <tr>

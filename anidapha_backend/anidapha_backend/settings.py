@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-1=(ao0w%n!adf76upxef+t*e#mubm5m8ti7ujtj^9o4@i1di$g
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['t-mini-app.com', 'www.t-mini-app.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['anidapha.us', 'www.anidapha.us', 'localhost', '127.0.0.1']
 
 # Application definition
 APPEND_SLASH = False
@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'anidapha_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'adventurer',
+        'NAME': 'adventurers',
         'USER': 'pro',
         'PASSWORD': 'Mavaincee2020',
         'HOST': 'localhost',

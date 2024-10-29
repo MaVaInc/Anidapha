@@ -402,31 +402,41 @@ def reward(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def sell(request):
-    item_id = request.data.get('itemId')
     user = request.user
     user = User.objects.get(username=user.username)
-    # Проверка, существует ли товар у пользователя
-    try:
-        item = Item.objects.get(id=item_id, owner=user)
-    except Item.DoesNotExist:
-        try:
-            item = Seed.objects.get(id=item_id, owner=user)
-        except Seed.DoesNotExist:
-            return JsonResponse({'success': False, 'message': f'Item not found  {request.data}or does not belong to user'},
-                                status=400)
 
-    # Добавляем стоимость товара к балансу пользователя
-    user.dogs_balance = float(user.dogs_balance) + float(item.price)
+    items = request.data.get('items', [])
+    total_earned = 0
+
+    if not items:
+        # Если передан только один itemId
+        item_id = request.data.get('itemId')
+        items = [{'itemId': item_id}] if item_id else []
+
+    for i in items:
+        item_id = i.get('itemId')
+
+        # Проверка, существует ли товар у пользователя
+        try:
+            item = Item.objects.get(id=item_id, owner=user)
+        except Item.DoesNotExist:
+            try:
+                item = Seed.objects.get(id=item_id, owner=user)
+            except Seed.DoesNotExist:
+                return JsonResponse(
+                    {'success': False, 'message': f'Item with ID {item_id} not found or does not belong to user'},
+                    status=400)
+
+        # Добавляем стоимость товара к балансу пользователя
+        user.dogs_balance = float(user.dogs_balance) + float(item.price)
+        total_earned += item.price
+
+        # Уничтожаем товар
+        item.delete()
 
     user.save()
 
-    # Сохраняем цену для сообщения
-    earned_tokens = item.price
-
-    # Уничтожаем товар
-    item.delete()
-
-    return JsonResponse({'success': True, 'message': f'You earned {earned_tokens} DOGS'})
+    return JsonResponse({'success': True, 'message': f'You earned {total_earned} DOGS'})
 
 from rest_framework.response import Response
 @api_view(['GET'])

@@ -1,176 +1,213 @@
-import React, { useState, useEffect } from 'react';
+// src/components/Inventory.jsx
+
+import React, { useState, useEffect, useCallback } from 'react';
 import { SwipeableDrawer, Box } from '@mui/material';
-import { getInventoryData } from '../db/HeroDB';
 import InventoryFilters from './InventoryFilters';
-import ItemCardInventory from './ItemCardInventory';
 import InventoryItem from './InventoryItem';
+import ItemCardInventory from './ItemCardInventory';
 import './Inventory.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchInventoryData, removeItem, removeItemsByName } from '../store/inventorySlice';
 
 const Inventory = ({ isOpen, toggleDrawer }) => {
-    const [inventoryItems, setInventoryItems] = useState([]);
-    const [filteredItems, setFilteredItems] = useState([]);
-    const [filter, setFilter] = useState('all');
-    const [subFilter, setSubFilter] = useState('all');
-    const [selectedItem, setSelectedItem] = useState(null);
-    const [isUpdating, setIsUpdating] = useState(true);
-    const [openListItem, setOpenListItem] = useState(null);  // Хранит информацию об открытом списке
+  const dispatch = useDispatch();
+  const inventoryItems = useSelector((state) => state.inventory.items);
+  const inventoryStatus = useSelector((state) => state.inventory.status);
+  const [filteredItems, setFilteredItems] = useState([]);
+  const [filter, setFilter] = useState('all');
+  const [subFilter, setSubFilter] = useState('all');
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [openGroup, setOpenGroup] = useState(null);
 
-    useEffect(() => {
-        const fetchInventory = async () => {
-            if (!isUpdating) return;
+  useEffect(() => {
+    if (isOpen && inventoryStatus === 'idle') {
+      dispatch(fetchInventoryData());
+    }
+  }, [isOpen, dispatch, inventoryStatus]);
 
-            try {
-                const inventoryData = await getInventoryData();
+  useEffect(() => {
+    if (inventoryStatus === 'succeeded') {
+      const groupedItems = groupInventoryItems(inventoryItems);
+      applyFilters(filter, subFilter, groupedItems);
+    } else if (inventoryStatus === 'failed') {
+      console.error('Failed to load inventory data');
+    }
+  }, [inventoryItems, filter, subFilter, inventoryStatus]);
 
-                const combinedItems = [
-                    ...inventoryData.items.map(item => ({ ...item, type: 'item', category: 'equipment' })),
-                    ...inventoryData.seeds.map(seed => ({ ...seed, type: 'seed', category: 'plants' }))
-                ];
+  const groupInventoryItems = (items) => {
+    if (!Array.isArray(items)) return [];
 
-                const groupedItems = combinedItems.reduce((acc, item) => {
-                    const key = `${item.name}-${item.item_type || item.stage}`;
-                    if (!acc[key]) {
-                        acc[key] = { ...item, quantity: item.quantity || 1, originalItems: [item] };
-                    } else {
-                        acc[key].quantity += item.quantity || 1;
-                        acc[key].originalItems.push(item);
-                    }
-                    return acc;
-                }, {});
-
-                const groupedArray = Object.values(groupedItems);
-
-                setInventoryItems(groupedArray);
-                applyFilters(filter, subFilter, groupedArray);
-                setIsUpdating(false);  // Остановим обновление после загрузки данных
-            } catch (error) {
-                console.error('Error fetching inventory:', error);
-            }
+    const groupedItems = items.reduce((groups, item) => {
+      const key = `${item.name}-${item.item_type || item.stage}`;
+      if (!groups[key]) {
+        groups[key] = {
+          ...item,
+          quantity: 1,
+          originalItems: [item],
         };
+      } else {
+        groups[key].quantity += 1;
+        groups[key].originalItems.push(item);
+      }
+      return groups;
+    }, {});
+    return Object.values(groupedItems);
+  };
 
-        fetchInventory();
-    }, [isUpdating]);
+  const applyFilters = useCallback((mainFilter, subFilter, items) => {
+    let filtered = items;
 
-    const applyFilters = (mainFilter, subFilter, items) => {
-        let filtered = items;
+    if (mainFilter !== 'all') {
+      filtered = filtered.filter((item) => item.category === mainFilter);
+    }
 
-        if (mainFilter !== 'all') {
-            filtered = filtered.filter(item => item.category === mainFilter);
-        }
+    if (subFilter !== 'all') {
+      if (mainFilter === 'equipment') {
+        filtered = filtered.filter((item) => item.item_type === subFilter);
+      } else if (mainFilter === 'resources') {
+        filtered = filtered.filter((item) => item.item_type === subFilter);
+      } else if (mainFilter === 'plants') {
+        filtered = filtered.filter((item) => item.stage === subFilter);
+      }
+    }
 
-        if (subFilter !== 'all') {
-            if (mainFilter === 'plants') {
-                filtered = filtered.filter(item => item.stage === subFilter);
-            } else {
-                filtered = filtered.filter(item => item.item_type === subFilter);
-            }
-        }
+    setFilteredItems(filtered);
+  }, []);
 
-        setFilteredItems(filtered);
-    };
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+    const groupedItems = groupInventoryItems(inventoryItems);
+    applyFilters(newFilter, subFilter, groupedItems);
+    if (newFilter === 'all') {
+      setSubFilter('all');
+    }
+  };
 
-    const handleFilterChange = (newFilter) => {
-        setFilter(newFilter);
-        applyFilters(newFilter, subFilter, inventoryItems);
-    };
+  const handleSubFilterChange = (newSubFilter) => {
+    setSubFilter(newSubFilter);
+    const groupedItems = groupInventoryItems(inventoryItems);
+    applyFilters(filter, newSubFilter, groupedItems);
+  };
 
-    const handleSubFilterChange = (newSubFilter) => {
-        setSubFilter(newSubFilter);
-        applyFilters(filter, newSubFilter, inventoryItems);
-    };
+  const handleItemClick = (item) => {
+    if (item.originalItems && item.originalItems.length > 1) {
+      setOpenGroup(item);
+    } else {
+      setSelectedItem(item.originalItems ? item.originalItems[0] : item);
+    }
+  };
 
-    const handleItemClick = (item) => {
-        if (item.originalItems && item.originalItems.length > 1) {
-            setOpenListItem(item);
-            setIsUpdating(false);  // Останавливаем обновление
-        } else {
-            setSelectedItem(item.originalItems ? item.originalItems[0] : item);
-            setIsUpdating(false);  // Останавливаем обновление
-        }
-    };
+  const handleGroupItemClick = (item) => {
+    setSelectedItem(item);
+    setOpenGroup(null);
+  };
 
-    const handleListClose = () => {
-        setOpenListItem(null);  // Закрываем список
-        setIsUpdating(true);  // Включаем обновление
-    };
+  const handleItemSold = (soldItemId) => {
+    dispatch(removeItem(soldItemId));
+    setSelectedItem(null);
+  };
 
-    const handleCardClose = () => {
-        setSelectedItem(null);
-        setIsUpdating(true);  // Включаем обновление после закрытия диалога
-    };
+  const handleItemSellFailed = (failedItem) => {
+    console.error('Failed to sell item:', failedItem);
+    setSelectedItem(null);
+  };
 
-    const handleItemSold = () => {
-        if (selectedItem) {
-            setInventoryItems(prevItems =>
-                prevItems.map(item => {
-                    if (item.name === selectedItem.name && (item.item_type || item.stage) === (selectedItem.item_type || item.stage)) {
-                        const remainingItems = item.originalItems.filter(i => i !== selectedItem);
-                        if (remainingItems.length > 0) {
-                            return { ...item, quantity: item.quantity - 1, originalItems: remainingItems };
-                        } else {
-                            return null;
-                        }
-                    }
-                    return item;
-                }).filter(item => item !== null)
-            );
-            setSelectedItem(null);
-            setIsUpdating(true);  // Включаем обновление после продажи
-        }
-    };
+  const handleSellAllFromGroup = async (group) => {
+    try {
+      const authToken = localStorage.getItem('token');
+      const itemIds = group.originalItems.map((item) => item.item_id || item.seed_id);
+      const response = await fetch('/api/sell_all/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ itemIds }),
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        dispatch(removeItemsByName(group.name));
+        setOpenGroup(null);
+      } else {
+        throw new Error(data.message || 'Failed to sell items');
+      }
+    } catch (error) {
+      console.error('Error selling all items from group:', error);
+      // Опционально, можно показать уведомление пользователю об ошибке
+    }
+  };
 
-    return (
-        <>
-            <SwipeableDrawer
-                anchor="bottom"
-                open={isOpen}
-                onClose={() => toggleDrawer(false)}
-                onOpen={() => toggleDrawer(true)}
-                className="inventory-drawer"
-            >
-                <Box sx={{ width: '100%', height: '100%' }}>
-                    <InventoryFilters
-                        filter={filter}
-                        subFilter={subFilter}
-                        onFilterChange={handleFilterChange}
-                        onSubFilterChange={handleSubFilterChange}
-                    />
-                    <Box className="inventory-content">
-                        {filteredItems.map((item) => (
-                            <InventoryItem
-                                key={item.id}
-                                item={item}
-                                onClick={handleItemClick}
-                                isListOpen={openListItem && openListItem.name === item.name}  // Передаем статус списка
-                            />
-                        ))}
-                    </Box>
-                </Box>
-            </SwipeableDrawer>
+  const handleGroupClose = () => {
+    setOpenGroup(null);
+  };
 
-            {openListItem && (
-                <div className="item-list-overlay">
-                    <div className="item-list-modal">
-                        {openListItem.originalItems.map((originalItem, index) => (
-                            <div key={index} className="item-list-entry" onClick={() => handleItemClick(originalItem)}>
-                                <img src={originalItem.image} alt={originalItem.name} className="item-list-image" />
-                                <p>{originalItem.price} DOGS</p>
-                            </div>
-                        ))}
-                        <button onClick={handleListClose}>Close</button>
-                    </div>
+  return (
+    <>
+      <SwipeableDrawer
+        anchor="bottom"
+        open={isOpen}
+        onClose={() => toggleDrawer(false)}
+        onOpen={() => toggleDrawer(true)}
+        className="inventory-drawer"
+      >
+        <Box sx={{ width: '100%', height: '100%' }}>
+          <InventoryFilters
+            filter={filter}
+            subFilter={subFilter}
+            onFilterChange={handleFilterChange}
+            onSubFilterChange={handleSubFilterChange}
+          />
+          <Box className="inventory-content">
+            {inventoryStatus === 'loading' && <p>Loading inventory...</p>}
+            {inventoryStatus === 'failed' && <p>Error loading inventory.</p>}
+            {inventoryStatus === 'succeeded' && filteredItems.length === 0 && <p>No items found.</p>}
+            {inventoryStatus === 'succeeded' && filteredItems.map((item) => (
+              <InventoryItem
+                key={`${item.name}-${item.item_type || item.stage}`}
+                item={item}
+                onClick={handleItemClick}
+              />
+            ))}
+          </Box>
+        </Box>
+      </SwipeableDrawer>
+
+      {openGroup && (
+        <div className="group-modal">
+          <div className="group-modal-content">
+            <h3>
+              {openGroup.name} (x{openGroup.quantity})
+            </h3>
+            <div className="group-buttons">
+              <button onClick={() => handleSellAllFromGroup(openGroup)}>Продать все</button>
+              <button onClick={handleGroupClose}>Закрыть</button>
+            </div>
+            <div className="group-items-list">
+              {openGroup.originalItems.map((item) => (
+                <div
+                  key={item.item_id || item.seed_id}
+                  className="group-item"
+                  onClick={() => handleGroupItemClick(item)}
+                >
+                  <p>ID: {item.item_id || item.seed_id}</p>
+                  <p>Цена: {item.price} DOGS</p>
                 </div>
-            )}
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
-            {selectedItem && (
-                <ItemCardInventory
-                    data={{ item: selectedItem }}
-                    onClose={handleCardClose}
-                    onSold={handleItemSold}
-                />
-            )}
-        </>
-    );
+      {selectedItem && (
+        <ItemCardInventory
+          data={{ item: selectedItem }}
+          onSold={handleItemSold}
+          onSellFailed={handleItemSellFailed}
+          onClose={() => setSelectedItem(null)}
+        />
+      )}
+    </>
+  );
 };
 
 export default Inventory;

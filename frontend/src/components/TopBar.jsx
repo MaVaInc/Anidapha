@@ -1,42 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './TopBar.css';
-import {getHeroData, getInventoryData, saveInventory, syncWithServer} from '../db/HeroDB';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchHeroData } from '../store/heroSlice';
 
 const TopBar = () => {
-    const [hero, setHero] = useState(null);
-    const [inventory, setInventory] = useState(null);
+  const dispatch = useDispatch();
+  const hero = useSelector((state) => state.hero.data);
+  const heroStatus = useSelector((state) => state.hero.status);
 
-    const loadHeroData = async () => {
-        const data = await getHeroData();
-        setHero(data);
-    };
-    const loadInventoryData = async () => {
-        const data = await getInventoryData();
-        setInventory(data);
-    };
-    useEffect(() => {
-        loadHeroData();
-        loadInventoryData();
+  useEffect(() => {
+    if (heroStatus === 'idle') {
+      dispatch(fetchHeroData());
+    }
+  }, [dispatch, heroStatus]);
 
-        const intervalId = setInterval(() => {
-            loadHeroData();
-            loadInventoryData();
-            syncWithServer()
-        }, 2000);
+  if (!hero) return <p>Loading...</p>;
 
-        return () => clearInterval(intervalId);
-    }, []);
-
-    if (!hero) return <p>Loading...</p>;
-
-    return (
-        <header className="top-bar">
-            <div className="coin">
-                <img src="/images/dogs_ico.png" alt="Platinum" className="coin-img" />
-                <span>{hero.dogs_balance}</span>
-            </div>
-        </header>
-    );
+  return (
+    <header className="top-bar">
+      <div className="coin">
+        <img src="/images/dogs_ico.png" alt="Dogs" className="coin-img" />
+        <span>{hero.dogs_balance}</span>
+      </div>
+    </header>
+  );
 };
 
 export default TopBar;

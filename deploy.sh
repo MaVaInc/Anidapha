@@ -9,15 +9,21 @@
 SSH_PASSWORD="Mavaincee2020"
 #git="https://github.com/MaVaInc/Anidapha.git"
 # Синхронизация файлов на сервере
-sshpass -p "$SSH_PASSWORD" rsync -avz /home/roman/telega/Anidapha/anidapha_backend/* root@77.221.154.137:/var/www/anidapha/anidapha_backend
-sshpass -p "$SSH_PASSWORD" rsync -avz /home/roman/telega/Anidapha/frontend/src/* root@77.221.154.137:/var/www/anidapha/frontend/src
-sshpass -p "$SSH_PASSWORD" rsync -avz /home/roman/telega/Anidapha/frontend/public/* root@77.221.154.137:/var/www/anidapha/frontend/public
+sshpass -p "$SSH_PASSWORD" rsync -avz /home/roman/project/telega/Anidapha/anidapha_backend/* root@45.66.228.228:/var/www/anidapha/anidapha_backend
+#sshpass -p "$SSH_PASSWORD" rsync -avz /home/roman/project/telega/Anidapha/* root@45.66.228.228:/var/www/anidapha
+sshpass -p "$SSH_PASSWORD" rsync -avz /home/roman/project/telega/Anidapha/frontend/src/* root@45.66.228.228:/var/www/anidapha/frontend/src
+sshpass -p "$SSH_PASSWORD" rsync -avz /home/roman/project/telega/Anidapha/frontend/public/* root@45.66.228.228:/var/www/anidapha/frontend/public
 
 # Перезапуск сервера
-sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no root@77.221.154.137 << EOF
+sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no root@45.66.228.228 << EOF
+
+# Обновление PATH, чтобы включить директорию с npm
+#export PATH=/usr/local/bin:/usr/bin:/bin:$PATH
 
 cd /var/www/anidapha/frontend
-#npm install
+#npm install redux react-redux @reduxjs/toolkit
+
+npm install
 npm run build
 
 #npm start
@@ -30,7 +36,7 @@ python3 manage.py migrate
 
 
 #yes
-#cd /var/www/anidapha/
+cd /var/www/anidapha/
 #pip install -r requirements.txt
 sudo systemctl restart gunicorn
 sudo systemctl restart nginx
